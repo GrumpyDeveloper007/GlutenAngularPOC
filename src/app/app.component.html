@@ -1,4 +1,16 @@
 <div class="App">
-  <app-navbar></app-navbar>
-  <app-map></app-map>
+  <div class="container">
+    <app-navbar></app-navbar>
+    <div class="window">
+      <div class="master">
+        <app-map (selectedTopicChange)="selectedTopic=$event"></app-map>
+      </div>
+
+      <div class="detail">
+        <app-sidebar [selectedTopic]="selectedTopic"></app-sidebar>
+      </div>
+    </div>
+  </div>
+
+
 </div>

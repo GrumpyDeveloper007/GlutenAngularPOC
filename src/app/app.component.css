@@ -1,3 +1,40 @@
 .App {
-    text-align: center;
-  }
+  text-align: center;
+}
+
+
+.leftbox {
+  width: 100%;
+  float: left;
+}
+
+.rightbox {
+  width: 30%;
+  float: left;
+}
+
+/* Layout */
+.window {
+  display: -webkit-flex;
+  /* Safari */
+  display: flex;
+}
+
+.master {
+  width: 75%;
+}
+
+.detail {
+  width: 25%;
+}
+
+/* Spacing */
+.window,
+.master,
+.detail {
+  padding: 0px;
+}
+
+.detail {
+  margin-left: 0px;
+}
