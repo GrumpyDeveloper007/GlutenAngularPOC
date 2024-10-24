@@ -56,7 +56,66 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     this.map.addControl(new NavigationControl({}), 'top-right');
 
+    var pinTopics: any[] = [];
+    // gather pins 
+    myData.forEach(element => {
+      if (element.UrlsV2 != null) {
+        element.UrlsV2.forEach(url => {
+          if (url.Pin != null) {
+            var pinTopic = {
+              GeoLongitude: parseFloat(url.Pin.GeoLongitude),
+              GeoLatatude: parseFloat(url.Pin.GeoLatatude),
+              Label: url.Pin.Label,
+              Topics: [element]
+            }
+
+            var found = false;
+            pinTopics.forEach(item => {
+              if (item.GeoLongitude == pinTopic.GeoLongitude
+                && item.GeoLatatude == pinTopic.GeoLatatude
+              ) {
+                item.Topics.push(element);
+                found = true;
+              }
+            });
+
+            if (!found) {
+              pinTopics.push(pinTopic);
+            }
+          }
+        });
+      }
+    });
+
     var map = this.map;
+
+    pinTopics.forEach(pin => {
+
+      var topicFbLinks = "";
+      pin.Topics.forEach((element: Topic) => {
+        topicFbLinks += `<a href="${element.FacebookUrl}" target="_blank">Facebook</a><br></br>`;
+      });
+
+      var eventName = pin.Topics[0].NodeID.replaceAll('=', "");
+
+      // trigger event to call a function back in angular
+      var popup = new maplibre.Popup({ offset: 25 })
+        .setHTML(`<h3>${pin.Label}</h3><div>${topicFbLinks}</div>`)
+        .on('open', () => {
+          this.buttonClick(eventName);
+        });
+
+
+      new Marker({ color: "#FF0000" })
+        .setLngLat([parseFloat(pin.GeoLongitude), parseFloat(pin.GeoLatatude)])
+        .setPopup(popup)
+        .addTo(map);
+
+
+    });
+
+
+    /*
     myData.forEach(element => {
       if (element.UrlsV2 != null) {
         var title = element.Title;
@@ -86,7 +145,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         })
       }
-    });
+    });*/
   }
 
   ngOnDestroy() {
