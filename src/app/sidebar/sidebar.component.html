@@ -1,7 +1,9 @@
 <div *ngIf="selectedTopic">
     <!-- TODO: This sint the always the correct pin, lets see if I can make the AI smart enough to split topic info -->
-    <h2>{{selectedTopic.UrlsV2[0].Pin?.Label}}</h2>
-    <p>{{selectedTopic.Title}}</p>
+    <!-- <h2>{{selectedTopic.UrlsV2[0].Pin?.Label}}</h2> -->
+    <h2>{{selectedTopic.Header}}</h2>
+    <p md-highlight-text="selectedTopic.Header" [innerHtml]="selectedTopic.Title | highlight: selectedTopic.Header!">
+    </p>
     <!-- It would be nice if this works, but its blocked by FB-->
     <!--    <iframe [src]="facebookLink" style="margin: 0px; padding: 0px; border: none;">
         </iframe>-->

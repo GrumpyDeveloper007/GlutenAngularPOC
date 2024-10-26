@@ -42,6 +42,14 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  buttonClick2(element: any): void {
+    console.debug("click");
+    console.debug(element);
+    this.selectedTopic = element as Topic;
+    this.selectedTopicChange.emit(this.selectedTopic);
+    return;
+  }
+
   ngOnInit(): void {
   }
 
@@ -59,15 +67,19 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     var pinTopics: any[] = [];
     // gather pins 
     myData.forEach(element => {
-      if (element.UrlsV2 != null) {
-        element.UrlsV2.forEach(url => {
-          if (url.Pin != null) {
+
+
+
+      if (element.AiVenues != null) {
+        element.AiVenues.forEach(venue => {
+          if (venue.Pin != null) {
+            (element as Topic).Header = venue.Pin.Label;
             var pinTopic = {
-              GeoLongitude: parseFloat(url.Pin.GeoLongitude),
-              GeoLatatude: parseFloat(url.Pin.GeoLatatude),
-              Label: url.Pin.Label,
+              GeoLongitude: parseFloat(venue.Pin.GeoLongitude),
+              GeoLatatude: parseFloat(venue.Pin.GeoLatatude),
+              Label: venue.Pin.Label,
               Topics: [element]
-            }
+            };
 
             var found = false;
             pinTopics.forEach(item => {
@@ -85,6 +97,35 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         });
       }
+
+
+      /*if (element.UrlsV2 != null) {
+        element.UrlsV2.forEach(url => {
+          if (url.Pin != null) {
+            (element as Topic).Header = venue.Pin.Label;
+            var pinTopic = {
+              GeoLongitude: parseFloat(url.Pin.GeoLongitude),
+              GeoLatatude: parseFloat(url.Pin.GeoLatatude),
+              Label: url.Pin.Label,
+              Topics: [element]
+            }
+    
+            var found = false;
+            pinTopics.forEach(item => {
+              if (item.GeoLongitude == pinTopic.GeoLongitude
+                && item.GeoLatatude == pinTopic.GeoLatatude
+              ) {
+                item.Topics.push(element);
+                found = true;
+              }
+            });
+    
+            if (!found) {
+              pinTopics.push(pinTopic);
+            }
+          }
+        });
+      }*/
     });
 
     var map = this.map;
@@ -92,6 +133,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     pinTopics.forEach(pin => {
 
       var topicFbLinks = "";
+      var firstTopic: any = pin.Topics[0];
       pin.Topics.forEach((element: Topic) => {
         topicFbLinks += `<a href="${element.FacebookUrl}" target="_blank">Facebook</a><br></br>`;
       });
@@ -102,7 +144,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       var popup = new maplibre.Popup({ offset: 25 })
         .setHTML(`<h3>${pin.Label}</h3><div>${topicFbLinks}</div>`)
         .on('open', () => {
-          this.buttonClick(eventName);
+          //this.buttonClick(eventName);
+          this.buttonClick2(firstTopic);
         });
 
 

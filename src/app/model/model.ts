@@ -9,6 +9,9 @@ export interface Topic {
     NodeID: string
     ResponseHasLink: boolean
     ResponseHasMapLink: boolean
+
+    // generated
+    Header?: string
 }
 
 export interface ResponsesV2 {
