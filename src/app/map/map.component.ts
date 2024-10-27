@@ -60,15 +60,21 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       container: this.mapContainer.nativeElement,
       style: `https://api.maptiler.com/maps/streets-v2/style.json?key=1nY38lyeIv8XEbtohY5t`,
       center: [initialState.lng, initialState.lat],
-      zoom: initialState.zoom
+      zoom: initialState.zoom,
+      interactive: true,
     });
+    this.map.addControl(new maplibre.GeolocateControl({
+      positionOptions: {
+        enableHighAccuracy: true
+      },
+      trackUserLocation: true
+    }));
+
     this.map.addControl(new NavigationControl({}), 'top-right');
 
     var pinTopics: any[] = [];
     // gather pins 
     myData.forEach(element => {
-
-
 
       if (element.AiVenues != null) {
         element.AiVenues.forEach(venue => {
@@ -99,37 +105,51 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       }
 
 
-      /*if (element.UrlsV2 != null) {
+      if (element.UrlsV2 != null) {
         element.UrlsV2.forEach(url => {
           if (url.Pin != null) {
-            (element as Topic).Header = venue.Pin.Label;
+            if (url.Pin.Label != null) {
+              (element as Topic).Header = url.Pin.Label;
+            }
             var pinTopic = {
               GeoLongitude: parseFloat(url.Pin.GeoLongitude),
               GeoLatatude: parseFloat(url.Pin.GeoLatatude),
               Label: url.Pin.Label,
               Topics: [element]
             }
-    
+
             var found = false;
             pinTopics.forEach(item => {
               if (item.GeoLongitude == pinTopic.GeoLongitude
                 && item.GeoLatatude == pinTopic.GeoLatatude
               ) {
-                item.Topics.push(element);
+                var foundElement = false;
+                pinTopics.forEach(elementItem => {
+                  if (elementItem.NodeID == element.NodeID) {
+                    foundElement = true;
+                  }
+                });
+                if (!foundElement) {
+                  console.debug("updating url pin");
+                  item.Topics.push(element);
+                }
                 found = true;
               }
             });
-    
+
             if (!found) {
+              console.debug("adding url pin");
               pinTopics.push(pinTopic);
             }
           }
         });
-      }*/
+      }
+
     });
 
     var map = this.map;
 
+    console.debug("Total pins :" + pinTopics.length);
     pinTopics.forEach(pin => {
 
       var topicFbLinks = "";
