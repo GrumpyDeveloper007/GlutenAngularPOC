@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NgIf } from '@angular/common';
-import { Topic } from "../model/model";
+import { Topic, TopicGroup } from "../model/model";
 import { Input } from '@angular/core';
 import { HighlightPipe } from '../highlight.pipe';
 
@@ -14,7 +14,6 @@ import { HighlightPipe } from '../highlight.pipe';
 })
 export class SidebarComponent {
   @Input() selectedTopic: Topic | null = null;
+  @Input() selectedTopicGroup: TopicGroup | null = null;
   facebookLink = 'about:blank';
-  //selectedTopic: Topic | null = null;
-
 }

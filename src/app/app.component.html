@@ -3,11 +3,12 @@
     <app-navbar></app-navbar>
     <div class="window">
       <div class="master">
-        <app-map (selectedTopicChange)="selectedTopic=$event"></app-map>
+        <app-map (selectedTopicChange)="selectedTopic=$event"
+          (selectedTopicGroupChange)="selectedTopicGroup=$event"></app-map>
       </div>
 
       <div class="detail">
-        <app-sidebar [selectedTopic]="selectedTopic"></app-sidebar>
+        <app-sidebar [selectedTopic]="selectedTopic" [selectedTopicGroup]="selectedTopicGroup"></app-sidebar>
       </div>
     </div>
   </div>

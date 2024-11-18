@@ -2,30 +2,31 @@
   text-align: center;
 }
 
-
-.leftbox {
-  width: 100%;
-  float: left;
-}
-
-.rightbox {
-  width: 30%;
-  float: left;
-}
-
 /* Layout */
-.window {
-  display: -webkit-flex;
-  /* Safari */
-  display: flex;
-}
 
 .master {
-  width: 75%;
+  height: calc(75vh - 77px);
 }
 
 .detail {
-  width: 25%;
+  width: 100%;
+}
+
+@media (min-width:1024px) {
+  .window {
+    display: -webkit-flex;
+    /* Safari */
+    display: flex;
+  }
+
+  .master {
+    width: 75%;
+    height: calc(100vh - 77px);
+  }
+
+  .detail {
+    width: 25%;
+  }
 }
 
 /* Spacing */
