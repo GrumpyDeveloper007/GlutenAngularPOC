@@ -4,6 +4,7 @@ export interface TopicGroup {
     Label: string
     Description: string
     Topics: Topic[]
+    MapsLink: string
 }
 
 export interface Topic {
