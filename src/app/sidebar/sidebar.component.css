@@ -5,3 +5,7 @@
    .incorrect {
        background-color: red;
    }
+
+   .smallText {
+       font-size: xx-small;
+   }

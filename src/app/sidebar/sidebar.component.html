@@ -10,7 +10,7 @@
         [innerHtml]="selectedTopicGroup.Description | highlight: selectedTopicGroup.Label">
     </p>
     <div *ngFor="let item of selectedTopicGroup.Topics; let i=index; ">
-        <a [href]="item.FacebookUrl" target="_blank">Facebook</a>
+        <a [href]="item.FacebookUrl" target="_blank" class="smallText">Facebook</a>
     </div>
 
     <!-- It would be nice if this works, but its blocked by FB-->
