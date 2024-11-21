@@ -14,4 +14,5 @@ export interface Topic {
     Title: string
     FacebookUrl: string
     NodeID: string
+    ShortTitle: string
 }
