@@ -2,7 +2,10 @@
     <!-- TODO: This sint the always the correct pin, lets see if I can make the AI smart enough to split topic info -->
     <!-- <h2>{{selectedTopic.UrlsV2[0].Pin?.Label}}</h2> -->
     <h2>{{selectedTopicGroup.Label}}</h2>
-    <a [href]="selectedTopicGroup.MapsLink" target="_blank">Maps</a>
+    <p>{{selectedTopicGroup.RestaurantType}}</p>
+    <p>{{selectedTopicGroup.Stars}}</p>
+    <p>{{selectedTopicGroup.Price}}</p>
+    <a *ngIf="selectedTopicGroup.MapsLink" [href]="selectedTopicGroup.MapsLink" target="_blank">Google Maps</a>
     <p *ngIf="selectedTopicGroup.Description" md-highlight-text="selectedTopicGroup?.Description"
         [innerHtml]="selectedTopicGroup.Description | highlight: selectedTopicGroup.Label">
     </p>
