@@ -14,25 +14,16 @@ import { EventEmitter, Output } from '@angular/core';
   styleUrls: ['./map.component.css']
 })
 export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
-  @Output() selectedTopicChange = new EventEmitter<Topic>();
   @Output() selectedTopicGroupChange = new EventEmitter<TopicGroup>();
+  @ViewChild('map') mapContainer!: ElementRef<HTMLElement>;
   map: Map | undefined;
-  facebookLink: SafeResourceUrl = 'about:blank';
-  selectedTopic: Topic | null = null;
   selectedTopicGroup: TopicGroup | null = null;
-
-
-  @ViewChild('map')
-  private mapContainer!: ElementRef<HTMLElement>;
 
   constructor(private renderer: Renderer2, public sanitizer: DomSanitizer) { }
 
-  pinSelected(pin: any, element: any): void {
-    this.selectedTopic = element as Topic;
-    this.selectedTopicChange.emit(this.selectedTopic);
+  pinSelected(pin: any): void {
     this.selectedTopicGroup = pin as TopicGroup;
     this.selectedTopicGroupChange.emit(this.selectedTopicGroup);
-    console.debug("pin click");
     return;
   }
 
@@ -55,7 +46,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       trackUserLocation: true
     }));
-
     this.map.addControl(new NavigationControl({}), 'top-right');
 
     var pinTopics: any[] = myData;
@@ -64,17 +54,11 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     console.debug("Total pins :" + pinTopics.length);
     pinTopics.forEach(pin => {
 
-      var topicFbLinks = "";
-      var firstTopic: any = pin.Topics[0];
-      pin.Topics.forEach((element: Topic) => {
-        topicFbLinks += `<a href="${element.FacebookUrl}" target="_blank">Facebook</a><br></br>`;
-      });
-
       // trigger event to call a function back in angular
       var popup = new maplibre.Popup({ offset: 25 })
-        .setHTML(`<h3>${pin.Label}</h3><div>${topicFbLinks}</div>`)
+        .setHTML(`<h3>${pin.Label}</h3>`)
         .on('open', () => {
-          this.pinSelected(pin, firstTopic);
+          this.pinSelected(pin);
         });
 
       new Marker({ color: "#FF0000" })

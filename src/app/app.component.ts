@@ -14,16 +14,9 @@ import { Topic, TopicGroup } from "../app/model/model";
 })
 export class AppComponent {
   title = 'gluten-angular-map';
-  selectedTopic: Topic | null = null;
   selectedTopicGroup: TopicGroup | null = null;
 
-  topicUpdated(topic: Topic): void {
-    console.debug("Topic Updated");
-    this.selectedTopic = topic;
-  }
-
   topicGroupUpdated(topicGroup: TopicGroup): void {
-    console.debug("Topic Group Updated");
     this.selectedTopicGroup = topicGroup;
   }
 }

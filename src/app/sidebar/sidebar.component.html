@@ -1,4 +1,4 @@
-<div *ngIf="selectedTopic && selectedTopicGroup">
+<div *ngIf="selectedTopicGroup">
     <!-- TODO: This sint the always the correct pin, lets see if I can make the AI smart enough to split topic info -->
     <!-- <h2>{{selectedTopic.UrlsV2[0].Pin?.Label}}</h2> -->
     <h2>{{selectedTopicGroup.Label}}</h2>
@@ -6,10 +6,19 @@
     <p *ngIf="selectedTopicGroup.Description" md-highlight-text="selectedTopicGroup?.Description"
         [innerHtml]="selectedTopicGroup.Description | highlight: selectedTopicGroup.Label">
     </p>
+    <div *ngFor="let item of selectedTopicGroup.Topics; let i=index; ">
+        <a [href]="item.FacebookUrl" target="_blank">Facebook</a>
+    </div>
+
     <!-- It would be nice if this works, but its blocked by FB-->
     <!--    <iframe [src]="facebookLink" style="margin: 0px; padding: 0px; border: none;">
         </iframe>-->
 </div>
-<div *ngIf="!selectedTopic">
-    <h2>placeholder</h2>
+<div *ngIf="!selectedTopicGroup">
+    <h2>Welcome</h2>
+    <p>Please scroll the map and select a pin. Once selected a summary will be shown here.</p>
+    <p>There will also be links to google maps and Facebook groups.</p>
+    <p>Some groups are private so please join the group and share useful information for others.</p>
+    <p>Remember this information may not be 100% accurate and up to date, always confirm the details with restaurant
+        staff.</p>
 </div>
