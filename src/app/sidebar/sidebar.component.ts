@@ -15,4 +15,10 @@ import { HighlightPipe } from '../highlight.pipe';
 export class SidebarComponent {
   @Input() selectedTopicGroup: TopicGroup | null = null;
   facebookLink = 'about:blank';
+
+  dateOnly(date: Date) {
+    let currentDate = new Date(date);
+    return currentDate.toDateString();
+  }
+
 }

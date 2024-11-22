@@ -15,4 +15,5 @@ export interface Topic {
     FacebookUrl: string
     NodeID: string
     ShortTitle: string
+    PostCreated: Date
 }
