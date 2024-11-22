@@ -5,7 +5,8 @@ import myData from './TopicsExport.json';
 import { Renderer2 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Topic, TopicGroup } from "../model/model";
-import { EventEmitter, Output } from '@angular/core';
+import { EventEmitter, Output, Input } from '@angular/core';
+import { FilterOptions } from "../mapfilters/mapfilters.component";
 
 @Component({
   selector: 'app-map',
@@ -18,8 +19,49 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('map') mapContainer!: ElementRef<HTMLElement>;
   map: Map | undefined;
   selectedTopicGroup: TopicGroup | null = null;
+  currentMarkers: Marker[] = [];
 
   constructor(private renderer: Renderer2, public sanitizer: DomSanitizer) { }
+
+  private _showHotels: boolean = true;
+  private _showStores: boolean = true;
+  private _showOthers: boolean = true;
+
+  @Input() set showHotels(value: boolean) {
+
+    this._showHotels = value;
+    console.debug("Map Hotels click ");
+    // clear pins
+    this.currentMarkers.forEach((marker: Marker) => marker.remove())
+    this.loadMapPins();
+  }
+  get showHotels(): boolean {
+    return this._showHotels;
+  }
+
+  @Input() set showStores(value: boolean) {
+
+    this._showStores = value;
+    console.debug("Map Stores click ");
+    // clear pins
+    this.currentMarkers.forEach((marker: Marker) => marker.remove())
+    this.loadMapPins();
+  }
+  get showStores(): boolean {
+    return this._showStores;
+  }
+
+  @Input() set showOthers(value: boolean) {
+
+    this._showOthers = value;
+    // clear pins
+    this.currentMarkers.forEach((marker: Marker) => marker.remove())
+    this.loadMapPins();
+  }
+  get showOthers(): boolean {
+    return this._showOthers;
+  }
+
 
   pinSelected(pin: any): void {
     this.selectedTopicGroup = pin as TopicGroup;
@@ -48,24 +90,102 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     }));
     this.map.addControl(new NavigationControl({}), 'top-right');
 
+
+    console.debug("Total pins :" + myData.length);
+    console.debug("is undefined :" + (this.map === undefined));
+    console.debug("map :" + this.map);
+    this.loadMapPins();
+  }
+
+  loadMapPins() {
     var pinTopics: any[] = myData;
-    var map = this.map;
+    var map: Map;
+    if (!(this.map === undefined)) {
+      console.debug("Updating pins");
+      map = this.map
 
-    console.debug("Total pins :" + pinTopics.length);
-    pinTopics.forEach(pin => {
+      var Others: Array<string> = ['Train station',
+        'Airports',
+        'Sightseeing tour agency',
+        'Laundromat',
+        'Historical landmark',
+        'Island',
+        'Electronics manufacturer',
+        'Corporate office',
+        'Theme park',
+        'Subway station',
+        'Food manufacturer',
+        'Art museum',
+        'International airport',
+        'Airport',
+        'Garden',
+        'Cinema',
+        'Manufacturer',
+        'Observation deck',
+        'Mountain peak',
+        'Amusement park',
+        'Bridge',
+        'Soy sauce maker',
+        'Housing development',
+        'Massage spa',
+        'Waterfall',
+        'Delivery service',
+        'Water treatment supplier',
+        'River',
+        'Event venue',
+        'Museum',
+        'Florist',
+        'Park',
+        'Tourist attraction',
+        'Business park',
+        'Hair salon',
+        'Holiday apartment',
+        'Car racing track',
+        'Language school',
+        'Host club',
+        'Shinto shrine',
+        'Cultural center',
+        'Foreign consulate',
+        'Non-profit organization',
+        'Truck parts supplier',
+        'Gift shop',
+        'Lake',
+        'Spa',
+        'Festival',
+        'Beach',
+        'Dog trainer',
+        'Concert hall',
+        'Tour operator',
+        'Art gallery',
+        'Health and beauty shop'];
 
-      // trigger event to call a function back in angular
-      var popup = new maplibre.Popup({ offset: 25 })
-        .setHTML(`<h3>${pin.Label}</h3>`)
-        .on('open', () => {
-          this.pinSelected(pin);
-        });
+      pinTopics.forEach(pin => {
 
-      new Marker({ color: "#FF0000" })
-        .setLngLat([parseFloat(pin.GeoLongitude), parseFloat(pin.GeoLatatude)])
-        .setPopup(popup)
-        .addTo(map);
-    });
+        var isStore = pin.RestaurantType != null && (pin.RestaurantType.includes("store") || pin.RestaurantType.includes("Supermarket")
+          || pin.RestaurantType.includes("market") || pin.RestaurantType.includes("mall") || pin.RestaurantType.includes("Hypermarket")
+        );
+        var isHotel = pin.RestaurantType == "Hotel";
+        var isOther = pin.RestaurantType != null && Others.includes(pin.RestaurantType);
+        if (!(
+          (!this._showHotels && isHotel)
+          || (!this._showStores && isStore)
+          || (!this._showOthers && isOther)
+        )) {
+          // trigger event to call a function back in angular
+          var popup = new maplibre.Popup({ offset: 25 })
+            .setHTML(`<h3>${pin.Label}</h3>`)
+            .on('open', () => {
+              this.pinSelected(pin);
+            });
+
+          const marker = new Marker({ color: "#FF0000" })
+            .setLngLat([parseFloat(pin.GeoLongitude), parseFloat(pin.GeoLatatude)])
+            .setPopup(popup)
+            .addTo(map);
+          this.currentMarkers.push(marker);
+        }
+      });
+    }
   }
 
   ngOnDestroy() {
