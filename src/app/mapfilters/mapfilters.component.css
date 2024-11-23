@@ -3,3 +3,7 @@ p {
     font-weight: bold;
     margin-bottom: 2px;
 }
+
+input {
+    accent-color: #4CAF50;
+}
