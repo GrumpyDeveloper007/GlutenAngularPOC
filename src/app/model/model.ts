@@ -1,6 +1,6 @@
 export interface TopicGroup {
     GeoLongitude: number
-    GeoLatatude: number
+    GeoLatitude: number
     Label: string
     Description: string
     Topics: Topic[]

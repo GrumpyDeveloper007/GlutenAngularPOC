@@ -28,8 +28,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   map: Map | undefined;
   selectedTopicGroup: TopicGroup | null = null;
   currentMarkers: Marker[] = [];
-
   restaurants: Restaurant[] = [];
+  fileUrl: SafeResourceUrl = "";
 
   restaurantTypes: string[] = [
     'All',
@@ -297,6 +297,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!(this.map === undefined)) {
       console.debug("Updating pins");
       map = this.map
+      var exportData = "Latitude, Longitude, Description\r\n";
 
       var Others: Array<string> = ['Train station',
         'Airports',
@@ -368,6 +369,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         if (!this._showStores && isStore) return;
         if (!this._showOthers && isOther) return;
         selectedPins++;
+        exportData += `${pin.GeoLatitude},${pin.GeoLongitude},${pin.Label}\r\n`;
         // trigger event to call a function back in angular
         var popup = new maplibre.Popup({ offset: 25 })
           .setHTML(`<h3>${pin.Label}</h3>`)
@@ -376,12 +378,15 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
           });
 
         const marker = new Marker({ color: "#FF0000" })
-          .setLngLat([parseFloat(pin.GeoLongitude), parseFloat(pin.GeoLatatude)])
+          .setLngLat([parseFloat(pin.GeoLongitude), parseFloat(pin.GeoLatitude)])
           .setPopup(popup)
           .addTo(map);
         this.currentMarkers.push(marker);
       });
       console.debug("selected pins :" + selectedPins);
+      const blob = new Blob([exportData], { type: 'application/octet-stream' });
+      this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+
     }
   }
 
