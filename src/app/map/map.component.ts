@@ -5,6 +5,7 @@ import myData from './TopicsExport.json';
 import { Renderer2 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { TopicGroup } from "../model/model";
+import { Others, restaurantTypes } from "../model/staticData";
 import { EventEmitter, Output, Input } from '@angular/core';
 import { ModalService } from '../_services';
 import { FormsModule } from '@angular/forms';
@@ -30,151 +31,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   currentMarkers: Marker[] = [];
   restaurants: Restaurant[] = [];
   fileUrl: SafeResourceUrl = "";
-
-  restaurantTypes: string[] = [
-    'All',
-    'American restaurant',
-    'Art cafe',
-    'Asian fusion restaurant',
-    'Asian restaurant',
-    'Australian restaurant',
-    'Bakery',
-    'Bar',
-    'Bar &amp; grill',
-    'Barbecue restaurant',
-    'Belgian restaurant',
-    'Bistro',
-    'Brazilian restaurant',
-    'Breakfast restaurant',
-    'Brewery',
-    'Brewpub',
-    'British restaurant',
-    'Brunch restaurant',
-    'Buddhist temple',
-    'Buffet restaurant',
-    'Cafe',
-    'Cafeteria',
-    'Charcuterie',
-    'Chicken restaurant',
-    'Chinese restaurant',
-    'Cocktail bar',
-    'Coffee roasters',
-    'Conveyor belt sushi restaurant',
-    'Crab house',
-    'Creative cuisine restaurant',
-    'Creperie',
-    'Deli',
-    'Dessert restaurant',
-    'Dim sum restaurant',
-    'Dog cafe',
-    'Dumpling restaurant',
-    'Falafel restaurant',
-    'Family restaurant',
-    'Fast food restaurant',
-    'Fine dining restaurant',
-    'Fish &amp; chips restaurant',
-    'Fish restaurant',
-    'Food court',
-    'French restaurant',
-    'Fried chicken takeaway',
-    'Fruit parlor',
-    'Fusion restaurant',
-    'Gluten-free restaurant',
-    'Greek restaurant',
-    'Gyudon restaurant',
-    'Hamburger restaurant',
-    'Hawaiian restaurant',
-    'Hawker stall',
-    'Health food restaurant',
-    'Hot pot restaurant',
-    'Hunan restaurant',
-    'Indian restaurant',
-    'Irish pub',
-    'Italian restaurant',
-    'Izakaya restaurant',
-    'Japanese curry restaurant',
-    'Japanese delicatessen',
-    'Japanese restaurant',
-    'Japanese steakhouse',
-    'Japanese sweets restaurant',
-    'Japanized western restaurant',
-    'Kaiseki restaurant',
-    'Konditorei',
-    'Korean barbecue restaurant',
-    'Korean restaurant',
-    'Kushiyaki restaurant',
-    'Kyoto style Japanese restaurant',
-    'Lebensmittelhändler',
-    'Macrobiotic restaurant',
-    'Matchaa year ago',
-    'Meat dish restaurant',
-    'Mexican restaurant',
-    'Modern izakaya restaurant',
-    'Mutton barbecue restaurant',
-    'Nepalese restaurant',
-    'New American restaurant',
-    'Obanzai restaurant',
-    'Okonomiyaki restaurant',
-    'Organic restaurant',
-    'Oyster bar restaurant',
-    'Pakistani restaurant',
-    'Pancake restaurant',
-    'Patisserie',
-    'Persian restaurant',
-    'Pizza restaurant',
-    'Pizza takeaway',
-    'Pub',
-    'Ramen restaurant',
-    'Restauracja japońska (okonomiyaki)',
-    'Restaurant',
-    'Rice restaurant',
-    'Ristorante italiano',
-    'Sake brewery',
-    'Samgyetang restaurant',
-    'Seafood donburi restaurant',
-    'Seafood restaurant',
-    'Shabu-shabu restaurant',
-    'Sichuan restaurant',
-    'Singaporean restaurant',
-    'Snack bar',
-    'South Indian restaurant',
-    'Southeast Asian restaurant',
-    'Sports bar',
-    'Steak house',
-    'Sukiyaki and Shabu Shabu restaurant',
-    'Sushi restaurant',
-    'Sushirestaurant med transportbånd',
-    'Swiss restaurant',
-    'Syokudo and Teishoku restaurant',
-    'Taco restaurant',
-    'Taiwanese restaurant',
-    'Take Away Restaurant',
-    'Tapas bar',
-    'Tapas restaurant',
-    'Tea house',
-    'Tempura restaurant',
-    'Teppanyaki restaurant',
-    'Teppanyaki-Restaurant',
-    'Tex-Mex restaurant',
-    'Thai restaurant',
-    'Tofu restaurant',
-    'Tonkatsu restaurant',
-    'Traditional restaurant',
-    'Traditional teahouse',
-    'Udon noodle restaurant',
-    'Unagi restaurant',
-    'Vegan restaurant',
-    'Vegetarian cafe and deli',
-    'Vegetarian restaurant',
-    'Vietnamese restaurant',
-    'Warehouse club',
-    'West African restaurant',
-    'Western restaurant',
-    'Wholesale bakery',
-    'Yakatabune',
-    'Yakiniku restaurant',
-    'Yakitori restaurant',
-  ];
 
   bodyText = 'This text can be updated in modal 1';
 
@@ -250,7 +106,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
   selectComplete(): void {
     this.modalService.close();
-    this.currentMarkers.forEach((marker: Marker) => marker.remove())
     this.loadMapPins();
   }
 
@@ -264,7 +119,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    this.restaurantTypes.forEach(restaurant => {
+    restaurantTypes.forEach(restaurant => {
       var a = new Restaurant(true, restaurant);
       this.restaurants.push(a);
     });
@@ -285,10 +140,21 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     }));
     this.map.addControl(new NavigationControl({}), 'top-right');
 
+    this.map
+      .on('moveend', (e: MouseEvent | TouchEvent | WheelEvent | undefined) => {
+        this.mapMoved(e);
+      });
+
     console.debug("Total pins :" + myData.length);
     console.debug("is undefined :" + (this.map === undefined));
     console.debug("map :" + this.map);
     this.loadMapPins();
+  }
+
+  mapMoved(e: MouseEvent | TouchEvent | WheelEvent | undefined) {
+    if (!(this.map === undefined)) {
+      this.loadMapPins();
+    }
   }
 
   loadMapPins() {
@@ -296,66 +162,26 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     var map: Map;
     if (!(this.map === undefined)) {
       console.debug("Updating pins");
+      var bounds = this.map.getBounds();
+      this.currentMarkers.forEach((marker: Marker) => marker.remove())
+      this.currentMarkers = [];
+
       map = this.map
       var exportData = "Latitude, Longitude, Description\r\n";
 
-      var Others: Array<string> = ['Train station',
-        'Airports',
-        'Sightseeing tour agency',
-        'Laundromat',
-        'Historical landmark',
-        'Island',
-        'Electronics manufacturer',
-        'Corporate office',
-        'Theme park',
-        'Subway station',
-        'Food manufacturer',
-        'Art museum',
-        'International airport',
-        'Airport',
-        'Garden',
-        'Cinema',
-        'Manufacturer',
-        'Observation deck',
-        'Mountain peak',
-        'Amusement park',
-        'Bridge',
-        'Soy sauce maker',
-        'Housing development',
-        'Massage spa',
-        'Waterfall',
-        'Delivery service',
-        'Water treatment supplier',
-        'River',
-        'Event venue',
-        'Museum',
-        'Florist',
-        'Park',
-        'Tourist attraction',
-        'Business park',
-        'Hair salon',
-        'Holiday apartment',
-        'Car racing track',
-        'Language school',
-        'Host club',
-        'Shinto shrine',
-        'Cultural center',
-        'Foreign consulate',
-        'Non-profit organization',
-        'Truck parts supplier',
-        'Gift shop',
-        'Lake',
-        'Spa',
-        'Festival',
-        'Beach',
-        'Dog trainer',
-        'Concert hall',
-        'Tour operator',
-        'Art gallery',
-        'Health and beauty shop'];
-
       var selectedPins = 0;
       pinTopics.forEach(pin => {
+        /*e.g. _ne: Object { lng: 139.77638886261684, lat: 35.690465002504595 }
+        lat: 35.690465002504595
+        lng: 139.77638886261684
+          <prototype>: Object { … }
+        _sw: Object { lng: 139.72471878815406, lat: 35.674081465100244 }
+        lat: 35.674081465100244
+        lng: 139.72471878815406*/
+        if (pin.GeoLatitude > bounds._ne.lat) return;
+        if (pin.GeoLatitude < bounds._sw.lat) return;
+        if (pin.GeoLongitude > bounds._ne.lng) return;
+        if (pin.GeoLongitude < bounds._sw.lng) return;
 
         var isStore = pin.RestaurantType != null && (pin.RestaurantType.includes("store") || pin.RestaurantType.includes("Supermarket")
           || pin.RestaurantType.includes("shop")
@@ -376,8 +202,12 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
           .on('open', () => {
             this.pinSelected(pin);
           });
+        var color = "#FF0000";
+        if (isHotel) color = "#00FF00";
+        if (isStore) color = "#0000FF";
+        if (isOther) color = "#00FFFF";
 
-        const marker = new Marker({ color: "#FF0000" })
+        const marker = new Marker({ color: color })
           .setLngLat([parseFloat(pin.GeoLongitude), parseFloat(pin.GeoLatitude)])
           .setPopup(popup)
           .addTo(map);
@@ -386,7 +216,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       console.debug("selected pins :" + selectedPins);
       const blob = new Blob([exportData], { type: 'application/octet-stream' });
       this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
-
     }
   }
 
