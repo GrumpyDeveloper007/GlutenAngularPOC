@@ -16,5 +16,5 @@ import { TopicGroup } from "../app/model/model";
 export class AppComponent {
   title = 'gluten-angular-map';
   selectedTopicGroup: TopicGroup | null = null;
-  showOptions: FilterOptions = new FilterOptions(true, true, true);
+  showOptions: FilterOptions = new FilterOptions(true, true, true, true);
 }

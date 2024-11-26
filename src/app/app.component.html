@@ -4,7 +4,8 @@
     <div class="window">
       <div class="master">
         <app-map [showHotels]="showOptions.ShowHotels" [showStores]="showOptions.ShowStores"
-          [showOthers]="showOptions.ShowOthers" (selectedTopicGroupChange)="selectedTopicGroup=$event"></app-map>
+          [showOthers]="showOptions.ShowOthers" [showGMPins]="showOptions.ShowGMPins"
+          (selectedTopicGroupChange)="selectedTopicGroup=$event"></app-map>
       </div>
 
       <div class="detail">

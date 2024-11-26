@@ -14,19 +14,18 @@ import { Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/c
 })
 export class MapfiltersComponent {
   @Output() optionsChange = new EventEmitter<FilterOptions>();
-  private _options: FilterOptions = new FilterOptions(true, true, true);
+  private _options: FilterOptions = new FilterOptions(true, true, true, true);
 
 
   @Input() set showHotels(value: boolean) {
     if (this._options.ShowHotels != value) {
       this._options.ShowHotels = value;
       console.debug("Filter Hotels click :");
-      var options: FilterOptions = new FilterOptions(this._options.ShowHotels, this._options.ShowStores, this._options.ShowOthers)
+      var options: FilterOptions = new FilterOptions(this._options.ShowHotels, this._options.ShowStores, this._options.ShowOthers, this._options.ShowGMPins)
       this.optionsChange.emit(options);
     }
   }
   get showHotels(): boolean {
-
     return this._options.ShowHotels;
   }
 
@@ -38,7 +37,6 @@ export class MapfiltersComponent {
     }
   }
   get showStores(): boolean {
-
     return this._options.ShowStores;
   }
 
@@ -50,16 +48,25 @@ export class MapfiltersComponent {
     }
   }
   get showOthers(): boolean {
-
     return this._options.ShowOthers;
   }
 
+  @Input() set showGMPins(value: boolean) {
+    if (this._options.ShowGMPins != value) {
+      this._options.ShowGMPins = value;
+      this.optionsChange.emit(this._options);
+    }
+  }
+  get showGMPins(): boolean {
+    return this._options.ShowGMPins;
+  }
 }
 
 export class FilterOptions {
   constructor(
     public ShowHotels: boolean,
     public ShowStores: boolean,
-    public ShowOthers: boolean
+    public ShowOthers: boolean,
+    public ShowGMPins: boolean,
   ) { }
 }

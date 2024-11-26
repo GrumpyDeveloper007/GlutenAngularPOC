@@ -2,9 +2,10 @@ import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } fr
 import { Map, NavigationControl, Marker } from 'maplibre-gl';
 import * as maplibre from 'maplibre-gl';
 import myData from './TopicsExport.json';
+import myGMPinData from './GMPinExport.json';
 import { Renderer2 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { TopicGroup } from "../model/model";
+import { TopicGroup, TopicGroupClass } from "../model/model";
 import { Others, restaurantTypes } from "../model/staticData";
 import { EventEmitter, Output, Input } from '@angular/core';
 import { ModalService } from '../_services';
@@ -39,6 +40,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   private _showHotels: boolean = true;
   private _showStores: boolean = true;
   private _showOthers: boolean = true;
+  private _showGMPins: boolean = true;
 
   @Input() set showHotels(value: boolean) {
 
@@ -65,7 +67,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   @Input() set showOthers(value: boolean) {
-
     this._showOthers = value;
     // clear pins
     this.currentMarkers.forEach((marker: Marker) => marker.remove())
@@ -74,6 +75,13 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   get showOthers(): boolean {
     return this._showOthers;
   }
+  @Input() set showGMPins(value: boolean) {
+    this._showGMPins = value;
+    this.currentMarkers.forEach((marker: Marker) => marker.remove())
+    this.loadMapPins();
+  }
+
+
 
   selectNone(): void {
     this.restaurants.forEach(restaurant => {
@@ -196,6 +204,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         if (!this._showOthers && isOther) return;
         selectedPins++;
         exportData += `${pin.GeoLatitude},${pin.GeoLongitude},${pin.Label}\r\n`;
+
         // trigger event to call a function back in angular
         var popup = new maplibre.Popup({ offset: 25 })
           .setHTML(`<h3>${pin.Label}</h3>`)
@@ -213,6 +222,27 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
           .addTo(map);
         this.currentMarkers.push(marker);
       });
+
+      if (this._showGMPins) {
+        myGMPinData.forEach(pin => {
+          exportData += `${pin.GeoLatitude},${pin.GeoLongitude},${pin.Label}\r\n`;
+
+          // trigger event to call a function back in angular
+          var popup = new maplibre.Popup({ offset: 25 })
+            .setHTML(`<h3>${pin.Label}</h3>`)
+            .on('open', () => {
+              this.pinSelected(pin);
+            });
+          var color = "#7f7f7f";
+
+          const marker = new Marker({ color: color })
+            .setLngLat([parseFloat(pin.GeoLongitude), parseFloat(pin.GeoLatitude)])
+            .setPopup(popup)
+            .addTo(map);
+          this.currentMarkers.push(marker);
+        });
+      }
+
       console.debug("selected pins :" + selectedPins);
       const blob = new Blob([exportData], { type: 'application/octet-stream' });
       this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
