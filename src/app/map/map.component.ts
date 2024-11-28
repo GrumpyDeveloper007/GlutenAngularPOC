@@ -12,6 +12,11 @@ import { ModalService } from '../_services';
 import { FormsModule } from '@angular/forms';
 import { ModalComponent } from '../_components';
 import { NgIf, NgFor } from '@angular/common';
+import * as turf from "@turf/turf";
+import { MultiPolygon } from 'geojson';
+
+import countriesGeoJSON2 from '../staticdata/countries.geo.json';
+
 
 @Component({
   selector: 'app-map',
@@ -169,8 +174,26 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     var pinTopics: any[] = myData;
     var map: Map;
     if (!(this.map === undefined)) {
+
+      const bounds = this.map.getBounds();
+      const southwest = bounds.getSouthWest();
+      const northeast = bounds.getNorthEast();
+
+
+      // Load or fetch your GeoJSON data (e.g., countriesGeoJSON)
+      const countriesInView = countriesGeoJSON2.features.filter(feature => {
+        return turf.booleanIntersects(feature.geometry as MultiPolygon, turf.bboxPolygon([southwest.lng, southwest.lat, northeast.lng, northeast.lat]));
+      });
+
+      // Extract country names
+      const countryNames = countriesInView.map(feature => feature.properties.name);
+      console.log(countryNames);
+
+
+
+
       console.debug("Updating pins");
-      var bounds = this.map.getBounds();
+      //var bounds = this.map.getBounds();
       this.currentMarkers.forEach((marker: Marker) => marker.remove())
       this.currentMarkers = [];
 
