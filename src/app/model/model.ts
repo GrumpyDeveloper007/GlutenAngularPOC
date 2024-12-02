@@ -1,40 +1,40 @@
 export interface TopicGroup {
-    GeoLongitude: number
-    GeoLatitude: number
-    Label: string
-    Description: string
-    Topics: Topic[]
-    MapsLink: string
-    RestaurantType: string,
-    Price: string,
-    Stars: string
+    geoLongitude: number
+    geoLatitude: number
+    label: string
+    description: string
+    topics: Topic[]
+    mapsLink: string
+    restaurantType: string,
+    price: string,
+    stars: string
 }
 
 
 export class Restaurant {
     constructor(
-        public Show: boolean,
-        public Name: string,
+        public show: boolean,
+        public name: string,
     ) { }
 }
 export class TopicGroupClass {
     constructor(
-        public GeoLongitude: number,
-        public GeoLatitude: number,
-        public Label: string,
-        public Description: string,
-        public Topics: Topic[],
-        public MapsLink: string,
-        public RestaurantType: string,
-        public Price: string,
-        public Stars: string,
+        public geoLongitude: number,
+        public geoLatitude: number,
+        public label: string,
+        public description: string,
+        public topics: Topic[],
+        public mapsLink: string,
+        public restaurantType: string,
+        public price: string,
+        public stars: string,
     ) { }
 }
 
 export interface Topic {
-    Title: string
-    FacebookUrl: string
-    NodeID: string
-    ShortTitle: string
-    PostCreated: Date
+    title: string
+    facebookUrl: string
+    nodeID: string
+    shortTitle: string
+    postCreated: Date
 }

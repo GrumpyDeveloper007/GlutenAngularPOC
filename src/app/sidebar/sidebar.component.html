@@ -1,23 +1,23 @@
 <div *ngIf="selectedTopicGroup">
     <!-- TODO: This sint the always the correct pin, lets see if I can make the AI smart enough to split topic info -->
     <!-- <h2>{{selectedTopic.UrlsV2[0].Pin?.Label}}</h2> -->
-    <h2>{{selectedTopicGroup.Label}}</h2>
-    <p>{{selectedTopicGroup.RestaurantType}}</p>
-    <p>{{selectedTopicGroup.Stars}}</p>
-    <p>{{selectedTopicGroup.Price}}</p>
-    <a *ngIf="selectedTopicGroup.MapsLink" [href]="selectedTopicGroup.MapsLink" target="_blank">Google Maps</a>
-    <p *ngIf="selectedTopicGroup.Description" md-highlight-text="selectedTopicGroup?.Description"
-        [innerHtml]="selectedTopicGroup.Description | highlight: selectedTopicGroup.Label">
+    <h2>{{selectedTopicGroup.label}}</h2>
+    <p>{{selectedTopicGroup.restaurantType}}</p>
+    <p>{{selectedTopicGroup.stars}}</p>
+    <p>{{selectedTopicGroup.price}}</p>
+    <a *ngIf="selectedTopicGroup.mapsLink" [href]="selectedTopicGroup.mapsLink" target="_blank">Google Maps</a>
+    <p *ngIf="selectedTopicGroup.description" md-highlight-text="selectedTopicGroup?.Description"
+        [innerHtml]="selectedTopicGroup.description | highlight: selectedTopicGroup.label">
     </p>
-    <div *ngFor="let item of selectedTopicGroup.Topics; let i=index; ">
+    <div *ngFor="let item of selectedTopicGroup.topics; let i=index; ">
 
-        <a *ngIf="!!item.ShortTitle && item.ShortTitle.length>0" [href]="item.FacebookUrl" target="_blank"
+        <a *ngIf="!!item.shortTitle && item.shortTitle.length>0" [href]="item.facebookUrl" target="_blank"
             class="smallText">
-            <div>{{item.ShortTitle}}</div>
-            <div>{{dateOnly(item.PostCreated)}}</div>
+            <div>{{item.shortTitle}}</div>
+            <div>{{dateOnly(item.postCreated)}}</div>
         </a>
         <br />
-        <a *ngIf="!item.ShortTitle" [href]="item.FacebookUrl" target="_blank" class="smallText">Facebook</a>
+        <a *ngIf="!item.shortTitle" [href]="item.facebookUrl" target="_blank" class="smallText">Facebook</a>
     </div>
 
     <!-- It would be nice if this works, but its blocked by FB-->
