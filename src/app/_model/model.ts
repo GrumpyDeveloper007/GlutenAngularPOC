@@ -38,3 +38,18 @@ export interface Topic {
     shortTitle: string
     postCreated: Date
 }
+
+
+export interface GMapsPin {
+    placeName: string;
+    label: string;
+    address: string | null;
+    geoLatitude: string;
+    geoLongitude: string;
+    mapsUrl: string | null;
+    restaurantType: string | null;
+    price: string | null;
+    stars: string | null;
+    comment: string | null;
+    description: string | null;
+}

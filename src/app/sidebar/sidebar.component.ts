@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NgIf, NgFor } from '@angular/common';
-import { TopicGroup } from "../model/model";
+import { TopicGroup } from "../_model/model";
 import { Input } from '@angular/core';
 import { HighlightPipe } from '../highlight.pipe';
 

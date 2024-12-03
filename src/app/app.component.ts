@@ -4,7 +4,7 @@ import { NavbarComponent } from "./navbar/navbar.component";
 import { MapComponent } from "./map/map.component";
 import { MapfiltersComponent, FilterOptions } from "./mapfilters/mapfilters.component";
 import { SidebarComponent } from "./sidebar/sidebar.component";
-import { TopicGroup } from "../app/model/model";
+import { TopicGroup } from "./_model/model";
 
 @Component({
   selector: 'app-root',

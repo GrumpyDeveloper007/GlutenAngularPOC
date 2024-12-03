@@ -16,7 +16,6 @@ export class MapfiltersComponent {
   @Output() optionsChange = new EventEmitter<FilterOptions>();
   private _options: FilterOptions = new FilterOptions(true, true, true, true);
 
-
   @Input() set showHotels(value: boolean) {
     if (this._options.ShowHotels != value) {
       this._options.ShowHotels = value;
