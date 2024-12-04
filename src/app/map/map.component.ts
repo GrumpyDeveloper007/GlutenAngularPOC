@@ -3,16 +3,13 @@ import { FormsModule } from '@angular/forms';
 import { NgFor } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import * as turf from "@turf/turf";
 import { Map, NavigationControl, Marker } from 'maplibre-gl';
 import * as maplibre from 'maplibre-gl';
 import { forkJoin, Observable, tap } from 'rxjs';
 import { GMapsPin, TopicGroup } from "../_model/model";
 import { Others, restaurantTypes } from "../_model/staticData";
-import { ModalService, GlutenApiService } from '../_services';
+import { ModalService, GlutenApiService, LocationService, MapDataService } from '../_services';
 import { ModalComponent } from '../_components';
-import { MultiPolygon } from 'geojson';
-import countriesGeoJSON2 from '../staticdata/countries.geo.json';
 
 @Component({
   selector: 'app-map',
@@ -42,10 +39,13 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   _showStores: boolean = true;
   _showOthers: boolean = true;
   _showGMPins: boolean = true;
+  mapBounds: maplibre.LngLatBounds = new maplibre.LngLatBounds();
 
   constructor(public sanitizer: DomSanitizer,
     protected modalService: ModalService, private http: HttpClient,
-    private apiService: GlutenApiService) { }
+    private apiService: GlutenApiService,
+    private locationService: LocationService,
+    private mapDataService: MapDataService) { }
 
   @Input() set showHotels(value: boolean) {
     this._showHotels = value;
@@ -116,53 +116,60 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy() {
     this.map?.remove();
   }
-  ngAfterViewInit() {
+  async ngAfterViewInit() {
     restaurantTypes.forEach(restaurant => {
       var a = new Restaurant(true, restaurant);
       this.restaurants.push(a);
     });
 
-    const initialState = { lng: 139.753, lat: 35.6844, zoom: 14 };
+    var geoLocation = new maplibre.GeolocateControl({
+      positionOptions: {
+        enableHighAccuracy: true
+
+      },
+      trackUserLocation: true
+    });
+
+    var location = { latitude: 35.6844, longitude: 139.753 };
+    await this.locationService.getUserLocation()
+      .then((loc) => {
+        location = loc;
+      })
+      .catch((err) => {
+        console.debug(err);
+      });
+    this.apiService.postMapHome(location.latitude, location.longitude).subscribe();
+
+    const initialState = { lng: location.longitude, lat: location.latitude, zoom: 14 };
     this.map = new Map({
       container: this.mapContainer.nativeElement,
       style: `https://api.maptiler.com/maps/streets-v2/style.json?key=1nY38lyeIv8XEbtohY5t`,
       center: [initialState.lng, initialState.lat],
       zoom: initialState.zoom,
       interactive: true,
+      renderWorldCopies: false
     });
-    this.map.addControl(new maplibre.GeolocateControl({
-      positionOptions: {
-        enableHighAccuracy: true
-      },
-      trackUserLocation: true
-    }));
+
+    this.map.addControl(geoLocation);
     this.map.addControl(new NavigationControl({}), 'top-right');
+    this.mapBounds = this.map.getBounds();
 
     this.map
       .on('moveend', (e: MouseEvent | TouchEvent | WheelEvent | undefined) => {
+        if ((this.map === undefined)) return;
+        var newBounds = this.map.getBounds();
+        if (newBounds.getNorthEast().lat == this.mapBounds.getNorthEast().lat &&
+          newBounds.getNorthEast().lng == this.mapBounds.getNorthEast().lng) return;
         this.mapMoved(e);
+        this.mapBounds = this.map.getBounds();
       });
 
     this.loadMapPins();
   }
 
   mapMoved(e: MouseEvent | TouchEvent | WheelEvent | undefined) {
-    if (!(this.map === undefined)) {
-      this.loadMapPins();
-    }
-  }
-
-  getCountriesInView(bounds: maplibre.LngLatBounds): string[] {
-    const southwest = bounds.getSouthWest();
-    const northeast = bounds.getNorthEast();
-
-    // Load or fetch your GeoJSON data (e.g., countriesGeoJSON)
-    const countriesInView = countriesGeoJSON2.features.filter(feature => {
-      return turf.booleanIntersects(feature.geometry as MultiPolygon, turf.bboxPolygon([southwest.lng, southwest.lat, northeast.lng, northeast.lat]));
-    });
-
-    // Trigger api calls
-    return countriesInView.map(feature => feature.properties.name);
+    if ((this.map === undefined)) return;
+    this.loadMapPins();
   }
 
   loadMapPins() {
@@ -170,14 +177,11 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.gmPins = [];
 
     if ((this.map === undefined)) return;
-    // Remove existing pins
-    this.currentMarkers.forEach((marker: Marker) => marker.remove())
-    this.currentMarkers = [];
 
     const bounds = this.map.getBounds();
     // Trigger api calls
     var waitForDataLoad = false;
-    const countryNames = this.getCountriesInView(bounds);
+    const countryNames = this.mapDataService.getCountriesInView(bounds);
     const requests: Observable<any>[] = [];
     for (let key in countryNames) {
       let value = countryNames[key];
@@ -231,32 +235,9 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     console.debug("Updating pins");
     const bounds = map.getBounds();
 
-    if (this._showGMPins) {
-      this.gmPins.forEach(pin => {
-        if (this.selectedPins >= 500) return;
-        if (Number.parseFloat(pin.geoLatitude) > bounds._ne.lat) return;
-        if (Number.parseFloat(pin.geoLatitude) < bounds._sw.lat) return;
-        if (Number.parseFloat(pin.geoLongitude) > bounds._ne.lng) return;
-        if (Number.parseFloat(pin.geoLongitude) < bounds._sw.lng) return;
-
-        this.selectedPins++;
-        exportData += `${pin.geoLatitude},${pin.geoLongitude},${pin.label}\r\n`;
-
-        // trigger event to call a function back in angular
-        var popup = new maplibre.Popup({ offset: 25 })
-          .setHTML(`<h3>${pin.label}</h3>`)
-          .on('open', () => {
-            this.pinSelected(pin);
-          });
-        var color = "#7f7f7f";
-
-        const marker = new Marker({ color: color })
-          .setLngLat([parseFloat(pin.geoLongitude), parseFloat(pin.geoLatitude)])
-          .setPopup(popup)
-          .addTo(map);
-        this.currentMarkers.push(marker);
-      });
-    }
+    // Remove existing pins
+    this.currentMarkers.forEach((marker: Marker) => marker.remove())
+    this.currentMarkers = [];
 
     this.pinTopics.forEach(pin => {
       if (this.selectedPins >= 500) return;
@@ -297,6 +278,33 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       this.currentMarkers.push(marker);
 
     });
+
+    if (this._showGMPins) {
+      this.gmPins.forEach(pin => {
+        if (this.selectedPins >= 500) return;
+        if (Number.parseFloat(pin.geoLatitude) > bounds._ne.lat) return;
+        if (Number.parseFloat(pin.geoLatitude) < bounds._sw.lat) return;
+        if (Number.parseFloat(pin.geoLongitude) > bounds._ne.lng) return;
+        if (Number.parseFloat(pin.geoLongitude) < bounds._sw.lng) return;
+
+        this.selectedPins++;
+        exportData += `${pin.geoLatitude},${pin.geoLongitude},${pin.label}\r\n`;
+
+        // trigger event to call a function back in angular
+        var popup = new maplibre.Popup({ offset: 25 })
+          .setHTML(`<h3>${pin.label}</h3>`)
+          .on('open', () => {
+            this.pinSelected(pin);
+          });
+        var color = "#7f7f7f";
+
+        const marker = new Marker({ color: color })
+          .setLngLat([parseFloat(pin.geoLongitude), parseFloat(pin.geoLatitude)])
+          .setPopup(popup)
+          .addTo(map);
+        this.currentMarkers.push(marker);
+      });
+    }
 
     console.debug("selected pins :" + this.selectedPins);
     const blob = new Blob([exportData], { type: 'application/octet-stream' });
