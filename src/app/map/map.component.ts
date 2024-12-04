@@ -182,6 +182,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     // Trigger api calls
     var waitForDataLoad = false;
     const countryNames = this.mapDataService.getCountriesInView(bounds);
+    console.debug("Countries in view: " + countryNames);
     const requests: Observable<any>[] = [];
     for (let key in countryNames) {
       let value = countryNames[key];

@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import * as maplibre from 'maplibre-gl';
 import * as turf from "@turf/turf";
 import { MultiPolygon } from 'geojson';
-import countriesGeoJSON2 from '../staticdata/countries.geo.json';
+//import countriesGeoJSON2 from '../staticdata/countries.geo.json';
+import countriesGeoJSON2 from '../staticdata/World-EEZ.geo.json';
+
 
 @Injectable({ providedIn: 'root' })
 export class MapDataService {
@@ -22,7 +24,18 @@ export class MapDataService {
         });
 
         // Trigger api calls
-        return countriesInView.map(feature => feature.properties.name);
+        return countriesInView.map(feature => feature.properties.Country);
+    }
+
+    getCountriesInViewPoint(bounds: maplibre.LngLat): string[] {
+
+        // Load or fetch your GeoJSON data (e.g., countriesGeoJSON)
+        const countriesInView = countriesGeoJSON2.features.filter(feature => {
+            return turf.booleanIntersects(feature.geometry as MultiPolygon, turf.point([bounds.lng, bounds.lat]));
+        });
+
+        // Trigger api calls
+        return countriesInView.map(feature => feature.properties.Country);
     }
 
 }
