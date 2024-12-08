@@ -241,53 +241,24 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.currentMarkers = [];
 
     this.pinTopics.forEach(pin => {
-      if (this.selectedPins >= 500) return;
-      if (pin.geoLatitude > bounds._ne.lat) return;
-      if (pin.geoLatitude < bounds._sw.lat) return;
-      if (pin.geoLongitude > bounds._ne.lng) return;
-      if (pin.geoLongitude < bounds._sw.lng) return;
-
-      var isStore = pin.restaurantType != null && (pin.restaurantType.includes("store") || pin.restaurantType.includes("Supermarket")
-        || pin.restaurantType.includes("shop")
-        || pin.restaurantType.includes("market") || pin.restaurantType.includes("mall") || pin.restaurantType.includes("Hypermarket")
-      );
-      var isHotel = pin.restaurantType == "Hotel";
-      var isOther = pin.restaurantType != null && Others.includes(pin.restaurantType);
-      var isSelected = this.isSelected(pin.restaurantType);
-      if (!isSelected) return;
-      if (!this._showHotels && isHotel) return;
-      if (!this._showStores && isStore) return;
-      if (!this._showOthers && isOther) return;
-      this.selectedPins++;
-      exportData += `${pin.geoLatitude},${pin.geoLongitude},${pin.label}\r\n`;
-
-      // trigger event to call a function back in angular
-      var popup = new maplibre.Popup({ offset: 25 })
-        .setHTML(`<h3>${pin.label}</h3>`)
-        .on('open', () => {
-          this.pinSelected(pin);
-        });
-      var color = "#FF0000";
-      if (isHotel) color = "#00FF00";
-      if (isStore) color = "#0000FF";
-      if (isOther) color = "#00FFFF";
-
-      const marker = new Marker({ color: color })
-        .setLngLat([pin.geoLongitude, pin.geoLatitude])
-        .setPopup(popup)
-        .addTo(map);
-      this.currentMarkers.push(marker);
-
-    });
-
-    if (this._showGMPins) {
-      this.gmPins.forEach(pin => {
+      try {
         if (this.selectedPins >= 500) return;
-        if (Number.parseFloat(pin.geoLatitude) > bounds._ne.lat) return;
-        if (Number.parseFloat(pin.geoLatitude) < bounds._sw.lat) return;
-        if (Number.parseFloat(pin.geoLongitude) > bounds._ne.lng) return;
-        if (Number.parseFloat(pin.geoLongitude) < bounds._sw.lng) return;
+        if (pin.geoLatitude > bounds._ne.lat) return;
+        if (pin.geoLatitude < bounds._sw.lat) return;
+        if (pin.geoLongitude > bounds._ne.lng) return;
+        if (pin.geoLongitude < bounds._sw.lng) return;
 
+        var isStore = pin.restaurantType != null && (pin.restaurantType.includes("store") || pin.restaurantType.includes("Supermarket")
+          || pin.restaurantType.includes("shop")
+          || pin.restaurantType.includes("market") || pin.restaurantType.includes("mall") || pin.restaurantType.includes("Hypermarket")
+        );
+        var isHotel = pin.restaurantType == "Hotel";
+        var isOther = pin.restaurantType != null && Others.includes(pin.restaurantType);
+        var isSelected = this.isSelected(pin.restaurantType);
+        if (!isSelected) return;
+        if (!this._showHotels && isHotel) return;
+        if (!this._showStores && isStore) return;
+        if (!this._showOthers && isOther) return;
         this.selectedPins++;
         exportData += `${pin.geoLatitude},${pin.geoLongitude},${pin.label}\r\n`;
 
@@ -297,13 +268,46 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
           .on('open', () => {
             this.pinSelected(pin);
           });
-        var color = "#7f7f7f";
+        var color = "#FF0000";
+        if (isHotel) color = "#00FF00";
+        if (isStore) color = "#0000FF";
+        if (isOther) color = "#00FFFF";
 
         const marker = new Marker({ color: color })
-          .setLngLat([parseFloat(pin.geoLongitude), parseFloat(pin.geoLatitude)])
+          .setLngLat([pin.geoLongitude, pin.geoLatitude])
           .setPopup(popup)
           .addTo(map);
         this.currentMarkers.push(marker);
+      } catch { }
+
+    });
+
+    if (this._showGMPins) {
+      this.gmPins.forEach(pin => {
+        try {
+          if (this.selectedPins >= 500) return;
+          if (Number.parseFloat(pin.geoLatitude) > bounds._ne.lat) return;
+          if (Number.parseFloat(pin.geoLatitude) < bounds._sw.lat) return;
+          if (Number.parseFloat(pin.geoLongitude) > bounds._ne.lng) return;
+          if (Number.parseFloat(pin.geoLongitude) < bounds._sw.lng) return;
+
+          this.selectedPins++;
+          exportData += `${pin.geoLatitude},${pin.geoLongitude},${pin.label}\r\n`;
+
+          // trigger event to call a function back in angular
+          var popup = new maplibre.Popup({ offset: 25 })
+            .setHTML(`<h3>${pin.label}</h3>`)
+            .on('open', () => {
+              this.pinSelected(pin);
+            });
+          var color = "#7f7f7f";
+
+          const marker = new Marker({ color: color })
+            .setLngLat([parseFloat(pin.geoLongitude), parseFloat(pin.geoLatitude)])
+            .setPopup(popup)
+            .addTo(map);
+          this.currentMarkers.push(marker);
+        } catch { }
       });
     }
 
