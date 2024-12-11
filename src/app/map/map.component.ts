@@ -250,7 +250,12 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
         var isStore = pin.restaurantType != null && (pin.restaurantType.includes("store") || pin.restaurantType.includes("Supermarket")
           || pin.restaurantType.includes("shop")
-          || pin.restaurantType.includes("market") || pin.restaurantType.includes("mall") || pin.restaurantType.includes("Hypermarket")
+          || pin.restaurantType.includes("market") || pin.restaurantType.includes("Market")
+          || pin.restaurantType.includes("mall") || pin.restaurantType.includes("Hypermarket")
+          || pin.restaurantType.includes("Grocery store")
+          || pin.restaurantType.includes("Food products supplier")
+          || pin.restaurantType.includes("Condiments supplier")
+          || pin.restaurantType.includes("Catering food and drink supplier")
         );
         var isHotel = pin.restaurantType == "Hotel";
         var isOther = pin.restaurantType != null && Others.includes(pin.restaurantType);
