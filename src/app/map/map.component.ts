@@ -3,13 +3,14 @@ import { FormsModule } from '@angular/forms';
 import { NgFor } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { Map, NavigationControl, Marker } from 'maplibre-gl';
+import { Map, NavigationControl, Marker, MarkerOptions } from 'maplibre-gl';
 import * as maplibre from 'maplibre-gl';
 import { forkJoin, Observable, tap } from 'rxjs';
 import { GMapsPin, TopicGroup } from "../_model/model";
 import { Others, restaurantTypes } from "../_model/staticData";
 import { ModalService, GlutenApiService, LocationService, MapDataService } from '../_services';
 import { ModalComponent } from '../_components';
+
 
 @Component({
   selector: 'app-map',
@@ -278,7 +279,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         if (isStore) color = "#0000FF";
         if (isOther) color = "#00FFFF";
 
-        const marker = new Marker({ color: color })
+        const marker = new Marker(this.getMarkerOptions(color, pin.restaurantType ?? "", pin.label))
           .setLngLat([pin.geoLongitude, pin.geoLatitude])
           .setPopup(popup)
           .addTo(map);
@@ -307,7 +308,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
             });
           var color = "#7f7f7f";
 
-          const marker = new Marker({ color: color })
+          const marker = new Marker(this.getMarkerOptions(color, pin.restaurantType ?? "", pin.label))
             .setLngLat([parseFloat(pin.geoLongitude), parseFloat(pin.geoLatitude)])
             .setPopup(popup)
             .addTo(map);
@@ -319,6 +320,63 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     console.debug("selected pins :" + this.selectedPins);
     const blob = new Blob([exportData], { type: 'application/octet-stream' });
     this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+  }
+
+  getMarkerOptions(color: string, restaurantType: string, restaurantName: string) {
+    var el = document.createElement('div');
+    el.style.width = '36px';
+    el.style.height = '48px';
+    el.style.backgroundSize = 'contain';
+    el.style.backgroundRepeat = 'no-repeat';
+    el.style.backgroundPosition = 'center center';
+
+    var markerOptions: MarkerOptions = ({ color: color });
+    if (restaurantType == "Sushi") {
+      el.style.backgroundImage =
+        `url(Sushi.png)`;
+      markerOptions.element = el;
+    }
+    if (restaurantType == "Cafe" || restaurantType == "Coffee shop") {
+      el.style.backgroundImage =
+        `url(Cafe.png)`;
+      markerOptions.element = el;
+    }
+    if (restaurantType.includes('Fish & Chips') || restaurantType.includes('Fish &amp; Chips')) {
+      el.style.backgroundImage =
+        `url(FishAndChips.png)`;
+      markerOptions.element = el;
+    }
+    if (restaurantType.includes("Pizza")) {
+      el.style.backgroundImage =
+        `url(Pizza.png)`;
+      markerOptions.element = el;
+    }
+    if (restaurantType.includes("Vegan")) {
+      el.style.backgroundImage =
+        `url(Vegan.png)`;
+      markerOptions.element = el;
+    }
+    if (restaurantType.includes("Bakery")) {
+      el.style.backgroundImage =
+        `url(Bread.png)`;
+      markerOptions.element = el;
+    }
+    if (restaurantType.includes("Barbecue")) {
+      el.style.backgroundImage =
+        `url(BBQ.png)`;
+      markerOptions.element = el;
+    }
+
+
+
+    if (restaurantName.includes('Nando')) {
+      el.style.backgroundImage =
+        `url(Nandos.png)`;
+      markerOptions.element = el;
+    }
+
+
+    return markerOptions;
   }
 }
 
