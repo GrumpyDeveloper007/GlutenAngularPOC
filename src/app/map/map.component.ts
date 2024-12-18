@@ -249,7 +249,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         if (pin.geoLongitude > bounds._ne.lng) return;
         if (pin.geoLongitude < bounds._sw.lng) return;
 
-        var isStore = pin.restaurantType != null && (pin.restaurantType.includes("store") || pin.restaurantType.includes("Supermarket")
+        var isStore = pin.restaurantType != null && (pin.restaurantType.includes("store")
+          || pin.restaurantType.includes("Supermarket")
           || pin.restaurantType.includes("shop")
           || pin.restaurantType.includes("market") || pin.restaurantType.includes("Market")
           || pin.restaurantType.includes("mall") || pin.restaurantType.includes("Hypermarket")
@@ -257,6 +258,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
           || pin.restaurantType.includes("Food products supplier")
           || pin.restaurantType.includes("Condiments supplier")
           || pin.restaurantType.includes("Catering food and drink supplier")
+          || pin.label.includes("Department Store")
         );
         var isHotel = pin.restaurantType == "Hotel";
         var isOther = pin.restaurantType != null && Others.includes(pin.restaurantType);
@@ -366,7 +368,31 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         `url(BBQ.png)`;
       markerOptions.element = el;
     }
-
+    if (restaurantType.includes("Japanese")) {
+      el.style.backgroundImage =
+        `url(Japanese.png)`;
+      markerOptions.element = el;
+    }
+    if (restaurantType.includes("Italian")) {
+      el.style.backgroundImage =
+        `url(Italian.png)`;
+      markerOptions.element = el;
+    }
+    if (restaurantType.includes("French")) {
+      el.style.backgroundImage =
+        `url(French.png)`;
+      markerOptions.element = el;
+    }
+    if (restaurantType.includes("Balinese")) {
+      el.style.backgroundImage =
+        `url(Balinese.png)`;
+      markerOptions.element = el;
+    }
+    if (restaurantType.includes("Chinese")) {
+      el.style.backgroundImage =
+        `url(Chinese.png)`;
+      markerOptions.element = el;
+    }
 
 
     if (restaurantName.includes('Nando')) {
