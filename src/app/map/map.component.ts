@@ -398,6 +398,16 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         `url(Hamburger.png)`;
       markerOptions.element = el;
     }
+    if (restaurantType.includes("Vietnamese")) {
+      el.style.backgroundImage =
+        `url(Vietnamese.png)`;
+      markerOptions.element = el;
+    }
+    if (restaurantType.includes("Wine")) {
+      el.style.backgroundImage =
+        `url(WineBar.png)`;
+      markerOptions.element = el;
+    }
     if (restaurantType.includes("Brewery") || restaurantType.includes("Brewpub")
       || restaurantType.includes("Pub") || restaurantType.includes("Sports bar")) {
       el.style.backgroundImage =
