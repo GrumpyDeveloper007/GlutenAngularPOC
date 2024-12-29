@@ -393,11 +393,27 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         `url(Chinese.png)`;
       markerOptions.element = el;
     }
+    if (restaurantType.includes("Hamburger")) {
+      el.style.backgroundImage =
+        `url(Hamburger.png)`;
+      markerOptions.element = el;
+    }
+    if (restaurantType.includes("Brewery") || restaurantType.includes("Brewpub")
+      || restaurantType.includes("Pub") || restaurantType.includes("Sports bar")) {
+      el.style.backgroundImage =
+        `url(Bar.png)`;
+      markerOptions.element = el;
+    }
 
 
     if (restaurantName.includes('Nando')) {
       el.style.backgroundImage =
         `url(Nandos.png)`;
+      markerOptions.element = el;
+    }
+    if (restaurantName.includes("McDonald's")) {
+      el.style.backgroundImage =
+        `url(McDonalds.png)`;
       markerOptions.element = el;
     }
 
