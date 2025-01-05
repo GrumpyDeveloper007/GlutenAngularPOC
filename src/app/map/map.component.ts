@@ -243,7 +243,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.pinTopics.forEach(pin => {
       try {
-        if (this.selectedPins >= 500) return;
+        if (this.selectedPins >= 400) return;
         if (pin.geoLatitude > bounds._ne.lat) return;
         if (pin.geoLatitude < bounds._sw.lat) return;
         if (pin.geoLongitude > bounds._ne.lng) return;
@@ -293,7 +293,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this._showGMPins) {
       this.gmPins.forEach(pin => {
         try {
-          if (this.selectedPins >= 500) return;
+          if (this.selectedPins >= 400) return;
           if (Number.parseFloat(pin.geoLatitude) > bounds._ne.lat) return;
           if (Number.parseFloat(pin.geoLatitude) < bounds._sw.lat) return;
           if (Number.parseFloat(pin.geoLongitude) > bounds._ne.lng) return;
@@ -333,9 +333,20 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     el.style.backgroundPosition = 'center center';
 
     var markerOptions: MarkerOptions = ({ color: color });
-    if (restaurantType == "Sushi") {
+    if (restaurantType.includes("Sushi")) {
       el.style.backgroundImage =
         `url(Sushi.png)`;
+      markerOptions.element = el;
+    }
+
+    if (restaurantType.includes("Bubble tea")) {
+      el.style.backgroundImage =
+        `url(BubbleTea.png)`;
+      markerOptions.element = el;
+    }
+    if (restaurantType.includes("Bottle Shop and Liquor Store")) {
+      el.style.backgroundImage =
+        `url(BottleShop.png)`;
       markerOptions.element = el;
     }
     if (restaurantType == "Cafe" || restaurantType == "Coffee shop") {
@@ -343,7 +354,11 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         `url(Cafe.png)`;
       markerOptions.element = el;
     }
-    if (restaurantType.includes('Fish & Chips') || restaurantType.includes('Fish &amp; Chips')) {
+    if (restaurantType.includes('Fish & Chips')
+      || restaurantType.includes('Fish &amp; Chips')
+      || restaurantType.includes('Fish and chips')
+      || restaurantType.includes('Fish &amp; chips')
+    ) {
       el.style.backgroundImage =
         `url(FishAndChips.png)`;
       markerOptions.element = el;
@@ -403,6 +418,16 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         `url(Vietnamese.png)`;
       markerOptions.element = el;
     }
+    if (restaurantType.toLowerCase().includes("Steak".toLowerCase())) {
+      el.style.backgroundImage =
+        `url(Steak.png)`;
+      markerOptions.element = el;
+    }
+    if (restaurantType.toLowerCase().includes("Australian".toLowerCase())) {
+      el.style.backgroundImage =
+        `url(Australian.png)`;
+      markerOptions.element = el;
+    }
     if (restaurantType.includes("Wine")) {
       el.style.backgroundImage =
         `url(WineBar.png)`;
@@ -415,17 +440,37 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       markerOptions.element = el;
     }
 
-
+    if (restaurantName.includes('Woolworths')) {
+      el.style.backgroundImage =
+        `url(Woolworths.png)`;
+      markerOptions.element = el;
+    }
+    if (restaurantName.includes('Coles')) {
+      el.style.backgroundImage =
+        `url(Coles.png)`;
+      markerOptions.element = el;
+    }
     if (restaurantName.includes('Nando')) {
       el.style.backgroundImage =
         `url(Nandos.png)`;
       markerOptions.element = el;
     }
-    if (restaurantName.includes("McDonald's")) {
+    if (restaurantName.toLowerCase().includes("McDonald's".toLowerCase())) {
       el.style.backgroundImage =
         `url(McDonalds.png)`;
       markerOptions.element = el;
     }
+    if (restaurantName.includes("Subway")) {
+      el.style.backgroundImage =
+        `url(Subway.png)`;
+      markerOptions.element = el;
+    }
+    if (restaurantName.includes("Domino's")) {
+      el.style.backgroundImage =
+        `url(Dominos.png)`;
+      markerOptions.element = el;
+    }
+
 
 
     return markerOptions;
