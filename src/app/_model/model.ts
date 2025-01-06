@@ -47,7 +47,7 @@ export interface GMapsPin {
     geoLatitude: string;
     geoLongitude: string;
     mapsUrl: string | null;
-    restaurantType: string | null;
+    restaurantType: string;
     price: string | null;
     stars: string | null;
     comment: string | null;

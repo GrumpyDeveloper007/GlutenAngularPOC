@@ -8,9 +8,8 @@ import * as maplibre from 'maplibre-gl';
 import { forkJoin, Observable, tap } from 'rxjs';
 import { GMapsPin, TopicGroup } from "../_model/model";
 import { Others, restaurantTypes } from "../_model/staticData";
-import { ModalService, GlutenApiService, LocationService, MapDataService } from '../_services';
+import { ModalService, GlutenApiService, LocationService, MapDataService, PinService } from '../_services';
 import { ModalComponent } from '../_components';
-
 
 @Component({
   selector: 'app-map',
@@ -46,7 +45,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     protected modalService: ModalService, private http: HttpClient,
     private apiService: GlutenApiService,
     private locationService: LocationService,
-    private mapDataService: MapDataService) { }
+    private mapDataService: MapDataService,
+    private pinService: PinService) { }
 
   @Input() set showHotels(value: boolean) {
     this._showHotels = value;
@@ -249,19 +249,9 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         if (pin.geoLongitude > bounds._ne.lng) return;
         if (pin.geoLongitude < bounds._sw.lng) return;
 
-        var isStore = pin.restaurantType != null && (pin.restaurantType.includes("store")
-          || pin.restaurantType.includes("Supermarket")
-          || pin.restaurantType.includes("shop")
-          || pin.restaurantType.includes("market") || pin.restaurantType.includes("Market")
-          || pin.restaurantType.includes("mall") || pin.restaurantType.includes("Hypermarket")
-          || pin.restaurantType.includes("Grocery store")
-          || pin.restaurantType.includes("Food products supplier")
-          || pin.restaurantType.includes("Condiments supplier")
-          || pin.restaurantType.includes("Catering food and drink supplier")
-          || pin.label.includes("Department Store")
-        );
-        var isHotel = pin.restaurantType == "Hotel";
-        var isOther = pin.restaurantType != null && Others.includes(pin.restaurantType);
+        var isStore = this.pinService.isStore(pin);
+        var isHotel = this.pinService.isHotel(pin);
+        var isOther = this.pinService.isOther(pin);
         var isSelected = this.isSelected(pin.restaurantType);
         if (!isSelected) return;
         if (!this._showHotels && isHotel) return;
@@ -281,7 +271,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         if (isStore) color = "#0000FF";
         if (isOther) color = "#00FFFF";
 
-        const marker = new Marker(this.getMarkerOptions(color, pin.restaurantType ?? "", pin.label))
+        const marker = new Marker(this.pinService.getMarkerOptions(color, pin.restaurantType ?? "", pin.label))
           .setLngLat([pin.geoLongitude, pin.geoLatitude])
           .setPopup(popup)
           .addTo(map);
@@ -299,6 +289,10 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
           if (Number.parseFloat(pin.geoLongitude) > bounds._ne.lng) return;
           if (Number.parseFloat(pin.geoLongitude) < bounds._sw.lng) return;
 
+          var isSelected = this.isSelected(pin.restaurantType);
+          if (!isSelected) return;
+
+
           this.selectedPins++;
           exportData += `${pin.geoLatitude},${pin.geoLongitude},${pin.label}\r\n`;
 
@@ -310,7 +304,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
             });
           var color = "#7f7f7f";
 
-          const marker = new Marker(this.getMarkerOptions(color, pin.restaurantType ?? "", pin.label))
+          const marker = new Marker(this.pinService.getMarkerOptions(color, pin.restaurantType ?? "", pin.label))
             .setLngLat([parseFloat(pin.geoLongitude), parseFloat(pin.geoLatitude)])
             .setPopup(popup)
             .addTo(map);
@@ -324,157 +318,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
   }
 
-  getMarkerOptions(color: string, restaurantType: string, restaurantName: string) {
-    var el = document.createElement('div');
-    el.style.width = '36px';
-    el.style.height = '48px';
-    el.style.backgroundSize = 'contain';
-    el.style.backgroundRepeat = 'no-repeat';
-    el.style.backgroundPosition = 'center center';
 
-    var markerOptions: MarkerOptions = ({ color: color });
-    if (restaurantType.includes("Sushi")) {
-      el.style.backgroundImage =
-        `url(Sushi.png)`;
-      markerOptions.element = el;
-    }
-
-    if (restaurantType.includes("Bubble tea")) {
-      el.style.backgroundImage =
-        `url(BubbleTea.png)`;
-      markerOptions.element = el;
-    }
-    if (restaurantType.includes("Bottle Shop and Liquor Store")) {
-      el.style.backgroundImage =
-        `url(BottleShop.png)`;
-      markerOptions.element = el;
-    }
-    if (restaurantType == "Cafe" || restaurantType == "Coffee shop") {
-      el.style.backgroundImage =
-        `url(Cafe.png)`;
-      markerOptions.element = el;
-    }
-    if (restaurantType.includes('Fish & Chips')
-      || restaurantType.includes('Fish &amp; Chips')
-      || restaurantType.includes('Fish and chips')
-      || restaurantType.includes('Fish &amp; chips')
-    ) {
-      el.style.backgroundImage =
-        `url(FishAndChips.png)`;
-      markerOptions.element = el;
-    }
-    if (restaurantType.includes("Pizza")) {
-      el.style.backgroundImage =
-        `url(Pizza.png)`;
-      markerOptions.element = el;
-    }
-    if (restaurantType.includes("Vegan")) {
-      el.style.backgroundImage =
-        `url(Vegan.png)`;
-      markerOptions.element = el;
-    }
-    if (restaurantType.includes("Bakery")) {
-      el.style.backgroundImage =
-        `url(Bread.png)`;
-      markerOptions.element = el;
-    }
-    if (restaurantType.includes("Barbecue")) {
-      el.style.backgroundImage =
-        `url(BBQ.png)`;
-      markerOptions.element = el;
-    }
-    if (restaurantType.includes("Japanese")) {
-      el.style.backgroundImage =
-        `url(Japanese.png)`;
-      markerOptions.element = el;
-    }
-    if (restaurantType.includes("Italian")) {
-      el.style.backgroundImage =
-        `url(Italian.png)`;
-      markerOptions.element = el;
-    }
-    if (restaurantType.includes("French")) {
-      el.style.backgroundImage =
-        `url(French.png)`;
-      markerOptions.element = el;
-    }
-    if (restaurantType.includes("Balinese")) {
-      el.style.backgroundImage =
-        `url(Balinese.png)`;
-      markerOptions.element = el;
-    }
-    if (restaurantType.includes("Chinese")) {
-      el.style.backgroundImage =
-        `url(Chinese.png)`;
-      markerOptions.element = el;
-    }
-    if (restaurantType.includes("Hamburger")) {
-      el.style.backgroundImage =
-        `url(Hamburger.png)`;
-      markerOptions.element = el;
-    }
-    if (restaurantType.includes("Vietnamese")) {
-      el.style.backgroundImage =
-        `url(Vietnamese.png)`;
-      markerOptions.element = el;
-    }
-    if (restaurantType.toLowerCase().includes("Steak".toLowerCase())) {
-      el.style.backgroundImage =
-        `url(Steak.png)`;
-      markerOptions.element = el;
-    }
-    if (restaurantType.toLowerCase().includes("Australian".toLowerCase())) {
-      el.style.backgroundImage =
-        `url(Australian.png)`;
-      markerOptions.element = el;
-    }
-    if (restaurantType.includes("Wine")) {
-      el.style.backgroundImage =
-        `url(WineBar.png)`;
-      markerOptions.element = el;
-    }
-    if (restaurantType.includes("Brewery") || restaurantType.includes("Brewpub")
-      || restaurantType.includes("Pub") || restaurantType.includes("Sports bar")) {
-      el.style.backgroundImage =
-        `url(Bar.png)`;
-      markerOptions.element = el;
-    }
-
-    if (restaurantName.includes('Woolworths')) {
-      el.style.backgroundImage =
-        `url(Woolworths.png)`;
-      markerOptions.element = el;
-    }
-    if (restaurantName.includes('Coles')) {
-      el.style.backgroundImage =
-        `url(Coles.png)`;
-      markerOptions.element = el;
-    }
-    if (restaurantName.includes('Nando')) {
-      el.style.backgroundImage =
-        `url(Nandos.png)`;
-      markerOptions.element = el;
-    }
-    if (restaurantName.toLowerCase().includes("McDonald's".toLowerCase())) {
-      el.style.backgroundImage =
-        `url(McDonalds.png)`;
-      markerOptions.element = el;
-    }
-    if (restaurantName.includes("Subway")) {
-      el.style.backgroundImage =
-        `url(Subway.png)`;
-      markerOptions.element = el;
-    }
-    if (restaurantName.includes("Domino's")) {
-      el.style.backgroundImage =
-        `url(Dominos.png)`;
-      markerOptions.element = el;
-    }
-
-
-
-    return markerOptions;
-  }
 }
 
 export class Restaurant {
