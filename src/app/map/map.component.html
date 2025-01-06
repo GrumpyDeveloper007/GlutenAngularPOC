@@ -3,6 +3,11 @@
         <button (click)="modalService.open('modal-1')">Find specific restaurant type</button>
         <a [href]="fileUrl" download="file.csv">Download Selected Pins</a>
         <span> Pin count : {{selectedPins}}</span>
+        <div *ngIf="loaded" style="display: flex;justify-content: center;align-items: center;">
+            <mat-spinner></mat-spinner>
+            <p>Loading</p>
+        </div>
+
     </div>
 
     <a href="https://www.maptiler.com" class="watermark">

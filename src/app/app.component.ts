@@ -9,7 +9,7 @@ import { TopicGroup } from "./_model/model";
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavbarComponent, MapComponent, SidebarComponent, MapfiltersComponent],
+  imports: [NavbarComponent, MapComponent, SidebarComponent, MapfiltersComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy, EventEmitter, Output, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgFor } from '@angular/common';
+import { NgIf, NgFor } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Map, NavigationControl, Marker, MarkerOptions } from 'maplibre-gl';
@@ -8,8 +8,9 @@ import * as maplibre from 'maplibre-gl';
 import { forkJoin, Observable, tap } from 'rxjs';
 import { GMapsPin, TopicGroup } from "../_model/model";
 import { Others, restaurantTypes } from "../_model/staticData";
-import { ModalService, GlutenApiService, LocationService, MapDataService, PinService } from '../_services';
+import { ModalService, GlutenApiService, LocationService, MapDataService, PinService, DiagnosticService } from '../_services';
 import { ModalComponent } from '../_components';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-map',
@@ -17,9 +18,11 @@ import { ModalComponent } from '../_components';
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css'],
   imports: [
+    NgIf,
     NgFor,
     ModalComponent,
     FormsModule,
+    MatProgressSpinnerModule
   ],
 })
 export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -30,9 +33,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   currentMarkers: Marker[] = [];
   restaurants: Restaurant[] = [];
   fileUrl: SafeResourceUrl = "";
-  pinTopics: TopicGroup[] = [];
   pinCache: { [id: string]: TopicGroup[]; } = {};
-  gmPins: GMapsPin[] = [];
   gmPinCache: { [id: string]: GMapsPin[]; } = {};
   selectedPins = 0;
   _showHotels: boolean = true;
@@ -40,13 +41,15 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   _showOthers: boolean = true;
   _showGMPins: boolean = true;
   mapBounds: maplibre.LngLatBounds = new maplibre.LngLatBounds();
+  loaded = false;
 
   constructor(public sanitizer: DomSanitizer,
     protected modalService: ModalService, private http: HttpClient,
     private apiService: GlutenApiService,
     private locationService: LocationService,
     private mapDataService: MapDataService,
-    private pinService: PinService) { }
+    private pinService: PinService,
+    private diagService: DiagnosticService) { }
 
   @Input() set showHotels(value: boolean) {
     this._showHotels = value;
@@ -118,6 +121,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.map?.remove();
   }
   async ngAfterViewInit() {
+    this.loaded = true;
     restaurantTypes.forEach(restaurant => {
       var a = new Restaurant(true, restaurant);
       this.restaurants.push(a);
@@ -174,12 +178,10 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   loadMapPins() {
-    this.pinTopics = [];
-    this.gmPins = [];
-
+    const howLong = this.diagService.timer();
     if ((this.map === undefined)) return;
-
     const bounds = this.map.getBounds();
+
     // Trigger api calls
     var waitForDataLoad = false;
     const countryNames = this.mapDataService.getCountriesInView(bounds);
@@ -187,89 +189,96 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     const requests: Observable<any>[] = [];
     for (let key in countryNames) {
       let value = countryNames[key];
-      if (value in this.pinCache) {
-        // key exists
-        this.pinTopics = this.pinTopics.concat(this.pinCache[value]);
-      } else {
+      if (!(value in this.pinCache)) {
         // key does not exist
         waitForDataLoad = true;
         this.pinCache[value] = [];
         requests.push(this.apiService.getPinTopic(value).pipe(
           tap(data => {
             this.pinCache[value] = data;
-            this.pinTopics = this.pinTopics.concat(this.pinCache[value]);
           })));
       }
 
-      if (value in this.gmPinCache) {
-        // key exists
-        this.gmPins = this.gmPins.concat(this.gmPinCache[value]);
-      } else {
+      if (!(value in this.gmPinCache)) {
         // key does not exist
         waitForDataLoad = true;
         this.gmPinCache[value] = [];
         requests.push(this.apiService.getGMPin(value).pipe(
           tap(data => {
             this.gmPinCache[value] = data;
-            this.gmPins = this.gmPins.concat(this.gmPinCache[value]);
           })));
       }
     }
 
     forkJoin(requests).subscribe(_ => {
       // all observables have been completed
-      this.showMapPins();
+      console.debug("Loading data complete :");
+      console.log(howLong.ms);
+      this.showMapPins(countryNames);
     });
 
     if (!waitForDataLoad) {
-      this.showMapPins();
+      console.debug("Data load skipped:");
+      this.showMapPins(countryNames);
     }
-
   }
 
-  showMapPins() {
+  getPinsInCountries(countryNames: string[]): TopicGroup[] {
+    var pinTopics: TopicGroup[] = [];
+
+    countryNames.forEach(key => {
+      pinTopics = pinTopics.concat(this.pinCache[key]);
+    });
+    return pinTopics;
+  }
+
+  getGMPinsInCountries(countryNames: string[]): GMapsPin[] {
+    var gmPins: GMapsPin[] = [];
+
+    countryNames.forEach(key => {
+      gmPins = gmPins.concat(this.gmPinCache[key]);
+    });
+    return gmPins;
+  }
+
+
+  showMapPins(countryNames: string[]) {
+    const howLong = this.diagService.timer();
+    var pinTopics = this.getPinsInCountries(countryNames);
+    var gmPins = this.getGMPinsInCountries(countryNames);
+    this.loaded = false;
     var map: Map;
     if ((this.map === undefined)) return;
     var map = this.map
-    var exportData = "Latitude, Longitude, Description\r\n";
+    var pinsToExport: (TopicGroup | GMapsPin)[] = [];
     this.selectedPins = 0;
 
-    console.debug("Updating pins");
+    console.debug("Updating pins :" + pinTopics.length);
     const bounds = map.getBounds();
 
     // Remove existing pins
     this.currentMarkers.forEach((marker: Marker) => marker.remove())
     this.currentMarkers = [];
 
-    this.pinTopics.forEach(pin => {
+    pinTopics.forEach(pin => {
       try {
         if (this.selectedPins >= 400) return;
-        if (pin.geoLatitude > bounds._ne.lat) return;
-        if (pin.geoLatitude < bounds._sw.lat) return;
-        if (pin.geoLongitude > bounds._ne.lng) return;
-        if (pin.geoLongitude < bounds._sw.lng) return;
+        if (!this.pinService.isInBounds(pin.geoLatitude, pin.geoLongitude, bounds)) return;
 
-        var isStore = this.pinService.isStore(pin);
-        var isHotel = this.pinService.isHotel(pin);
-        var isOther = this.pinService.isOther(pin);
         var isSelected = this.isSelected(pin.restaurantType);
         if (!isSelected) return;
-        if (!this._showHotels && isHotel) return;
-        if (!this._showStores && isStore) return;
-        if (!this._showOthers && isOther) return;
+        if (!this._showHotels && this.pinService.isHotel(pin)) return;
+        if (!this._showStores && this.pinService.isStore(pin)) return;
+        if (!this._showOthers && this.pinService.isOther(pin)) return;
         this.selectedPins++;
-        exportData += `${pin.geoLatitude},${pin.geoLongitude},${pin.label}\r\n`;
+        pinsToExport.push(pin);
 
         // trigger event to call a function back in angular
-        var popup = new maplibre.Popup({ offset: 25 })
-          .setHTML(`<h3>${pin.label}</h3>`)
-          .on('open', () => {
-            this.pinSelected(pin);
-          });
-        var color = "#FF0000";
-        if (isHotel) color = "#00FF00";
-        if (isStore) color = "#0000FF";
-        if (isOther) color = "#00FFFF";
+        var popup = this.pinService.createPopup(pin.label);
+        popup.on('open', () => {
+          this.pinSelected(pin);
+        });
+        var color = this.pinService.getColor(pin);
 
         const marker = new Marker(this.pinService.getMarkerOptions(color, pin.restaurantType ?? "", pin.label))
           .setLngLat([pin.geoLongitude, pin.geoLatitude])
@@ -281,27 +290,22 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     if (this._showGMPins) {
-      this.gmPins.forEach(pin => {
+      gmPins.forEach(pin => {
         try {
           if (this.selectedPins >= 400) return;
-          if (Number.parseFloat(pin.geoLatitude) > bounds._ne.lat) return;
-          if (Number.parseFloat(pin.geoLatitude) < bounds._sw.lat) return;
-          if (Number.parseFloat(pin.geoLongitude) > bounds._ne.lng) return;
-          if (Number.parseFloat(pin.geoLongitude) < bounds._sw.lng) return;
-
+          if (!this.pinService.isInBounds(parseFloat(pin.geoLatitude), parseFloat(pin.geoLongitude), bounds)) return;
           var isSelected = this.isSelected(pin.restaurantType);
           if (!isSelected) return;
 
-
           this.selectedPins++;
-          exportData += `${pin.geoLatitude},${pin.geoLongitude},${pin.label}\r\n`;
+          pinsToExport.push(pin);
 
           // trigger event to call a function back in angular
-          var popup = new maplibre.Popup({ offset: 25 })
-            .setHTML(`<h3>${pin.label}</h3>`)
-            .on('open', () => {
-              this.pinSelected(pin);
-            });
+          var popup = this.pinService.createPopup(pin.label);
+          popup.on('open', () => {
+            this.pinSelected(pin);
+          });
+
           var color = "#7f7f7f";
 
           const marker = new Marker(this.pinService.getMarkerOptions(color, pin.restaurantType ?? "", pin.label))
@@ -314,11 +318,14 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     console.debug("selected pins :" + this.selectedPins);
+    console.log(howLong.ms);
+    var exportData = "Latitude, Longitude, Description\r\n";
+    pinsToExport.forEach(pin => {
+      exportData += `${pin.geoLatitude},${pin.geoLongitude},${pin.label}\r\n`;
+    });
     const blob = new Blob([exportData], { type: 'application/octet-stream' });
     this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
   }
-
-
 }
 
 export class Restaurant {

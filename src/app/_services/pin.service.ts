@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { MarkerOptions } from 'maplibre-gl';
 import { TopicGroup } from '../_model/model';
 import { Others } from "../_model/staticData";
+import * as maplibre from 'maplibre-gl';
 
 
 @Injectable({
@@ -31,6 +32,28 @@ export class PinService {
     isOther(pin: TopicGroup): boolean {
         return pin.restaurantType == null || Others.includes(pin.restaurantType);
     }
+
+    isInBounds(geoLatitude: number, geoLongitude: number, bounds: maplibregl.LngLatBounds): boolean {
+        return bounds.contains([geoLongitude, geoLatitude]);
+        //        if (pin.geoLatitude > bounds._ne.lat) return;
+        //     if (pin.geoLatitude < bounds._sw.lat) return;
+        //     if (pin.geoLongitude > bounds._ne.lng) return;
+        //     if (pin.geoLongitude < bounds._sw.lng) return;
+    }
+
+    createPopup(label: string): maplibre.Popup {
+        return new maplibre.Popup({ offset: 25 })
+            .setHTML(`<h3>${label}</h3>`);
+    }
+
+    getColor(pin: TopicGroup): string {
+        var color = "#FF0000";
+        if (this.isHotel(pin)) color = "#00FF00";
+        if (this.isStore(pin)) color = "#0000FF";
+        if (this.isOther(pin)) color = "#00FFFF";
+        return color;
+    }
+
 
     getMarkerOptions(color: string, restaurantType: string, restaurantName: string): MarkerOptions {
         var el = document.createElement('div');
@@ -137,7 +160,7 @@ export class PinService {
         }
         if (restaurantType.includes("Brewery") || restaurantType.includes("Brewpub")
             || restaurantType.includes("Pub") || restaurantType.includes("Sports bar")) {
-            return `url(Bar.png)`;
+            return `url(Brewery.png)`;
         }
         if (restaurantType.toLowerCase().includes('chicken')) {
             return `url(Chicken.png)`;
