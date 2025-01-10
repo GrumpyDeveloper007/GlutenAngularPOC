@@ -3,6 +3,7 @@ import { MarkerOptions } from 'maplibre-gl';
 import { TopicGroup } from '../_model/model';
 import { Others } from "../_model/staticData";
 import * as maplibre from 'maplibre-gl';
+import L from "leaflet";
 
 
 @Injectable({
@@ -41,6 +42,14 @@ export class PinService {
         //     if (pin.geoLongitude < bounds._sw.lng) return;
     }
 
+    isInBoundsLeaflet(geoLatitude: number, geoLongitude: number, bounds: L.LatLngBounds): boolean {
+        if (geoLatitude > bounds.getNorthEast().lat) return false;
+        if (geoLatitude < bounds.getSouthWest().lat) return false;
+        if (geoLongitude > bounds.getNorthEast().lng) return false;
+        if (geoLongitude < bounds.getSouthWest().lng) return false;
+        return true;
+    }
+
     createPopup(label: string): maplibre.Popup {
         return new maplibre.Popup({ offset: 25 })
             .setHTML(`<h3>${label}</h3>`);
@@ -65,118 +74,115 @@ export class PinService {
 
         var markerOptions: MarkerOptions = ({ color: color });
 
-        var url = this.getUrlForType(restaurantType, restaurantName);
+        var url = this.getUrlForType(restaurantType);
         if (url != null) {
-            el.style.backgroundImage = url;
+            el.style.backgroundImage = `url(${url})`;
             markerOptions.element = el;
         }
 
         var url = this.getUrlForChain(restaurantName);
         if (url != null) {
-            el.style.backgroundImage = url;
+            el.style.backgroundImage = `url(${url})`;
             markerOptions.element = el;
         }
         return markerOptions;
     }
 
-    getUrlForType(restaurantType: string, restaurantName: string): string | null {
+    getUrlForType(restaurantType: string): string | null {
         if (restaurantType.toLowerCase().includes("sushi")) {
-            return `url(Sushi.png)`;
+            return `Sushi.png`;
         }
 
         if (restaurantType.toLowerCase().includes("cake")) {
-            return `url(Cake.png)`;
+            return `Cake.png`;
         }
 
         if (restaurantType.toLowerCase().includes("ice cream")) {
-            return `url(IceCream.png)`;
+            return `IceCream.png`;
         }
         if (restaurantType.toLowerCase().includes("Cake shop")
             || restaurantType.toLowerCase().includes("dessert shop")) {
-            return `url(Cheesecake.png)`;
+            return `Cheesecake.png`;
         }
 
         if (restaurantType.includes("Donut")) {
-            return `url(Donut.png)`;
+            return `Donut.png`;
         }
         if (restaurantType.includes("Mexican")) {
-            return `url(Mexican.png)`;
+            return `Mexican.png`;
         }
         if (restaurantType.includes("Bubble tea")) {
-            return `url(BubbleTea.png)`;
+            return `BubbleTea.png`;
         }
         if (restaurantType.includes("Bottle Shop and Liquor Store")) {
-            return `url(BottleShop.png)`;
+            return `BottleShop.png`;
         }
         if (restaurantType.toLowerCase().includes("cafe") || restaurantType == "Coffee shop") {
-            return `url(Cafe.png)`;
+            return `Cafe.png`;
         }
         if (restaurantType.includes('Fish & Chips')
             || restaurantType.includes('Fish & Chips')
             || restaurantType.includes('Fish and chips')
             || restaurantType.includes('Fish & chips')
         ) {
-            return `url(FishAndChips.png)`;
+            return `FishAndChips.png`;
         }
-        if (restaurantType.includes("Pizza")
-            || restaurantName.includes("Pizza")) {
-            return `url(Pizza.png)`;
+        if (restaurantType.includes("Pizza")) {
+            return `Pizza.png`;
         }
         if (restaurantType.includes("Vegan")
-            || restaurantName.includes("Vegan")
             || restaurantType.toLowerCase().includes("vegetarian")
-            || restaurantName.toLowerCase().includes("vegetarian")
         ) {
-            return `url(Vegan.png)`;
+            return `Vegan.png`;
         }
         if (restaurantType.toLowerCase().includes("Bakery".toLowerCase())) {
-            return `url(Bread.png)`;
+            return `Bread.png`;
         }
         if (restaurantType.toLowerCase().includes("Thai".toLowerCase())) {
-            return `url(Thai.png)`;
+            return `Thai.png`;
         }
         if (restaurantType.includes("Barbecue")) {
-            return `url(BBQ.png)`;
+            return `BBQ.png`;
         }
         if (restaurantType.includes("Japanese")) {
-            return `url(Japanese.png)`;
+            return `Japanese.png`;
         }
         if (restaurantType.includes("Italian")) {
-            return `url(Italian.png)`;
+            return `Italian.png`;
         }
         if (restaurantType.includes("French")) {
-            return `url(French.png)`;
+            return `French.png`;
         }
         if (restaurantType.includes("Balinese")) {
-            return `url(Balinese.png)`;
+            return `Balinese.png`;
         }
         if (restaurantType.includes("Chinese")) {
-            return `url(Chinese.png)`;
+            return `Chinese.png`;
         }
         if (restaurantType.includes("Hamburger")) {
-            return `url(Hamburger.png)`;
+            return `Hamburger.png`;
         }
         if (restaurantType.includes("Vietnamese")) {
-            return `url(Vietnamese.png)`;
+            return `Vietnamese.png`;
         }
         if (restaurantType.toLowerCase().includes("Steak".toLowerCase())) {
-            return `url(Steak.png)`;
+            return `Steak.png`;
         }
         if (restaurantType.toLowerCase().includes("Australian".toLowerCase())) {
-            return `url(Australian.png)`;
+            return `Australian.png`;
         }
         if (restaurantType.includes("Wine")) {
-            return `url(WineBar.png)`;
+            return `WineBar.png`;
         }
         if (restaurantType.includes("Brewery") || restaurantType.includes("Brewpub")
             || restaurantType.includes("Pub") || restaurantType.includes("Sports bar")) {
-            return `url(Brewery.png)`;
+            return `Brewery.png`;
         }
         if (restaurantType.toLowerCase().includes('chicken')) {
-            return `url(Chicken.png)`;
+            return `Chicken.png`;
         }
         if (restaurantType.toLowerCase().includes('butcher')) {
-            return `url(Butcher.png)`;
+            return `Butcher.png`;
         }
 
         return null;
@@ -185,47 +191,110 @@ export class PinService {
 
 
     getUrlForChain(restaurantName: string): string | null {
+        if (restaurantName.includes("Pizza")) {
+            return `Pizza.png`;
+        }
+        if (restaurantName.includes("Vegan")
+            || restaurantName.toLowerCase().includes("vegetarian")
+        ) {
+            return `Vegan.png`;
+        }
         if (restaurantName.includes('Woolworths')) {
-            return `url(Woolworths.png)`;
+            return `Woolworths.png`;
         }
         if (restaurantName.includes('Coles')) {
-            return `url(Coles.png)`;
+            return `Coles.png`;
         }
         if (restaurantName.includes('Nando')) {
-            return `url(Nandos.png)`;
+            return `Nandos.png`;
         }
         if (restaurantName.toLowerCase().includes("McDonald's".toLowerCase())) {
-            return `url(McDonalds.png)`;
+            return `McDonalds.png`;
         }
         if (restaurantName.includes("Subway")) {
-            return `url(Subway.png)`;
+            return `Subway.png`;
         }
         if (restaurantName.includes("Domino's")) {
-            return `url(Dominos.png)`;
+            return `Dominos.png`;
         }
         if (restaurantName.includes("KFC")) {
-            return `url(KFC.png)`;
+            return `KFC.png`;
         }
         if (restaurantName.includes("Taco Bell")) {
-            return `url(TacoBell.png)`;
+            return `TacoBell.png`;
         }
         if (restaurantName.includes("Zambrero")) {
-            return `url(Zambrero.png)`;
+            return `Zambrero.png`;
         }
         if (restaurantName.includes("ALDI")) {
-            return `url(ALDI.png)`;
+            return `ALDI.png`;
         }
         if (restaurantName.includes("IGA")) {
-            return `url(IGA.png)`;
+            return `IGA.png`;
         }
         if (restaurantName.includes("7-Eleven")) {
-            return `url(711.png)`;
+            return `711.png`;
         }
         if (restaurantName.toLowerCase().includes("familymart")) {
-            return `url(FamilyMart.png)`;
+            return `FamilyMart.png`;
         }
 
         return null;
+    }
+
+    getMarkerIcon(color: string, restaurantType: string | null, restaurantName: string | null): L.Icon {
+        var el = document.createElement('div');
+        el.style.width = '36px';
+        el.style.height = '48px';
+        el.style.backgroundSize = 'contain';
+        el.style.backgroundRepeat = 'no-repeat';
+        el.style.backgroundPosition = 'center center';
+
+        var genericUrl = "/Empty.png";
+        if (color == "#FF0000") {
+            genericUrl = "Red.png";
+        }
+        else if (color == "#00FF00") {
+            genericUrl = "Green.png";
+        }
+        else if (color == "#0000FF") {
+            genericUrl = "Blue.png";
+        }
+        else if (color == "#00FFFF") {
+            genericUrl = "Cyan.png";
+        }
+        else if (color == "#7f7f7f") {
+            genericUrl = "Grey.png";
+        }
+
+        var customIcon = L.icon({
+            iconUrl: genericUrl,
+            iconSize: [30, 40],
+            iconAnchor: [15, 40],
+        });
+
+        if (restaurantType != null) {
+            var url = this.getUrlForType(restaurantType);
+            if (url != null) {
+                customIcon = L.icon({
+                    iconUrl: url,
+                    iconSize: [36, 48],
+                    iconAnchor: [18, 48],
+                });
+            }
+        }
+
+        if (restaurantName != null) {
+            var url = this.getUrlForChain(restaurantName);
+            if (url != null) {
+                customIcon = L.icon({
+                    iconUrl: url,
+                    iconSize: [36, 48],
+                    iconAnchor: [18, 48],
+                });
+            }
+        }
+        return customIcon;
     }
 
 

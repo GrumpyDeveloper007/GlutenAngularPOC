@@ -1,0 +1,29 @@
+<div class="map-wrap">
+    <div>
+        <button (click)="modalService.open('modal-1')">Find specific restaurant type</button>
+        <a [href]="fileUrl" download="file.csv">Download Selected Pins</a>
+        <span> Pin count : {{selectedPins}}</span>
+        <div *ngIf="loaded" style="display: flex;justify-content: center;align-items: center;">
+            <mat-spinner></mat-spinner>
+            <p>Loading</p>
+        </div>
+
+    </div>
+
+    <!--     <div class="map" leaflet [leafletOptions]="options">
+    </div> -->
+    <div id="map" class="map" #map id="map" style="height: calc(100vh - 100px);"></div>
+
+    <jw-modal id="modal-1">
+        <h1>Slect restaurant type -</h1>
+        <button (click)="selectNone()">Select None</button>
+        <button (click)="selectAll()">Select All</button>
+        <button (click)="selectComplete()">Close</button>
+        <div *ngFor="let item of restaurants; let i=index; ">
+            <label><input [(ngModel)]="item.Show" type="checkbox" />
+                {{item.Name}}
+            </label>
+        </div>
+    </jw-modal>
+
+</div>

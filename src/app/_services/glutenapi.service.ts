@@ -33,19 +33,26 @@ export class GlutenApiService {
         };
     }
 
+    // Dev
+    baseUrl = "https://thedevshire.azurewebsites.net";
+    // Prod
+    //baseUrl = "https://thegfshire.azurewebsites.net";
+    // Local
+    //baseUrl = "http://localhost:7121";
+
     getPinTopic(country: string): Observable<TopicGroup[]> {
-        return this.http.get<TopicGroup[]>("https://thegfshire.azurewebsites.net/api/PinTopic?country=" + country, this.httpOptions)
+        return this.http.get<TopicGroup[]>(this.baseUrl + "/api/PinTopicV2?country=" + country, this.httpOptions)
             .pipe(catchError(this.handleError<TopicGroup[]>(`getPinTopic id=${country}`)));
     }
 
     getGMPin(country: string): Observable<GMapsPin[]> {
-        return this.http.get<GMapsPin[]>("https://thegfshire.azurewebsites.net/api/GMapsPin?country=" + country, this.httpOptions)
+        return this.http.get<GMapsPin[]>(this.baseUrl + "/api/GMapsPin?country=" + country, this.httpOptions)
             .pipe(catchError(this.handleError<GMapsPin[]>(`getGMPin id=${country}`)));
     }
 
     postMapHome(geoLatitude: number, geoLongitude: number): Observable<any> {
         console.debug("postMapHome: " + geoLatitude + " " + geoLongitude);
-        return this.http.post("https://thegfshire.azurewebsites.net/api/MapHome", JSON.stringify({ geoLatitude, geoLongitude }), this.httpOptionsPost)
+        return this.http.post(this.baseUrl + "/api/MapHome", JSON.stringify({ geoLatitude, geoLongitude }), this.httpOptionsPost)
             .pipe(catchError(this.handleError()));
 
     }

@@ -34,7 +34,6 @@ export class TopicGroupClass {
 export interface Topic {
     title: string
     facebookUrl: string
-    nodeID: string
     shortTitle: string
     postCreated: Date
 }

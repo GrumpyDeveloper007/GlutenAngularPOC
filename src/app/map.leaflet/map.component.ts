@@ -3,14 +3,14 @@ import { FormsModule } from '@angular/forms';
 import { NgIf, NgFor } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { Map, NavigationControl, Marker, MarkerOptions } from 'maplibre-gl';
-import * as maplibre from 'maplibre-gl';
 import { forkJoin, Observable, tap } from 'rxjs';
 import { GMapsPin, TopicGroup } from "../_model/model";
 import { Others, restaurantTypes } from "../_model/staticData";
 import { ModalService, GlutenApiService, LocationService, MapDataService, PinService, DiagnosticService } from '../_services';
 import { ModalComponent } from '../_components';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { latLng, LatLngBounds, tileLayer } from 'leaflet';
+import * as L from 'leaflet';
 
 @Component({
   selector: 'app-map',
@@ -25,12 +25,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatProgressSpinnerModule
   ],
 })
-export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
+export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output() selectedTopicGroupChange = new EventEmitter<TopicGroup>();
   @ViewChild('map') mapContainer!: ElementRef<HTMLElement>;
-  map: Map | undefined;
+  map: L.Map | undefined;
   selectedTopicGroup: TopicGroup | null = null;
-  currentMarkers: Marker[] = [];
   restaurants: Restaurant[] = [];
   fileUrl: SafeResourceUrl = "";
   pinCache: { [id: string]: TopicGroup[]; } = {};
@@ -40,8 +39,10 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   _showStores: boolean = true;
   _showOthers: boolean = true;
   _showGMPins: boolean = true;
-  mapBounds: maplibre.LngLatBounds = new maplibre.LngLatBounds();
+  mapBounds: LatLngBounds = new LatLngBounds([46.879966, -121.726909], [46.879966, -121.726909]);
   loaded = false;
+
+  markerGroup: L.LayerGroup = new L.LayerGroup();
 
   constructor(public sanitizer: DomSanitizer,
     protected modalService: ModalService, private http: HttpClient,
@@ -53,27 +54,18 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Input() set showHotels(value: boolean) {
     this._showHotels = value;
-    console.debug("Map Hotels click ");
-    // clear pins
-    this.currentMarkers.forEach((marker: Marker) => marker.remove())
     this.loadMapPins();
   }
   @Input() set showStores(value: boolean) {
     this._showStores = value;
-    console.debug("Map Stores click ");
-    // clear pins
-    this.currentMarkers.forEach((marker: Marker) => marker.remove())
     this.loadMapPins();
   }
   @Input() set showOthers(value: boolean) {
     this._showOthers = value;
-    // clear pins
-    this.currentMarkers.forEach((marker: Marker) => marker.remove())
     this.loadMapPins();
   }
   @Input() set showGMPins(value: boolean) {
     this._showGMPins = value;
-    this.currentMarkers.forEach((marker: Marker) => marker.remove())
     this.loadMapPins();
   }
 
@@ -115,25 +107,25 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     return;
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    var location = { latitude: 35.6844, longitude: 139.753 };
+    this.map = L.map('map').setView([location.latitude, location.longitude], 8);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(this.map);
+    this.map.addLayer(this.markerGroup);
   }
   ngOnDestroy() {
-    this.map?.remove();
   }
   async ngAfterViewInit() {
     this.loaded = true;
+    if ((this.map === undefined)) return;
     restaurantTypes.forEach(restaurant => {
       var a = new Restaurant(true, restaurant);
       this.restaurants.push(a);
     });
-
-    var geoLocation = new maplibre.GeolocateControl({
-      positionOptions: {
-        enableHighAccuracy: true
-
-      },
-      trackUserLocation: true
-    });
+    // Makerを配置
+    //L.marker([0, 0]).bindPopup('<b>Hello!!</b>').addTo(this.map);
 
     var location = { latitude: 35.6844, longitude: 139.753 };
     await this.locationService.getUserLocation()
@@ -146,21 +138,11 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.apiService.postMapHome(location.latitude, location.longitude).subscribe();
 
     const initialState = { lng: location.longitude, lat: location.latitude, zoom: 14 };
-    this.map = new Map({
-      container: this.mapContainer.nativeElement,
-      style: `https://api.maptiler.com/maps/streets-v2/style.json?key=1nY38lyeIv8XEbtohY5t`,
-      center: [initialState.lng, initialState.lat],
-      zoom: initialState.zoom,
-      interactive: true,
-      renderWorldCopies: false
-    });
-
-    this.map.addControl(geoLocation);
-    this.map.addControl(new NavigationControl({}), 'top-right');
+    this.map.setView([initialState.lat, initialState.lng], initialState.zoom);
     this.mapBounds = this.map.getBounds();
 
     this.map
-      .on('moveend', (e: MouseEvent | TouchEvent | WheelEvent | undefined) => {
+      .on('moveend', (e: L.LeafletEvent) => {
         if ((this.map === undefined)) return;
         var newBounds = this.map.getBounds();
         if (newBounds.getNorthEast().lat == this.mapBounds.getNorthEast().lat &&
@@ -172,7 +154,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.loadMapPins();
   }
 
-  mapMoved(e: MouseEvent | TouchEvent | WheelEvent | undefined) {
+  mapMoved(e: L.LeafletEvent) {
     if ((this.map === undefined)) return;
     this.loadMapPins();
   }
@@ -227,6 +209,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     var pinTopics: TopicGroup[] = [];
 
     countryNames.forEach(key => {
+      console.log("selected :", this.pinCache[key])
       pinTopics = pinTopics.concat(this.pinCache[key]);
     });
     return pinTopics;
@@ -247,7 +230,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     var pinTopics = this.getPinsInCountries(countryNames);
     var gmPins = this.getGMPinsInCountries(countryNames);
     this.loaded = false;
-    var map: Map;
+    var map: L.Map;
     if ((this.map === undefined)) return;
     var map = this.map
     var pinsToExport: (TopicGroup | GMapsPin)[] = [];
@@ -257,13 +240,12 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     const bounds = map.getBounds();
 
     // Remove existing pins
-    this.currentMarkers.forEach((marker: Marker) => marker.remove())
-    this.currentMarkers = [];
+    this.markerGroup.clearLayers();
 
     pinTopics.forEach(pin => {
       try {
         if (this.selectedPins >= 400) return;
-        if (!this.pinService.isInBounds(pin.geoLatitude, pin.geoLongitude, bounds)) return;
+        if (!this.pinService.isInBoundsLeaflet(pin.geoLatitude, pin.geoLongitude, bounds)) return;
 
         var isSelected = this.isSelected(pin.restaurantType);
         if (!isSelected) return;
@@ -280,20 +262,23 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         });
         var color = this.pinService.getColor(pin);
 
-        const marker = new Marker(this.pinService.getMarkerOptions(color, pin.restaurantType ?? "", pin.label))
-          .setLngLat([pin.geoLongitude, pin.geoLatitude])
-          .setPopup(popup)
-          .addTo(map);
-        this.currentMarkers.push(marker);
-      } catch { }
+        const marker = new L.Marker([pin.geoLatitude, pin.geoLongitude])
+        marker.setIcon(this.pinService.getMarkerIcon(color, pin.restaurantType, pin.label));
+        marker.addEventListener('click', () => {
+          this.pinSelected(pin);
+        })
+        marker.addTo(this.markerGroup);
 
+      } catch {
+        console.error("Error adding pin to map");
+      }
     });
 
     if (this._showGMPins) {
       gmPins.forEach(pin => {
         try {
           if (this.selectedPins >= 400) return;
-          if (!this.pinService.isInBounds(parseFloat(pin.geoLatitude), parseFloat(pin.geoLongitude), bounds)) return;
+          if (!this.pinService.isInBoundsLeaflet(parseFloat(pin.geoLatitude), parseFloat(pin.geoLongitude), bounds)) return;
           var isSelected = this.isSelected(pin.restaurantType);
           if (!isSelected) return;
 
@@ -308,12 +293,15 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
           var color = "#7f7f7f";
 
-          const marker = new Marker(this.pinService.getMarkerOptions(color, pin.restaurantType ?? "", pin.label))
-            .setLngLat([parseFloat(pin.geoLongitude), parseFloat(pin.geoLatitude)])
-            .setPopup(popup)
-            .addTo(map);
-          this.currentMarkers.push(marker);
-        } catch { }
+          const marker = new L.Marker([parseFloat(pin.geoLatitude), parseFloat(pin.geoLongitude)])
+          marker.setIcon(this.pinService.getMarkerIcon(color, pin.restaurantType, pin.label));
+          marker.addEventListener('click', () => {
+            this.pinSelected(pin);
+          })
+          marker.addTo(this.markerGroup);
+        } catch {
+
+        }
       });
     }
 
