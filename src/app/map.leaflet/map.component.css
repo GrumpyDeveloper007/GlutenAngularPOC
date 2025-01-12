@@ -1,5 +1,12 @@
+.page {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
 .map {
-  height: 290px;
+  flex: 1;
   width: 100%;
 }
 
@@ -17,19 +24,14 @@ jw-modal {
   border: 1px solid #ccc;
 }
 
-@media (min-width:1024px) {
-  .map {
-    height: calc(100vh - 80px);
-  }
-}
 
 jw-modal.active {
   display: block;
 }
 
 jw-modal h1 {
-  margin: 0 0 20px;
-  font-size: 1.5em;
+  margin: 0 0 15px;
+  font-size: 1.2em;
   color: #333;
 }
 
@@ -44,18 +46,18 @@ jw-modal input[type="checkbox"] {
 }
 
 jw-modal label {
-  font-size: 1em;
+  font-size: 0.9em;
   color: #555;
 }
 
 button {
-  margin: 8px;
-  padding: 8px 16px;
+  margin: 4px;
+  padding: 6px 12px;
   background-color: #4CAF50;
   color: black;
   border: none;
   border-radius: 4px;
-  font-size: 0.9em;
+  font-size: 0.8em;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
@@ -66,4 +68,57 @@ button:hover {
 
 input {
   accent-color: #4CAF50;
+}
+
+span {
+  font-size: 0.8em;
+}
+
+/* Desktop styles */
+@media (min-width: 1024px) {
+  button {
+    margin: 8px;
+    padding: 8px 16px;
+    font-size: 0.9em;
+  }
+
+  span {
+    font-size: 1em;
+  }
+
+  jw-modal h1 {
+    margin: 0 0 20px;
+    font-size: 1.5em;
+  }
+
+  jw-modal label {
+    font-size: 1em;
+  }
+}
+
+/* Add these styles for the loading overlay */
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.loading-content p {
+  margin: 0;
+  color: #333;
+  font-size: 0.9em;
 }

@@ -152,6 +152,12 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
     this.loadMapPins();
+
+    // Add this after the map is initialized
+    setTimeout(() => {
+      if ((this.map === undefined)) return;
+      this.map.invalidateSize();
+    }, 1000);
   }
 
   mapMoved(e: L.LeafletEvent) {

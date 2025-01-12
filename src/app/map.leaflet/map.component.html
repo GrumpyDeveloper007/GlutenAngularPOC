@@ -3,15 +3,16 @@
         <button (click)="modalService.open('modal-1')">Find specific restaurant type</button>
         <a [href]="fileUrl" download="file.csv">Download Selected Pins</a>
         <span> Pin count : {{selectedPins}}</span>
-        <div *ngIf="loaded" style="display: flex;justify-content: center;align-items: center;">
-            <mat-spinner></mat-spinner>
-            <p>Loading</p>
-        </div>
-
     </div>
 
     <div id="map" class="map"></div>
 
+    <div *ngIf="loaded" class="loading-overlay">
+        <div class="loading-content">
+            <mat-spinner></mat-spinner>
+            <p>Loading</p>
+        </div>
+    </div>
 
     <jw-modal id="modal-1">
         <h1>Slect restaurant type -</h1>
@@ -24,5 +25,4 @@
             </label>
         </div>
     </jw-modal>
-
 </div>
