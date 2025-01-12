@@ -53,7 +53,8 @@ export var Others: Array<string> = ['Train station',
     'Concert hall',
     'Tour operator',
     'Art gallery',
-    'Health and beauty shop'];
+    'Health and beauty shop',
+    'War memorial'];
 
 
 export var restaurantTypes: string[] = [

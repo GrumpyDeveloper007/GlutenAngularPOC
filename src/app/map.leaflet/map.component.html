@@ -1,4 +1,4 @@
-<div class="map-wrap">
+<div class="page">
     <div>
         <button (click)="modalService.open('modal-1')">Find specific restaurant type</button>
         <a [href]="fileUrl" download="file.csv">Download Selected Pins</a>
@@ -10,9 +10,8 @@
 
     </div>
 
-    <!--     <div class="map" leaflet [leafletOptions]="options">
-    </div> -->
-    <div id="map" class="map" #map id="map" style="height: calc(100vh - 100px);"></div>
+    <div id="map" class="map"></div>
+
 
     <jw-modal id="modal-1">
         <h1>Slect restaurant type -</h1>

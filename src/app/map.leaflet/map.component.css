@@ -1,26 +1,6 @@
-body {
-  padding: 0;
-  margin: 0;
-}
-
-html,
-body,
-#map {
-  height: 500px;
+.map {
+  height: 290px;
   width: 100%;
-}
-
-html,
-body {
-  margin: 0;
-  padding: 0;
-}
-
-.watermark {
-  position: absolute;
-  left: 10px;
-  bottom: 10px;
-  z-index: 999;
 }
 
 jw-modal {
@@ -37,6 +17,12 @@ jw-modal {
   border: 1px solid #ccc;
 }
 
+@media (min-width:1024px) {
+  .map {
+    height: calc(100vh - 80px);
+  }
+}
+
 jw-modal.active {
   display: block;
 }
@@ -49,6 +35,17 @@ jw-modal h1 {
 
 jw-modal div {
   margin: 5px 0;
+}
+
+/* Checkbox and Labels */
+jw-modal input[type="checkbox"] {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+jw-modal label {
+  font-size: 1em;
+  color: #555;
 }
 
 button {
@@ -69,15 +66,4 @@ button:hover {
 
 input {
   accent-color: #4CAF50;
-}
-
-/* Checkbox and Labels */
-jw-modal input[type="checkbox"] {
-  margin-right: 10px;
-  cursor: pointer;
-}
-
-jw-modal label {
-  font-size: 1em;
-  color: #555;
 }

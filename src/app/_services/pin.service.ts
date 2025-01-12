@@ -23,12 +23,13 @@ export class PinService {
             || pin.restaurantType.includes("Condiments supplier")
             || pin.restaurantType.includes("Catering food and drink supplier")
             || pin.label.includes("Department Store")
+            || pin.label.includes("Bottle Shop")
         );
     }
 
 
     isHotel(pin: TopicGroup): boolean {
-        return pin.restaurantType == "Hotel";
+        return pin.restaurantType == "Hotel" || pin.restaurantType == "5-star hotel";
     }
     isOther(pin: TopicGroup): boolean {
         return pin.restaurantType == null || Others.includes(pin.restaurantType);
@@ -117,7 +118,9 @@ export class PinService {
         if (restaurantType.includes("Bottle Shop and Liquor Store")) {
             return `BottleShop.png`;
         }
-        if (restaurantType.toLowerCase().includes("cafe") || restaurantType == "Coffee shop") {
+        if (restaurantType.toLowerCase().includes("cafe")
+            || restaurantType.toLowerCase().includes("tea")
+            || restaurantType == "Coffee shop") {
             return `Cafe.png`;
         }
         if (restaurantType.includes('Fish & Chips')
@@ -159,7 +162,7 @@ export class PinService {
         if (restaurantType.includes("Chinese")) {
             return `Chinese.png`;
         }
-        if (restaurantType.includes("Hamburger")) {
+        if (restaurantType.toLowerCase().includes("burger")) {
             return `Hamburger.png`;
         }
         if (restaurantType.includes("Vietnamese")) {
@@ -184,6 +187,21 @@ export class PinService {
         if (restaurantType.toLowerCase().includes('butcher')) {
             return `Butcher.png`;
         }
+        if (restaurantType.toLowerCase().includes('german')) {
+            return `German.png`;
+        }
+        if (restaurantType.toLowerCase().includes('okonomiyaki')) {
+            return `Okonomiyaki.png`;
+        }
+        if (restaurantType.toLowerCase().includes('indian')) {
+            return `Indian.png`;
+        }
+        if (restaurantType.toLowerCase().includes('noodle')) {
+            return `Noodle.png`;
+        }
+        if (restaurantType.toLowerCase().includes('ramen')) {
+            return `Ramen.png`;
+        }
 
         return null;
     }
@@ -198,6 +216,12 @@ export class PinService {
             || restaurantName.toLowerCase().includes("vegetarian")
         ) {
             return `Vegan.png`;
+        }
+
+        if (restaurantName.includes("Grill'd")
+            || restaurantName.toLowerCase().includes("burger")
+        ) {
+            return `Hamburger.png`;
         }
         if (restaurantName.includes('Woolworths')) {
             return `Woolworths.png`;

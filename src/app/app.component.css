@@ -23,14 +23,15 @@
 
 @media (min-width:1024px) {
   .window {
+    height: calc(100vh - 80px);
     display: -webkit-flex;
     /* Safari */
     display: flex;
   }
 
   .master {
+    height: 100%;
     width: 75%;
-    height: calc(100vh - 40px);
   }
 
   .detail {
@@ -55,9 +56,4 @@ body {
   background-color: #f4f4f4;
   color: #333;
   line-height: 1.2;
-}
-
-.empty-div {
-  height: 5px;
-  margin: 5px 0;
 }
