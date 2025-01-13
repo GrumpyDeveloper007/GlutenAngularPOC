@@ -29,7 +29,7 @@ export class PinService {
 
 
     isHotel(pin: TopicGroup): boolean {
-        return pin.restaurantType == "Hotel" || pin.restaurantType == "5-star hotel";
+        return pin.restaurantType.toLowerCase().includes("hotel") || pin.restaurantType == "5-star hotel";
     }
     isOther(pin: TopicGroup): boolean {
         return pin.restaurantType == null || Others.includes(pin.restaurantType);
@@ -91,6 +91,24 @@ export class PinService {
 
     getUrlForType(restaurantType: string): string | null {
 
+        if (restaurantType.toLowerCase().includes('taco')) {
+            return `Taco.png`;
+        }
+        if (restaurantType.toLowerCase().includes('american')) {
+            return `American.png`;
+        }
+        if (restaurantType.toLowerCase().includes('meat dish')) {
+            return `MeatDish.png`;
+        }
+        if (restaurantType.toLowerCase().includes('kebab')) {
+            return `Kebab.png`;
+        }
+        if (restaurantType.toLowerCase().includes('chocolate')) {
+            return `Chocolate.png`;
+        }
+        if (restaurantType.toLowerCase().includes('fruit')) {
+            return `Fruit.png`;
+        }
         if (restaurantType.toLowerCase().includes('tempura')) {
             return `Tempura.png`;
         }
@@ -221,7 +239,8 @@ export class PinService {
         if (restaurantType.toLowerCase().includes("burger")) {
             return `Hamburger.png`;
         }
-        if (restaurantType.includes("Vietnamese")) {
+        if (restaurantType.includes("Vietnamese")
+            || restaurantType.includes("Pho restaurant")) {
             return `Vietnamese.png`;
         }
         if (restaurantType.toLowerCase().includes("Steak".toLowerCase())) {
@@ -275,8 +294,16 @@ export class PinService {
             return `Sushi.png`;
         }
 
+        if (restaurantName.toLowerCase().includes("don quijote")) {
+            return `DonQuijote.png`;
+        }
+
         if (restaurantName.toLowerCase().includes("natural lawson")) {
             return `NaturalLawson.png`;
+        }
+
+        if (restaurantName.toLowerCase().includes('indian')) {
+            return `Indian.png`;
         }
 
         if (restaurantName.includes("Pizza")) {
