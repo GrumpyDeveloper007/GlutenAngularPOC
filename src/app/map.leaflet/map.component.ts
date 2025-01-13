@@ -40,7 +40,8 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   _showOthers: boolean = true;
   _showGMPins: boolean = true;
   mapBounds: LatLngBounds = new LatLngBounds([46.879966, -121.726909], [46.879966, -121.726909]);
-  loaded = false;
+  loaded = true;
+  firstShown = true;
 
   markerGroup: L.LayerGroup = new L.LayerGroup();
 
@@ -118,7 +119,6 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy() {
   }
   async ngAfterViewInit() {
-    this.loaded = true;
     if ((this.map === undefined)) return;
     restaurantTypes.forEach(restaurant => {
       var a = new Restaurant(true, restaurant);
@@ -153,11 +153,6 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.loadMapPins();
 
-    // Add this after the map is initialized
-    setTimeout(() => {
-      if ((this.map === undefined)) return;
-      this.map.invalidateSize();
-    }, 1000);
   }
 
   mapMoved(e: L.LeafletEvent) {
@@ -200,13 +195,19 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
 
     forkJoin(requests).subscribe(_ => {
       // all observables have been completed
-      console.debug("Loading data complete :");
-      console.log(howLong.ms);
+      console.debug("Loading data complete :", howLong.ms);
+      // Add this after the map is initialized
+      if (this.firstShown) {
+        this.firstShown = false;
+        if ((this.map === undefined)) return;
+        this.map.invalidateSize();
+      }
+
       this.showMapPins(countryNames);
     });
 
     if (!waitForDataLoad) {
-      console.debug("Data load skipped:");
+      console.debug("Data load skipped");
       this.showMapPins(countryNames);
     }
   }
@@ -215,7 +216,6 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     var pinTopics: TopicGroup[] = [];
 
     countryNames.forEach(key => {
-      console.log("selected :", this.pinCache[key])
       pinTopics = pinTopics.concat(this.pinCache[key]);
     });
     return pinTopics;
@@ -232,7 +232,6 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   showMapPins(countryNames: string[]) {
-    const howLong = this.diagService.timer();
     var pinTopics = this.getPinsInCountries(countryNames);
     var gmPins = this.getGMPinsInCountries(countryNames);
     this.loaded = false;
@@ -242,7 +241,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     var pinsToExport: (TopicGroup | GMapsPin)[] = [];
     this.selectedPins = 0;
 
-    console.debug("Updating pins :" + pinTopics.length, pinTopics);
+    console.debug("Updating pins :" + pinTopics.length);
     const bounds = map.getBounds();
 
     // Remove existing pins
@@ -312,7 +311,6 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     console.debug("selected pins :" + this.selectedPins);
-    console.log(howLong.ms);
     var exportData = "Latitude, Longitude, Description\r\n";
     pinsToExport.forEach(pin => {
       exportData += `${pin.geoLatitude},${pin.geoLongitude},${pin.label}\r\n`;

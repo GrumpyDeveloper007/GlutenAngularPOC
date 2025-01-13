@@ -41,7 +41,7 @@ export class GlutenApiService {
     //baseUrl = "http://localhost:7121";
 
     getPinTopic(country: string): Observable<TopicGroup[]> {
-        return this.http.get<TopicGroup[]>(this.baseUrl + "/api/PinTopicV2?country=" + country, this.httpOptions)
+        return this.http.get<TopicGroup[]>(this.baseUrl + "/api/PinTopic?country=" + country, this.httpOptions)
             .pipe(catchError(this.handleError<TopicGroup[]>(`getPinTopic id=${country}`)));
     }
 
@@ -51,7 +51,6 @@ export class GlutenApiService {
     }
 
     postMapHome(geoLatitude: number, geoLongitude: number): Observable<any> {
-        console.debug("postMapHome: " + geoLatitude + " " + geoLongitude);
         return this.http.post(this.baseUrl + "/api/MapHome", JSON.stringify({ geoLatitude, geoLongitude }), this.httpOptionsPost)
             .pipe(catchError(this.handleError()));
 

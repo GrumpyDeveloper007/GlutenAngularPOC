@@ -1,4 +1,5 @@
 export var Others: Array<string> = ['Train station',
+    'Water park',
     'Produce wholesaler',
     'Military base',
     'Airports',

@@ -90,6 +90,22 @@ export class PinService {
     }
 
     getUrlForType(restaurantType: string): string | null {
+        if (restaurantType.toLowerCase().includes("pie")) {
+            return `Pie.png`;
+        }
+        if (restaurantType.toLowerCase().includes("bar")
+            || restaurantType.toLowerCase().includes("tavern")) {
+            return `Bar.png`;
+        }
+        if (restaurantType.toLowerCase().includes("gluten")) {
+            return `GF.png`;
+        }
+        if (restaurantType.toLowerCase().includes("korean")) {
+            return `Korean.png`;
+        }
+        if (restaurantType.toLowerCase().includes("tex-mex")) {
+            return `TexMex.png`;
+        }
         if (restaurantType.toLowerCase().includes("sushi")) {
             return `Sushi.png`;
         }
@@ -209,6 +225,9 @@ export class PinService {
 
 
     getUrlForChain(restaurantName: string): string | null {
+        if (restaurantName.toLowerCase().includes("sushi")) {
+            return `Sushi.png`;
+        }
         if (restaurantName.includes("Pizza")) {
             return `Pizza.png`;
         }

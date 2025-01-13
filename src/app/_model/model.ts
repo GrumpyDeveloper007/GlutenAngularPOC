@@ -2,6 +2,7 @@ export interface TopicGroup {
     geoLongitude: number
     geoLatitude: number
     label: string
+    placeName: string
     description: string
     topics: Topic[]
     mapsLink: string
