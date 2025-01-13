@@ -90,6 +90,46 @@ export class PinService {
     }
 
     getUrlForType(restaurantType: string): string | null {
+
+        if (restaurantType.toLowerCase().includes('tempura')) {
+            return `Tempura.png`;
+        }
+        if (restaurantType.toLowerCase().includes('deli')) {
+            return `Deli.png`;
+        }
+        if (restaurantType.toLowerCase().includes('belgian')) {
+            return `Belgian.png`;
+        }
+        if (restaurantType.toLowerCase().includes('kaiseki')) {
+            return `Kaiseki.png`;
+        }
+        if (restaurantType.toLowerCase().includes('gyudon')) {
+            return `Gyudon.png`;
+        }
+        if (restaurantType.toLowerCase().includes('family')) {
+            return `Family.png`;
+        }
+        if (restaurantType.toLowerCase().includes('pastry')) {
+            return `Pastry.png`;
+        }
+        if (restaurantType.toLowerCase().includes('creperie')) {
+            return `Creperie.png`;
+        }
+        if (restaurantType.toLowerCase().includes('izakaya')) {
+            return `Izakaya.png`;
+        }
+        if (restaurantType.toLowerCase().includes('patisserie')) {
+            return `Patisserie.png`;
+        }
+        if (restaurantType.toLowerCase().includes('yakitori')) {
+            return `Yakitori.png`;
+        }
+        if (restaurantType.toLowerCase().includes('seafood')) {
+            return `Seafood.png`;
+        }
+        if (restaurantType.toLowerCase().includes('salad')) {
+            return `Salad.png`;
+        }
         if (restaurantType.toLowerCase().includes("pie")) {
             return `Pie.png`;
         }
@@ -118,7 +158,7 @@ export class PinService {
             return `IceCream.png`;
         }
         if (restaurantType.toLowerCase().includes("Cake shop")
-            || restaurantType.toLowerCase().includes("dessert shop")) {
+            || restaurantType.toLowerCase().includes("dessert")) {
             return `Cheesecake.png`;
         }
 
@@ -218,6 +258,9 @@ export class PinService {
         if (restaurantType.toLowerCase().includes('ramen')) {
             return `Ramen.png`;
         }
+        if (restaurantType.toLowerCase().includes('yakiniku')) {
+            return `Yakiniku.png`;
+        }
 
         return null;
     }
@@ -225,9 +268,17 @@ export class PinService {
 
 
     getUrlForChain(restaurantName: string): string | null {
+        if (restaurantName.toLowerCase().includes("cafe")) {
+            return `Cafe.png`;
+        }
         if (restaurantName.toLowerCase().includes("sushi")) {
             return `Sushi.png`;
         }
+
+        if (restaurantName.toLowerCase().includes("natural lawson")) {
+            return `NaturalLawson.png`;
+        }
+
         if (restaurantName.includes("Pizza")) {
             return `Pizza.png`;
         }
@@ -272,10 +323,10 @@ export class PinService {
         if (restaurantName.includes("ALDI")) {
             return `ALDI.png`;
         }
-        if (restaurantName.includes("IGA")) {
+        if (restaurantName.toLowerCase().includes("iga")) {
             return `IGA.png`;
         }
-        if (restaurantName.includes("7-Eleven")) {
+        if (restaurantName.toLowerCase().includes("7-eleven")) {
             return `711.png`;
         }
         if (restaurantName.toLowerCase().includes("familymart")) {
