@@ -22,8 +22,17 @@ export class PinService {
             || pin.restaurantType.includes("Food products supplier")
             || pin.restaurantType.includes("Condiments supplier")
             || pin.restaurantType.includes("Catering food and drink supplier")
-            || pin.label.includes("Department Store")
-            || pin.label.includes("Bottle Shop")
+            || pin.restaurantType.includes("Department Store")
+            || pin.restaurantType.includes("Bottle Shop")
+            || pin.restaurantType.includes("Food bank")
+            || pin.restaurantType.includes("Op Shop")
+            || pin.restaurantType == "Shop"
+            || pin.restaurantType == "Food bank"
+            || pin.restaurantType == "Oyster supplier"
+            || pin.restaurantType == "Catholic church"
+            || pin.restaurantType == "Discount Shop"
+            || pin.restaurantType == "Greengrocer"
+
         );
     }
 
@@ -90,7 +99,171 @@ export class PinService {
     }
 
     getUrlForType(restaurantType: string): string | null {
+        if (restaurantType.toLowerCase().includes('irish pub')) {
+            return `Irish.png`;
+        }
+        if (restaurantType.toLowerCase().includes('yacht')
+            || restaurantType.toLowerCase().includes('boat')
+            || restaurantType.toLowerCase().includes('sailing')) {
+            return `Yacht.png`;
+        }
 
+
+        if (restaurantType.toLowerCase().includes('persian')) {
+            return `Persian.png`;
+        }
+        if (restaurantType.toLowerCase().includes('middle eastern')) {
+            return `MiddleEastern.png`;
+        }
+        if (restaurantType.toLowerCase().includes('afghan')) {
+            return `Afghan.png`;
+        }
+        if (restaurantType.toLowerCase().includes('portuguese')) {
+            return `Portuguese.png`;
+        }
+        if (restaurantType.toLowerCase().includes('cantonese')) {
+            return `Cantonese.png`;
+        }
+        if (restaurantType.toLowerCase().includes('african')) {
+            return `African.png`;
+        }
+        if (restaurantType.toLowerCase().includes('filipino')) {
+            return `Filipino.png`;
+        }
+        if (restaurantType.toLowerCase().includes('distillery')) {
+            return `Distillery.png`;
+        }
+        if (restaurantType.toLowerCase().includes('fine dining')) {
+            return `FineDining.png`;
+        }
+        if (restaurantType.toLowerCase().includes('theater')) {
+            return `Theater.png`;
+        }
+        if (restaurantType.toLowerCase().includes('health food')) {
+            return `HealthFood.png`;
+        }
+        if (restaurantType.toLowerCase().includes('malaysian')) {
+            return `Malaysian.png`;
+        }
+        if (restaurantType.toLowerCase().includes('confectionery')) {
+            return `Confectionery.png`;
+        }
+        if (restaurantType.toLowerCase().includes('mediterranean')) {
+            return `Mediterranean.png`;
+        }
+        if (restaurantType.toLowerCase().includes('carvery')) {
+            return `Carvery.png`;
+        }
+        if (restaurantType.toLowerCase().includes('vineyard')) {
+            return `Vineyard.png`;
+        }
+        if (restaurantType.toLowerCase().includes('south african')) {
+            return `SouthAfrican.png`;
+        }
+        if (restaurantType.toLowerCase().includes('club')) {
+            return `Club.png`;
+        }
+
+        if (restaurantType.toLowerCase().includes('buffet')) {
+            return `Buffet.png`;
+        }
+        if (restaurantType.toLowerCase().includes('traditional')) {
+            return `Traditional.png`;
+        }
+        if (restaurantType.toLowerCase().includes('diner')) {
+            return `Diner.png`;
+        }
+        if (restaurantType.toLowerCase().includes('caterer')) {
+            return `Caterer.png`;
+        }
+        if (restaurantType.toLowerCase().includes('bistro')) {
+            return `Bistro.png`;
+        }
+        if (restaurantType.toLowerCase().includes('singaporean')) {
+            return `Singaporean.png`;
+        }
+
+        if (restaurantType.toLowerCase().includes('turkish')) {
+            return `Turkish.png`;
+        }
+        if (restaurantType.toLowerCase().includes('lebanese')) {
+            return `Lebanese.png`;
+        }
+        if (restaurantType.toLowerCase().includes('spanish')) {
+            return `Spanish.png`;
+        }
+
+        if (restaurantType.toLowerCase().includes('nepalese')) {
+            return `Nepalese.png`;
+        }
+        if (restaurantType.toLowerCase().includes('farm')) {
+            return `Farm.png`;
+        }
+        if (restaurantType.toLowerCase().includes('plant')
+            || restaurantType.toLowerCase().includes('garden center')) {
+            return `Plant.png`;
+        }
+        if (restaurantType.toLowerCase().includes('cheese')) {
+            return `Cheese.png`;
+        }
+
+        if (restaurantType.toLowerCase().includes('zoo')) {
+            return `Zoo.png`;
+        }
+
+        if (restaurantType.toLowerCase().includes('petrol station')) {
+            return `PetrolStation.png`;
+        }
+        if (restaurantType.toLowerCase().includes('golf club')
+            || restaurantType.toLowerCase().includes('golf course')
+            || restaurantType.toLowerCase().includes('golf driving range')
+
+        ) {
+            return `GolfClub.png`;
+        }
+
+        if (restaurantType.toLowerCase().includes('greek')) {
+            return `Greek.png`;
+        }
+        if (restaurantType.toLowerCase().includes('asian')) {
+            return `Asian.png`;
+        }
+
+        if (restaurantType.toLowerCase().includes('take away')) {
+            return `TakeAway.png`;
+        }
+        if (restaurantType.toLowerCase().includes('juice')) {
+            return `Juice.png`;
+        }
+        if (restaurantType.toLowerCase().includes('breakfast')) {
+            return `Breakfast.png`;
+        }
+        if (restaurantType.toLowerCase().includes('brunch')) {
+            return `Brunch.png`;
+        }
+
+        if (restaurantType.toLowerCase().includes('organic shop')
+            || restaurantType.toLowerCase().includes('organic food')) {
+            return `Organic.png`;
+        }
+
+
+        if (restaurantType.toLowerCase().includes('fast food')) {
+            return `FastFood.png`;
+        }
+        if (restaurantType.toLowerCase().includes('sundae')) {
+            return `Sundae.png`;
+        }
+        if (restaurantType.toLowerCase().includes('supermarket')) {
+            return `Supermarket.png`;
+        }
+
+        if (restaurantType.toLowerCase().includes('grocery')) {
+            return `GroceryStore.png`;
+        }
+        if (restaurantType.toLowerCase().includes('new zealand')) {
+            return `Kiwi.png`;
+        }
         if (restaurantType.toLowerCase().includes('taco')) {
             return `Taco.png`;
         }
@@ -194,7 +367,10 @@ export class PinService {
         }
         if (restaurantType.toLowerCase().includes("cafe")
             || restaurantType.toLowerCase().includes("tea")
-            || restaurantType == "Coffee shop") {
+            || restaurantType == "Coffee shop"
+            || restaurantType == "Coffee roasters"
+            || restaurantType == "Coffee stand"
+        ) {
             return `Cafe.png`;
         }
         if (restaurantType.includes('Fish & Chips')
@@ -230,7 +406,8 @@ export class PinService {
         if (restaurantType.includes("French")) {
             return `French.png`;
         }
-        if (restaurantType.includes("Balinese")) {
+        if (restaurantType.includes("Balinese")
+            || restaurantType.includes("Indonesian")) {
             return `Balinese.png`;
         }
         if (restaurantType.includes("Chinese")) {
@@ -280,6 +457,10 @@ export class PinService {
         if (restaurantType.toLowerCase().includes('yakiniku')) {
             return `Yakiniku.png`;
         }
+        if (restaurantType.toLowerCase() == 'restaurant') {
+            return `Restaurant.png`;
+        }
+
 
         return null;
     }
@@ -287,6 +468,10 @@ export class PinService {
 
 
     getUrlForChain(restaurantName: string): string | null {
+
+        if (restaurantName.toLowerCase().includes("starbucks")) {
+            return `Starbucks.png`;
+        }
         if (restaurantName.toLowerCase().includes("cafe")) {
             return `Cafe.png`;
         }
@@ -294,6 +479,10 @@ export class PinService {
             return `Sushi.png`;
         }
 
+
+        if (restaurantName.toLowerCase().includes("oporto")) {
+            return `Oporto.png`;
+        }
         if (restaurantName.toLowerCase().includes("don quijote")) {
             return `DonQuijote.png`;
         }
@@ -305,6 +494,10 @@ export class PinService {
         if (restaurantName.toLowerCase().includes('indian')) {
             return `Indian.png`;
         }
+        if (restaurantName.includes("Chinese")) {
+            return `Chinese.png`;
+        }
+
 
         if (restaurantName.includes("Pizza")) {
             return `Pizza.png`;
@@ -359,18 +552,17 @@ export class PinService {
         if (restaurantName.toLowerCase().includes("familymart")) {
             return `FamilyMart.png`;
         }
+        if (restaurantName.toLowerCase().includes("rsl")) {
+            return `RSL.png`;
+        }
+        if (restaurantName.toLowerCase().includes('chicken')) {
+            return `Chicken.png`;
+        }
 
         return null;
     }
 
     getMarkerIcon(color: string, restaurantType: string | null, restaurantName: string | null): L.Icon {
-        var el = document.createElement('div');
-        el.style.width = '36px';
-        el.style.height = '48px';
-        el.style.backgroundSize = 'contain';
-        el.style.backgroundRepeat = 'no-repeat';
-        el.style.backgroundPosition = 'center center';
-
         var genericUrl = "/Empty.png";
         if (color == "#FF0000") {
             genericUrl = "Red.png";
