@@ -35,6 +35,13 @@ export class PinService {
             || pin.restaurantType == "Wholesale grocer"
             || pin.restaurantType == "Bottled water supplier"
             || pin.restaurantType == "Store"
+            || pin.restaurantType == "Ham shop"
+            || pin.restaurantType == "Alcohol retail monopoly"
+            || pin.restaurantType == "Cash and carry wholesaler"
+            || pin.restaurantType == "Convenience Store"
+            || pin.restaurantType == "Beer shop"
+            || pin.restaurantType == "Alcoholic beverage wholesaler"
+            || pin.restaurantType == "Stationery Shop"
 
 
 
@@ -44,7 +51,20 @@ export class PinService {
 
 
     isHotel(pin: TopicGroup): boolean {
-        return pin.restaurantType.toLowerCase().includes("hotel") || pin.restaurantType == "5-star hotel";
+        return pin.restaurantType.toLowerCase().includes("hotel")
+            || pin.restaurantType == "5-star hotel"
+            || pin.restaurantType == "Guest house"
+            || pin.restaurantType == "Accommodation"
+            || pin.restaurantType == "Holiday apartment rental"
+            || pin.restaurantType == "Apartment building"
+            || pin.restaurantType == "Apartment complex"
+            || pin.restaurantType == "Homestay"
+            || pin.restaurantType == "Self-catering accommodation"
+            || pin.restaurantType == "Holiday home"
+            || pin.restaurantType == "Serviced accommodation"
+
+
+            ;
     }
     isOther(pin: TopicGroup): boolean {
         return pin.restaurantType == null || Others.includes(pin.restaurantType);
@@ -106,7 +126,7 @@ export class PinService {
 
     getUrlForType(restaurantType: string): string | null {
         if (restaurantType.toLowerCase().includes('irish pub')) {
-            return `Irish.png`;
+            return `IrishPub.png`;
         }
         if (restaurantType.toLowerCase().includes('yacht')
             || restaurantType.toLowerCase().includes('boat')
@@ -115,7 +135,51 @@ export class PinService {
         }
 
 
-
+        if (restaurantType.toLowerCase().includes('live music')) {
+            return `LiveMusic.png`;
+        }
+        if (restaurantType.toLowerCase().includes('churreria')) {
+            return `Churreria.png`;
+        }
+        if (restaurantType.toLowerCase().includes('icelandic')) {
+            return `Icelandic.png`;
+        }
+        if (restaurantType.toLowerCase().includes('irish')) {
+            return `Irish.png`;
+        }
+        if (restaurantType.toLowerCase().includes('canadian')) {
+            return `Canadian.png`;
+        }
+        if (restaurantType.toLowerCase().includes('scottish')) {
+            return `Scottish.png`;
+        }
+        if (restaurantType.toLowerCase().includes('caribbean')) {
+            return `Caribbean.png`;
+        }
+        if (restaurantType.toLowerCase().includes('kosher')) {
+            return `Kosher.png`;
+        }
+        if (restaurantType.toLowerCase().includes('fish')) {
+            return `Fish.png`;
+        }
+        if (restaurantType.toLowerCase().includes('lounge')) {
+            return `Lounge.png`;
+        }
+        if (restaurantType.toLowerCase().includes('hawker')) {
+            return `Hawker.png`;
+        }
+        if (restaurantType.toLowerCase().includes('tapas')) {
+            return `Tapas.png`;
+        }
+        if (restaurantType.toLowerCase().includes('hot pot')) {
+            return `HotPot.png`;
+        }
+        if (restaurantType.toLowerCase().includes('frozen yogurt')) {
+            return `FrozenYogurt.png`;
+        }
+        if (restaurantType.toLowerCase().includes('casino')) {
+            return `Casino.png`;
+        }
         if (restaurantType.toLowerCase().includes('chilean')) {
             return `Chilean.png`;
         }
@@ -149,7 +213,8 @@ export class PinService {
         if (restaurantType.toLowerCase().includes('ethiopian')) {
             return `Ethiopian.png`;
         }
-        if (restaurantType.toLowerCase().includes('british')) {
+        if (restaurantType.toLowerCase().includes('british')
+            || restaurantType.toLowerCase().includes('english')) {
             return `British.png`;
         }
         if (restaurantType.toLowerCase().includes('hawaiian')) {
@@ -179,6 +244,7 @@ export class PinService {
         if (restaurantType.toLowerCase().includes('cooking school')
             || restaurantType == "Co-ed school"
             || restaurantType == "Community college"
+            || restaurantType == "Cooking class"
         ) {
             return `CookingSchool.png`;
         }
@@ -194,7 +260,7 @@ export class PinService {
         if (restaurantType.toLowerCase().includes('western restaurant')) {
             return `Western.png`;
         }
-        if (restaurantType.toLowerCase().includes('Açaí')) {
+        if (restaurantType.toLowerCase().includes('açaí')) {
             return `Açaí.png`;
         }
         if (restaurantType.toLowerCase().includes('venezuelan')) {
@@ -209,7 +275,10 @@ export class PinService {
         if (restaurantType.toLowerCase().includes('argentinian')) {
             return `Argentinian.png`;
         }
-        if (restaurantType.toLowerCase().includes('stadium')) {
+        if (restaurantType.toLowerCase().includes('stadium')
+            || restaurantType.toLowerCase().includes('arena')
+            || restaurantType.toLowerCase().includes('sports complex')
+        ) {
             return `Stadium.png`;
         }
         if (restaurantType.toLowerCase().includes('sandwich')) {

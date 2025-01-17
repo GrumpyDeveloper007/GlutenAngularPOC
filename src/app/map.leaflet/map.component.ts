@@ -234,6 +234,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   showMapPins(countryNames: string[]) {
     var pinTopics = this.getPinsInCountries(countryNames);
     var gmPins = this.getGMPinsInCountries(countryNames);
+    const liveMode = true;
     this.loaded = false;
     var map: L.Map;
     if ((this.map === undefined)) return;
@@ -257,7 +258,6 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
         if (!this._showHotels && this.pinService.isHotel(pin)) return;
         if (!this._showStores && this.pinService.isStore(pin)) return;
         if (!this._showOthers && this.pinService.isOther(pin)) return;
-        this.selectedPins++;
         pinsToExport.push(pin);
 
         // trigger event to call a function back in angular
@@ -268,11 +268,15 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
         var color = this.pinService.getColor(pin);
 
         const marker = new L.Marker([pin.geoLatitude, pin.geoLongitude])
-        marker.setIcon(this.pinService.getMarkerIcon(color, pin.restaurantType, pin.label));
+        var icon = this.pinService.getMarkerIcon(color, pin.restaurantType, pin.label);
+        marker.setIcon(icon);
         marker.addEventListener('click', () => {
           this.pinSelected(pin);
         })
-        marker.addTo(this.markerGroup);
+        if (icon.options.iconUrl == "Red.png" || liveMode) {
+          marker.addTo(this.markerGroup);
+          this.selectedPins++;
+        }
 
       } catch {
         console.error("Error adding pin to map");
@@ -287,7 +291,6 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
           var isSelected = this.isSelected(pin.restaurantType);
           if (!isSelected) return;
 
-          this.selectedPins++;
           pinsToExport.push(pin);
 
           // trigger event to call a function back in angular
@@ -299,11 +302,15 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
           var color = "#7f7f7f";
 
           const marker = new L.Marker([parseFloat(pin.geoLatitude), parseFloat(pin.geoLongitude)])
-          marker.setIcon(this.pinService.getMarkerIcon(color, pin.restaurantType, pin.label));
+          var icon = this.pinService.getMarkerIcon(color, pin.restaurantType, pin.label);
+          marker.setIcon(icon);
           marker.addEventListener('click', () => {
             this.pinSelected(pin);
           })
-          marker.addTo(this.markerGroup);
+          if (icon.options.iconUrl == "Grey.png" || liveMode) {
+            marker.addTo(this.markerGroup);
+            this.selectedPins++;
+          }
         } catch {
 
         }
