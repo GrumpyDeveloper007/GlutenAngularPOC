@@ -234,7 +234,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   showMapPins(countryNames: string[]) {
     var pinTopics = this.getPinsInCountries(countryNames);
     var gmPins = this.getGMPinsInCountries(countryNames);
-    const liveMode = true;
+    const liveMode = true; // this makes it easier to see generic pins
     this.loaded = false;
     var map: L.Map;
     if ((this.map === undefined)) return;
@@ -242,7 +242,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     var pinsToExport: (TopicGroup | GMapsPin)[] = [];
     this.selectedPins = 0;
 
-    console.debug("Updating pins :" + pinTopics.length);
+    //console.debug("Updating pins :" + pinTopics.length);
     const bounds = map.getBounds();
 
     // Remove existing pins
@@ -250,6 +250,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
 
     pinTopics.forEach(pin => {
       try {
+        if (pin == undefined) return;
         if (this.selectedPins >= 400) return;
         if (!this.pinService.isInBoundsLeaflet(pin.geoLatitude, pin.geoLongitude, bounds)) return;
 
@@ -278,14 +279,15 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
           this.selectedPins++;
         }
 
-      } catch {
-        console.error("Error adding pin to map");
+      } catch (e) {
+        console.error("Error adding pin to map", e);
       }
     });
 
     if (this._showGMPins) {
       gmPins.forEach(pin => {
         try {
+          if (pin == undefined) return;
           if (this.selectedPins >= 400) return;
           if (!this.pinService.isInBoundsLeaflet(parseFloat(pin.geoLatitude), parseFloat(pin.geoLongitude), bounds)) return;
           var isSelected = this.isSelected(pin.restaurantType);
@@ -311,8 +313,8 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
             marker.addTo(this.markerGroup);
             this.selectedPins++;
           }
-        } catch {
-
+        } catch (e) {
+          console.error("Error adding pin to map", e);
         }
       });
     }
