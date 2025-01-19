@@ -8,7 +8,8 @@ export interface TopicGroup {
     mapsLink: string
     restaurantType: string,
     price: string,
-    stars: string
+    stars: string,
+    isGF: boolean
 }
 
 
