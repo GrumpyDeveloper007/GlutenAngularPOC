@@ -39,6 +39,9 @@ export class GlutenApiService {
     //baseUrl = "https://thegfshire.azurewebsites.net";
     // Local
     //baseUrl = "http://localhost:7121";
+    // Mordor
+    //baseUrl = "https://localhost:7125";
+
 
     getPinTopic(country: string): Observable<TopicGroup[]> {
         return this.http.get<TopicGroup[]>(this.baseUrl + "/api/PinTopic?country=" + country, this.httpOptions)

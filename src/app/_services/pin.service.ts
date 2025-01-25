@@ -12,6 +12,265 @@ import L from "leaflet";
 export class PinService {
     constructor() { }
 
+    private images = [{ fileName: "Bakso.png", search: "bakso" },
+    { fileName: "Catalonian.png", search: "catalonian" },
+    { fileName: "Nyonya.png", search: "nyonya" },
+    { fileName: "Taco.png", search: "Taco" },
+    { fileName: "Satay.png", search: "Satay" },
+    { fileName: "Mandarin.png", search: "Mandarin" },
+    { fileName: "Pan-Latin.png", search: "Pan-Latin" },
+    { fileName: "Teppanyaki.png", search: "Teppanyaki" },
+    { fileName: "Greyhound.png", search: "Greyhound" },
+    { fileName: "Racecourse.png", search: "Racecourse" },
+    { fileName: "Retirement.png", search: "Retirement" },
+    { fileName: "Halal.png", search: "Halal" },
+    { fileName: "Whale.png", search: "Whale" },
+    { fileName: "Fusion.png", search: "Fusion" },
+    { fileName: "Organic.png", search: "organic restaurant" },
+    { fileName: "NasiGoreng.png", search: "nasi goreng" },
+    { fileName: "Spa.png", search: "Spa " },
+    { fileName: "Art.png", search: "Art " },
+    { fileName: "Ski.png", search: "Ski " },
+    { fileName: "DimSum.png", search: "dim sum" },
+    { fileName: "BeachPavillion.png", search: "beach pavillion" },
+    { fileName: "Laotian.png", search: "Laotian" },
+    { fileName: "Continental.png", search: "Continental" },
+    { fileName: "VideoArcade.png", search: "video arcade" },
+    { fileName: "Park.png", search: "Park" },
+    { fileName: "Louisiana.png", search: "Louisiana" },
+    { fileName: "FoodAndDrink.png", search: "food and drink" },
+    { fileName: "LiveMusic.png", search: "live music" },
+    { fileName: "Churreria.png", search: "Churreria" },
+    { fileName: "Icelandic.png", search: "Icelandic" },
+    { fileName: "Irish.png", search: "Irish" },
+    { fileName: "Canadian.png", search: "Canadian" },
+    { fileName: "Scottish.png", search: "Scottish" },
+    { fileName: "Caribbean.png", search: "Caribbean" },
+    { fileName: "Kosher.png", search: "Kosher" },
+    { fileName: "Fish.png", search: "Fish" },
+    { fileName: "Lounge.png", search: "Lounge" },
+    { fileName: "Hawker.png", search: "Hawker" },
+    { fileName: "Tapas.png", search: "Tapas" },
+    { fileName: "HotPot.png", search: "hot pot" },
+    { fileName: "HotPot.png", search: "Shabu" },
+
+    { fileName: "FrozenYogurt.png", search: "frozen yogurt" },
+    { fileName: "Casino.png", search: "Casino" },
+    { fileName: "Chilean.png", search: "Chilean" },
+    { fileName: "Colombian.png", search: "Colombian" },
+    { fileName: "Moroccan.png", search: "Moroccan" },
+    { fileName: "Maltese.png", search: "Maltese" },
+    { fileName: "Swiss.png", search: "Swiss" },
+    { fileName: "Dutch.png", search: "Dutch" },
+    { fileName: "Austrian.png", search: "Austrian" },
+    { fileName: "Danish.png", search: "Danish" },
+    { fileName: "Polish.png", search: "Polish" },
+    { fileName: "Romanian.png", search: "Romanian" },
+    { fileName: "Ethiopian.png", search: "Ethiopian" },
+    { fileName: "British.png", search: "british" },
+    { fileName: "British.png", search: "english" },
+    { fileName: "Hawaiian.png", search: "Hawaiian" },
+    { fileName: "Pakistani.png", search: "Pakistani" },
+    { fileName: "Bangladeshi.png", search: "Bangladeshi" },
+    { fileName: "Peruvian.png", search: "Peruvian" },
+    { fileName: "Burmese.png", search: "Burmese" },
+    { fileName: "Cambodian.png", search: "Cambodian" },
+    { fileName: "SriLankan.png", search: "sri lankan" },
+    { fileName: "Punjabi.png", search: "Punjabi" },
+    { fileName: "Taiwanese.png", search: "Taiwanese" },
+    { fileName: "European.png", search: "European" },
+    { fileName: "Soup.png", search: "Soup" },
+    { fileName: "Western.png", search: "western restaurant" },
+    { fileName: "Açaí.png", search: "açaí" },
+    { fileName: "Venezuelan.png", search: "Venezuelan" },
+    { fileName: "Bagel.png", search: "Bagel" },
+    { fileName: "Dumpling.png", search: "Dumpling" },
+    { fileName: "Argentinian.png", search: "Argentinian" },
+    { fileName: "Stadium.png", search: "Stadium" },
+    { fileName: "Stadium.png", search: "arena" },
+    { fileName: "Stadium.png", search: "sports complex" },
+    { fileName: "Sandwich.png", search: "Sandwich" },
+    { fileName: "Cookie.png", search: "Cookie" },
+    { fileName: "Charcuterie.png", search: "Charcuterie" },
+    { fileName: "Pasta.png", search: "Pasta" },
+    { fileName: "Brazilian.png", search: "Brazilian" },
+    { fileName: "Uyghur.png", search: "Uyghur" },
+    { fileName: "FoodCourt.png", search: "food court" },
+    { fileName: "Persian.png", search: "Persian" },
+    { fileName: "MiddleEastern.png", search: "middle eastern" },
+    { fileName: "Afghan.png", search: "Afghan" },
+    { fileName: "Portuguese.png", search: "Portuguese" },
+    { fileName: "Cantonese.png", search: "Cantonese" },
+    { fileName: "African.png", search: "African" },
+    { fileName: "Filipino.png", search: "Filipino" },
+    { fileName: "Distillery.png", search: "Distillery" },
+    { fileName: "FineDining.png", search: "fine dining" },
+    { fileName: "Theater.png", search: "Theater" },
+    { fileName: "HealthFood.png", search: "health food" },
+    { fileName: "Malaysian.png", search: "Malaysian" },
+    { fileName: "Malaysian.png", search: "Ikan bakar" },
+    { fileName: "Confectionery.png", search: "Confectionery" },
+    { fileName: "Mediterranean.png", search: "Mediterranean" },
+    { fileName: "Carvery.png", search: "Carvery" },
+    { fileName: "Vineyard.png", search: "Vineyard" },
+    { fileName: "SouthAfrican.png", search: "south african" },
+    { fileName: "Club.png", search: "Club" },
+    { fileName: "Buffet.png", search: "Buffet" },
+    { fileName: "Traditional.png", search: "Traditional" },
+    { fileName: "Diner.png", search: "Diner" },
+    { fileName: "Caterer.png", search: "Caterer" },
+    { fileName: "Bistro.png", search: "Bistro" },
+    { fileName: "Singaporean.png", search: "Singaporean" },
+    { fileName: "Turkish.png", search: "Turkish" },
+    { fileName: "Lebanese.png", search: "Lebanese" },
+    { fileName: "Spanish.png", search: "Spanish" },
+    { fileName: "Nepalese.png", search: "Nepalese" },
+    { fileName: "Farm.png", search: "Farm" },
+    { fileName: "Plant.png", search: "Plant" },
+    { fileName: "Plant.png", search: "garden center" },
+    { fileName: "Cheese.png", search: "Cheese" },
+    { fileName: "GolfClub.png", search: "golf club" },
+    { fileName: "GolfClub.png", search: "golf course" },
+    { fileName: "GolfClub.png", search: "golf driving range" },
+    { fileName: "Greek.png", search: "Greek" },
+    { fileName: "Asian.png", search: "Asian" },
+    { fileName: "TakeAway.png", search: "Takeaway" },
+    { fileName: "TakeAway.png", search: "Take-out" },
+    { fileName: "TakeAway.png", search: "Take Away" },
+    { fileName: "TakeAway.png", search: "Takeout restaurant" },
+    { fileName: "Juice.png", search: "Juice" },
+    { fileName: "Breakfast.png", search: "Breakfast" },
+    { fileName: "Brunch.png", search: "brunch" },
+    { fileName: "Brunch.png", search: "lunch" },
+    { fileName: "Sundae.png", search: "Sundae" },
+    { fileName: "Kiwi.png", search: "New Zealand" },
+    { fileName: "Taco.png", search: "Taco" },
+    { fileName: "American.png", search: "American" },
+    { fileName: "MeatDish.png", search: "Meat Dish" },
+    { fileName: "Kebab.png", search: "Kebab" },
+    { fileName: "Chocolate.png", search: "Chocolate" },
+    { fileName: "Fruit.png", search: "Fruit" },
+    { fileName: "Tempura.png", search: "Tempura" },
+    { fileName: "Deli.png", search: "Deli" },
+    { fileName: "Belgian.png", search: "Belgian" },
+    { fileName: "Kaiseki.png", search: "Kaiseki" },
+    { fileName: "Gyudon.png", search: "Gyudon" },
+    { fileName: "Family.png", search: "Family" },
+    { fileName: "Pastry.png", search: "Pastry" },
+    { fileName: "Creperie.png", search: "Creperie" },
+    { fileName: "Izakaya.png", search: "Izakaya" },
+    { fileName: "Patisserie.png", search: "Patisserie" },
+    { fileName: "Yakitori.png", search: "Yakitori" },
+    { fileName: "Seafood.png", search: "Seafood" },
+    { fileName: "Salad.png", search: "Salad" },
+    { fileName: "Pie.png", search: "Pie" },
+    { fileName: "Bar.png", search: "Bar" },
+    { fileName: "Bar.png", search: "tavern" },
+    { fileName: "GF.png", search: "gluten" },
+    { fileName: "Korean.png", search: "Korean" },
+    { fileName: "TexMex.png", search: "Tex-Mex" },
+    { fileName: "Sushi.png", search: "Sushi" },
+    { fileName: "Cake.png", search: "Cake" },
+    { fileName: "IceCream.png", search: "Ice cream" },
+    { fileName: "Cheesecake.png", search: "Cake shop" },
+    { fileName: "Cheesecake.png", search: "dessert" },
+    { fileName: "Bread.png", search: "Bakery" },
+    { fileName: "Thai.png", search: "Thai" },
+    { fileName: "Hamburger.png", search: "Hamburger" },
+    { fileName: "Steak.png", search: "Steak" },
+    { fileName: "Australian.png", search: "Australian" },
+    { fileName: "Chicken.png", search: "Chicken" },
+    { fileName: "Butcher.png", search: "Butcher" },
+    { fileName: "German.png", search: "German" },
+    { fileName: "Okonomiyaki.png", search: "Okonomiyaki" },
+    { fileName: "Indian.png", search: "Indian" },
+    { fileName: "Indian.png", search: "curryplace" },
+    { fileName: "Noodle.png", search: "Noodle" },
+    { fileName: "Ramen.png", search: "Ramen" },
+    { fileName: "Yakiniku.png", search: "Yakiniku" },
+    { fileName: "Donut.png", search: "Donut" },
+    { fileName: "Mexican.png", search: "Mexican" },
+    { fileName: "BubbleTea.png", search: "Bubble tea" },
+    { fileName: "FishAndChips.png", search: "Fish & Chips" },
+    { fileName: "FishAndChips.png", search: "Fish and chips" },
+    { fileName: "Pizza.png", search: "Pizza" },
+    { fileName: "Vegan.png", search: "Vegan" },
+    { fileName: "Vegan.png", search: "vegetarian" },
+    { fileName: "WineBar.png", search: "Wine" },
+    { fileName: "Brewery.png", search: "Brewery" },
+    { fileName: "Brewery.png", search: "Brewpub" },
+    { fileName: "Brewery.png", search: "Pub" },
+    { fileName: "Brewery.png", search: "Sports bar" },
+    { fileName: "Brewery.png", search: "Beer garden" },
+    { fileName: "Brewery.png", search: "Gastropub" },
+    { fileName: "Brewery.png", search: "Beer hall" },
+    { fileName: "Brewery.png", search: "Microbrewery" },
+    { fileName: "Brewery.png", search: "Tavern" },
+    { fileName: "Brewery.png", search: "Brasserie" },
+    { fileName: "BBQ.png", search: "Barbecue" },
+    { fileName: "BBQ.png", search: "Grill" },
+    { fileName: "Japanese.png", search: "Japanese" },
+    { fileName: "Italian.png", search: "Italian" },
+    { fileName: "French.png", search: "French" },
+    { fileName: "Balinese.png", search: "Balinese" },
+    { fileName: "Balinese.png", search: "Indonesian" },
+    { fileName: "Chinese.png", search: "Chinese" },
+    { fileName: "Chinese.png", search: "中餐馆" },
+    { fileName: "Vietnamese.png", search: "Vietnamese" },
+    { fileName: "Vietnamese.png", search: "Pho restaurant" },
+    { fileName: "Cafe.png", search: "cafe" },
+    { fileName: "Cafe.png", search: "tea" },
+    { fileName: "Cafe.png", search: "Coffee shop" },
+    { fileName: "Cafe.png", search: "Coffee roasters" },
+    { fileName: "Cafe.png", search: "Coffee stand" },
+    { fileName: "Wok.png", search: "Wok restaurant" },
+    { fileName: "FastFood.png", search: "fast food" },
+    { fileName: "BottleShop.png", search: "Bottle Shop and Liquor Store" },
+    { fileName: "BottleShop.png", search: "Off Licence" },
+    { fileName: "OrganicShop.png", search: "organic shop" },
+    { fileName: "OrganicShop.png", search: "organic food" },
+    { fileName: "Supermarket.png", search: "Supermarket" },
+    { fileName: "GroceryStore.png", search: "GroceryStore" },
+    { fileName: "Zoo.png", search: "Zoo" },
+    { fileName: "PetrolStation.png", search: "petrol station" },
+    { fileName: "WildlifeSanctuary.png", search: "Wildlife Sanctuary" },
+    { fileName: "CookingSchool.png", search: "cooking school" },
+    { fileName: "CookingSchool.png", search: "Co-ed school" },
+    { fileName: "CookingSchool.png", search: "Community college" },//TODO: maybe?
+    { fileName: "CookingSchool.png", search: "Cooking class" },
+    { fileName: "Bowling.png", search: "Bowling" },
+    { fileName: "Lodge.png", search: "Lodge" },
+    { fileName: "Mountain.png", search: "Mountain" },
+    { fileName: "Amusement.png", search: "Amusement" },
+    { fileName: "Museum.png", search: "Museum" },
+    { fileName: "Temple.png", search: "Temple" },
+    { fileName: "Wedding.png", search: "Wedding" },
+    { fileName: "Horse.png", search: "Horse" },
+    { fileName: "Chef.png", search: "Personal Chef" },
+    { fileName: "CiderMill.png", search: "Cider Mill" },
+    { fileName: "Orchard.png", search: "Orchard" },
+    { fileName: "Aquarium.png", search: "Aquarium" },
+    { fileName: "SoftDrink.png", search: "Soft drinks" },
+    { fileName: "SurfShop.png", search: "Surf shop" },
+    { fileName: "Tonkatsu.png", search: "Tonkatsu" },
+    { fileName: "Padang.png", search: "Padang" },
+    { fileName: "Chophouse.png", search: "Chophouse" },
+    { fileName: "Burrito.png", search: "Burrito" },
+    { fileName: "Unagi.png", search: "Unagi" },//eel
+    { fileName: "Unagi.png", search: "eel" },
+    { fileName: "Ryotei.png", search: "Ryotei" },
+    { fileName: "Syokudo.png", search: "Syokudo" },
+    { fileName: "Kushiyaki.png", search: "Kushiyaki" },
+    { fileName: "Falafel.png", search: "Falafel" },
+    { fileName: "Exhibition.png", search: "Exhibition" },
+    { fileName: "Kitchen.png", search: "Shared-use commercial kitchen" },
+
+
+
+
+
+    ];
+
     isStore(pin: TopicGroup): boolean {
         return pin.restaurantType != null && (pin.restaurantType.includes("store")
             || pin.restaurantType.includes("Supermarket")
@@ -42,6 +301,12 @@ export class PinService {
             || pin.restaurantType == "Beer shop"
             || pin.restaurantType == "Alcoholic beverage wholesaler"
             || pin.restaurantType == "Stationery Shop"
+            || pin.restaurantType == "生鲜市场" //fresh market
+            || pin.restaurantType == "美食杂货店"//gourmet grocery store
+            || pin.restaurantType == "General Store"
+            || pin.restaurantType == "Vegetable wholesaler"
+            || pin.restaurantType == "Discount Store"
+            || pin.restaurantType == "Gourmet Grocery Shop"
 
 
 
@@ -57,15 +322,12 @@ export class PinService {
             || pin.restaurantType == "Guest house"
             || pin.restaurantType == "Accommodation"
             || pin.restaurantType == "Holiday apartment rental"
-            || pin.restaurantType == "Apartment building"
-            || pin.restaurantType == "Apartment complex"
             || pin.restaurantType == "Homestay"
             || pin.restaurantType == "Self-catering accommodation"
             || pin.restaurantType == "Holiday home"
             || pin.restaurantType == "Serviced accommodation"
             || pin.restaurantType == "Hostel"
-
-
+            || pin.restaurantType == "Lodging"
 
             ;
     }
@@ -137,636 +399,18 @@ export class PinService {
             return `Yacht.png`;
         }
 
+        var fileName = null;
+        this.images.forEach(item => {
+            if (restaurantType.toLowerCase().includes(item.search.toLowerCase())) {
+                fileName = `${item.fileName}`;
+            }
+        });
+        if (fileName != null) return fileName;
 
-
-        if (restaurantType.toLowerCase().includes('catalonian')) {
-            return `Catalonian.png`;
-        }
-        if (restaurantType.toLowerCase().includes('nyonya')) {
-            return `Nyonya.png`;
-        }
-        if (restaurantType.toLowerCase().includes('satay')) {
-            return `Satay.png`;
-        }
-        if (restaurantType.toLowerCase().includes('mandarin')) {
-            return `Mandarin.png`;
-        }
-        if (restaurantType.toLowerCase().includes('pan-latin')) {
-            return `Pan-Latin.png`;
-        }
-        if (restaurantType.toLowerCase().includes('teppanyaki')) {
-            return `Teppanyaki.png`;
-        }
-        if (restaurantType.toLowerCase().includes('Beach pavillion')) {
-            return `BeachPavillion.png`;
-        }
-        if (restaurantType.toLowerCase().includes('greyhound')) {
-            return `Greyhound.png`;
-        }
-        if (restaurantType.toLowerCase().includes('racecourse')) {
-            return `Racecourse.png`;
-        }
-        if (restaurantType.toLowerCase().includes('retirement')) {
-            return `Retirement.png`;
-        }
-        if (restaurantType.toLowerCase().includes('lodge')) {
-            return `Lodge.png`;
-        }
-        if (restaurantType.toLowerCase().includes('halal')) {
-            return `Halal.png`;
-        }
-        if (restaurantType.toLowerCase().includes('whale')) {
-            return `Whale.png`;
-        }
-        if (restaurantType.toLowerCase().includes('fusion')) {
-            return `Fusion.png`;
-        }
-        if (restaurantType.toLowerCase().includes('organic restaurant')) {
-            return `Organic.png`;
-        }
-        if (restaurantType.toLowerCase().includes('nasi goreng')) {
-            return `NasiGoreng.png`;
-        }
-        if (restaurantType.toLowerCase().includes('spa ')) {
-            return `Spa.png`;
-        }
-        if (restaurantType.toLowerCase().includes('art ')) {
-            return `Art.png`;
-        }
-        if (restaurantType.toLowerCase().includes('mountain')) {
-            return `Mountain.png`;
-        }
-        if (restaurantType.toLowerCase().includes('ski ')) {
-            return `Ski.png`;
-        }
-        if (restaurantType.toLowerCase().includes('laotian')) {
-            return `Laotian.png`;
-        }
-        if (restaurantType.toLowerCase().includes('continental')) {
-            return `Continental.png`;
-        }
-        if (restaurantType.toLowerCase().includes('video arcade')) {
-            return `VideoArcade.png`;
-        }
-        if (restaurantType.toLowerCase().includes('park')) {
-            return `Park.png`;
-        }
-        if (restaurantType.toLowerCase().includes('louisiana')) {
-            return `Louisiana.png`;
-        }
-        if (restaurantType.toLowerCase().includes('food and drink')) {
-            return `FoodAndDrink.png`;
-        }
-        if (restaurantType.toLowerCase().includes('amusement')) {
-            return `Amusement.png`;
-        }
-        if (restaurantType.toLowerCase().includes('bowling')) {
-            return `Bowling.png`;
-        }
-        if (restaurantType.toLowerCase().includes('museum')) {
-            return `Museum.png`;
-        }
-        if (restaurantType.toLowerCase().includes('temple')) {
-            return `Temple.png`;
-        }
-        if (restaurantType.toLowerCase().includes('wedding')) {
-            return `Wedding.png`;
-        }
-        if (restaurantType.toLowerCase().includes('horse')) {
-            return `Horse.png`;
-        }
-        if (restaurantType.toLowerCase().includes('live music')) {
-            return `LiveMusic.png`;
-        }
-        if (restaurantType.toLowerCase().includes('churreria')) {
-            return `Churreria.png`;
-        }
-        if (restaurantType.toLowerCase().includes('icelandic')) {
-            return `Icelandic.png`;
-        }
-        if (restaurantType.toLowerCase().includes('irish')) {
-            return `Irish.png`;
-        }
-        if (restaurantType.toLowerCase().includes('canadian')) {
-            return `Canadian.png`;
-        }
-        if (restaurantType.toLowerCase().includes('scottish')) {
-            return `Scottish.png`;
-        }
-        if (restaurantType.toLowerCase().includes('caribbean')) {
-            return `Caribbean.png`;
-        }
-        if (restaurantType.toLowerCase().includes('kosher')) {
-            return `Kosher.png`;
-        }
-        if (restaurantType.toLowerCase().includes('fish')) {
-            return `Fish.png`;
-        }
-        if (restaurantType.toLowerCase().includes('lounge')) {
-            return `Lounge.png`;
-        }
-        if (restaurantType.toLowerCase().includes('hawker')) {
-            return `Hawker.png`;
-        }
-        if (restaurantType.toLowerCase().includes('tapas')) {
-            return `Tapas.png`;
-        }
-        if (restaurantType.toLowerCase().includes('hot pot')) {
-            return `HotPot.png`;
-        }
-        if (restaurantType.toLowerCase().includes('frozen yogurt')) {
-            return `FrozenYogurt.png`;
-        }
-        if (restaurantType.toLowerCase().includes('casino')) {
-            return `Casino.png`;
-        }
-        if (restaurantType.toLowerCase().includes('chilean')) {
-            return `Chilean.png`;
-        }
-        if (restaurantType.toLowerCase().includes('colombian')) {
-            return `Colombian.png`;
-        }
-        if (restaurantType.toLowerCase().includes('moroccan')) {
-            return `Moroccan.png`;
-        }
-        if (restaurantType.toLowerCase().includes('maltese')) {
-            return `Maltese.png`;
-        }
-        if (restaurantType.toLowerCase().includes('swiss')) {
-            return `Swiss.png`;
-        }
-        if (restaurantType.toLowerCase().includes('dutch')) {
-            return `Dutch.png`;
-        }
-        if (restaurantType.toLowerCase().includes('austrian')) {
-            return `Austrian.png`;
-        }
-        if (restaurantType.toLowerCase().includes('danish')) {
-            return `Danish.png`;
-        }
-        if (restaurantType.toLowerCase().includes('polish')) {
-            return `Polish.png`;
-        }
-        if (restaurantType.toLowerCase().includes('romanian')) {
-            return `Romanian.png`;
-        }
-        if (restaurantType.toLowerCase().includes('ethiopian')) {
-            return `Ethiopian.png`;
-        }
-        if (restaurantType.toLowerCase().includes('british')
-            || restaurantType.toLowerCase().includes('english')) {
-            return `British.png`;
-        }
-        if (restaurantType.toLowerCase().includes('hawaiian')) {
-            return `Hawaiian.png`;
-        }
-        if (restaurantType.toLowerCase().includes('pakistani')) {
-            return `Pakistani.png`;
-        }
-        if (restaurantType.toLowerCase().includes('bangladeshi')) {
-            return `Bangladeshi.png`;
-        }
-        if (restaurantType.toLowerCase().includes('peruvian')) {
-            return `Peruvian.png`;
-        }
-        if (restaurantType.toLowerCase().includes('burmese')) {
-            return `Burmese.png`;
-        }
-        if (restaurantType.toLowerCase().includes('cambodian')) {
-            return `Cambodian.png`;
-        }
-        if (restaurantType.toLowerCase().includes('sri lankan')) {
-            return `SriLankan.png`;
-        }
-        if (restaurantType.toLowerCase().includes('punjabi')) {
-            return `Punjabi.png`;
-        }
-        if (restaurantType.toLowerCase().includes('cooking school')
-            || restaurantType == "Co-ed school"
-            || restaurantType == "Community college"
-            || restaurantType == "Cooking class"
-        ) {
-            return `CookingSchool.png`;
-        }
-        if (restaurantType.toLowerCase().includes('taiwanese')) {
-            return `Taiwanese.png`;
-        }
-        if (restaurantType.toLowerCase().includes('european')) {
-            return `European.png`;
-        }
-        if (restaurantType.toLowerCase().includes('soup')) {
-            return `Soup.png`;
-        }
-        if (restaurantType.toLowerCase().includes('western restaurant')) {
-            return `Western.png`;
-        }
-        if (restaurantType.toLowerCase().includes('açaí')) {
-            return `Açaí.png`;
-        }
-        if (restaurantType.toLowerCase().includes('venezuelan')) {
-            return `Venezuelan.png`;
-        }
-        if (restaurantType.toLowerCase().includes('bagel')) {
-            return `Bagel.png`;
-        }
-        if (restaurantType.toLowerCase().includes('dumpling')) {
-            return `Dumpling.png`;
-        }
-        if (restaurantType.toLowerCase().includes('argentinian')) {
-            return `Argentinian.png`;
-        }
-        if (restaurantType.toLowerCase().includes('stadium')
-            || restaurantType.toLowerCase().includes('arena')
-            || restaurantType.toLowerCase().includes('sports complex')
-        ) {
-            return `Stadium.png`;
-        }
-        if (restaurantType.toLowerCase().includes('sandwich')) {
-            return `Sandwich.png`;
-        }
-        if (restaurantType.toLowerCase().includes('cookie')) {
-            return `Cookie.png`;
-        }
-        if (restaurantType.toLowerCase().includes('charcuterie')) {
-            return `Charcuterie.png`;
-        }
-        if (restaurantType.toLowerCase().includes('pasta')) {
-            return `Pasta.png`;
-        }
-        if (restaurantType == 'Wok restaurant') {
-            return `Wok.png`;
-        }
-        if (restaurantType.toLowerCase().includes('brazilian')) {
-            return `Brazilian.png`;
-        }
-        if (restaurantType.toLowerCase().includes('uyghur')) {
-            return `Uyghur.png`;
-        }
-        if (restaurantType.toLowerCase().includes('food court')) {
-            return `FoodCourt.png`;
-        }
-        if (restaurantType.toLowerCase().includes('persian')) {
-            return `Persian.png`;
-        }
-        if (restaurantType.toLowerCase().includes('middle eastern')) {
-            return `MiddleEastern.png`;
-        }
-        if (restaurantType.toLowerCase().includes('afghan')) {
-            return `Afghan.png`;
-        }
-        if (restaurantType.toLowerCase().includes('portuguese')) {
-            return `Portuguese.png`;
-        }
-        if (restaurantType.toLowerCase().includes('cantonese')) {
-            return `Cantonese.png`;
-        }
-        if (restaurantType.toLowerCase().includes('african')) {
-            return `African.png`;
-        }
-        if (restaurantType.toLowerCase().includes('filipino')) {
-            return `Filipino.png`;
-        }
-        if (restaurantType.toLowerCase().includes('distillery')) {
-            return `Distillery.png`;
-        }
-        if (restaurantType.toLowerCase().includes('fine dining')) {
-            return `FineDining.png`;
-        }
-        if (restaurantType.toLowerCase().includes('theater')) {
-            return `Theater.png`;
-        }
-        if (restaurantType.toLowerCase().includes('health food')) {
-            return `HealthFood.png`;
-        }
-        if (restaurantType.toLowerCase().includes('malaysian')) {
-            return `Malaysian.png`;
-        }
-        if (restaurantType.toLowerCase().includes('confectionery')) {
-            return `Confectionery.png`;
-        }
-        if (restaurantType.toLowerCase().includes('mediterranean')) {
-            return `Mediterranean.png`;
-        }
-        if (restaurantType.toLowerCase().includes('carvery')) {
-            return `Carvery.png`;
-        }
-        if (restaurantType.toLowerCase().includes('vineyard')) {
-            return `Vineyard.png`;
-        }
-        if (restaurantType.toLowerCase().includes('south african')) {
-            return `SouthAfrican.png`;
-        }
-        if (restaurantType.toLowerCase().includes('club')) {
-            return `Club.png`;
-        }
-
-        if (restaurantType.toLowerCase().includes('buffet')) {
-            return `Buffet.png`;
-        }
-        if (restaurantType.toLowerCase().includes('traditional')) {
-            return `Traditional.png`;
-        }
-        if (restaurantType.toLowerCase().includes('diner')) {
-            return `Diner.png`;
-        }
-        if (restaurantType.toLowerCase().includes('caterer')) {
-            return `Caterer.png`;
-        }
-        if (restaurantType.toLowerCase().includes('bistro')) {
-            return `Bistro.png`;
-        }
-        if (restaurantType.toLowerCase().includes('singaporean')) {
-            return `Singaporean.png`;
-        }
-
-        if (restaurantType.toLowerCase().includes('turkish')) {
-            return `Turkish.png`;
-        }
-        if (restaurantType.toLowerCase().includes('lebanese')) {
-            return `Lebanese.png`;
-        }
-        if (restaurantType.toLowerCase().includes('spanish')) {
-            return `Spanish.png`;
-        }
-
-        if (restaurantType.toLowerCase().includes('nepalese')) {
-            return `Nepalese.png`;
-        }
-        if (restaurantType.toLowerCase().includes('farm')) {
-            return `Farm.png`;
-        }
-        if (restaurantType.toLowerCase().includes('plant')
-            || restaurantType.toLowerCase().includes('garden center')) {
-            return `Plant.png`;
-        }
-        if (restaurantType.toLowerCase().includes('cheese')) {
-            return `Cheese.png`;
-        }
-
-        if (restaurantType.toLowerCase().includes('zoo')) {
-            return `Zoo.png`;
-        }
-
-        if (restaurantType.toLowerCase().includes('petrol station')) {
-            return `PetrolStation.png`;
-        }
-        if (restaurantType.toLowerCase().includes('golf club')
-            || restaurantType.toLowerCase().includes('golf course')
-            || restaurantType.toLowerCase().includes('golf driving range')
-
-        ) {
-            return `GolfClub.png`;
-        }
-
-        if (restaurantType.toLowerCase().includes('greek')) {
-            return `Greek.png`;
-        }
-        if (restaurantType.toLowerCase().includes('asian')) {
-            return `Asian.png`;
-        }
-
-        if (restaurantType.toLowerCase().includes('take away')) {
-            return `TakeAway.png`;
-        }
-        if (restaurantType.toLowerCase().includes('juice')) {
-            return `Juice.png`;
-        }
-        if (restaurantType.toLowerCase().includes('breakfast')) {
-            return `Breakfast.png`;
-        }
-        if (restaurantType.toLowerCase().includes('brunch')
-            || restaurantType.toLowerCase().includes('lunch')) {
-            return `Brunch.png`;
-        }
-
-        if (restaurantType.toLowerCase().includes('organic shop')
-            || restaurantType.toLowerCase().includes('organic food')) {
-            return `OrganicShop.png`;
-        }
-
-
-        if (restaurantType.toLowerCase().includes('fast food')) {
-            return `FastFood.png`;
-        }
-        if (restaurantType.toLowerCase().includes('sundae')) {
-            return `Sundae.png`;
-        }
-        if (restaurantType.toLowerCase().includes('supermarket')) {
-            return `Supermarket.png`;
-        }
-
-        if (restaurantType.toLowerCase().includes('grocery')) {
-            return `GroceryStore.png`;
-        }
-        if (restaurantType.toLowerCase().includes('new zealand')) {
-            return `Kiwi.png`;
-        }
-        if (restaurantType.toLowerCase().includes('taco')) {
-            return `Taco.png`;
-        }
-        if (restaurantType.toLowerCase().includes('american ')) {
-            return `American.png`;
-        }
-        if (restaurantType.toLowerCase().includes('meat dish')) {
-            return `MeatDish.png`;
-        }
-        if (restaurantType.toLowerCase().includes('kebab')) {
-            return `Kebab.png`;
-        }
-        if (restaurantType.toLowerCase().includes('chocolate')) {
-            return `Chocolate.png`;
-        }
-        if (restaurantType.toLowerCase().includes('fruit')) {
-            return `Fruit.png`;
-        }
-        if (restaurantType.toLowerCase().includes('tempura')) {
-            return `Tempura.png`;
-        }
-        if (restaurantType.toLowerCase().includes('deli')) {
-            return `Deli.png`;
-        }
-        if (restaurantType.toLowerCase().includes('belgian')) {
-            return `Belgian.png`;
-        }
-        if (restaurantType.toLowerCase().includes('kaiseki')) {
-            return `Kaiseki.png`;
-        }
-        if (restaurantType.toLowerCase().includes('gyudon')) {
-            return `Gyudon.png`;
-        }
-        if (restaurantType.toLowerCase().includes('family')) {
-            return `Family.png`;
-        }
-        if (restaurantType.toLowerCase().includes('pastry')) {
-            return `Pastry.png`;
-        }
-        if (restaurantType.toLowerCase().includes('creperie')) {
-            return `Creperie.png`;
-        }
-        if (restaurantType.toLowerCase().includes('izakaya')) {
-            return `Izakaya.png`;
-        }
-        if (restaurantType.toLowerCase().includes('patisserie')) {
-            return `Patisserie.png`;
-        }
-        if (restaurantType.toLowerCase().includes('yakitori')) {
-            return `Yakitori.png`;
-        }
-        if (restaurantType.toLowerCase().includes('seafood')) {
-            return `Seafood.png`;
-        }
-        if (restaurantType.toLowerCase().includes('salad')) {
-            return `Salad.png`;
-        }
-        if (restaurantType.toLowerCase().includes("pie")) {
-            return `Pie.png`;
-        }
-        if (restaurantType.toLowerCase().includes("bar")
-            || restaurantType.toLowerCase().includes("tavern")) {
-            return `Bar.png`;
-        }
-        if (restaurantType.toLowerCase().includes("gluten")) {
-            return `GF.png`;
-        }
-        if (restaurantType.toLowerCase().includes("korean")) {
-            return `Korean.png`;
-        }
-        if (restaurantType.toLowerCase().includes("tex-mex")) {
-            return `TexMex.png`;
-        }
-        if (restaurantType.toLowerCase().includes("sushi")) {
-            return `Sushi.png`;
-        }
-
-        if (restaurantType.toLowerCase().includes("cake")) {
-            return `Cake.png`;
-        }
-
-        if (restaurantType.toLowerCase().includes("ice cream")) {
-            return `IceCream.png`;
-        }
-        if (restaurantType.toLowerCase().includes("Cake shop")
-            || restaurantType.toLowerCase().includes("dessert")) {
-            return `Cheesecake.png`;
-        }
-
-        if (restaurantType.includes("Donut")) {
-            return `Donut.png`;
-        }
-        if (restaurantType.includes("Mexican")) {
-            return `Mexican.png`;
-        }
-        if (restaurantType.includes("Bubble tea")) {
-            return `BubbleTea.png`;
-        }
-        if (restaurantType.includes("Bottle Shop and Liquor Store")) {
-            return `BottleShop.png`;
-        }
-        if (restaurantType.toLowerCase().includes("cafe")
-            || restaurantType.toLowerCase().includes("tea")
-            || restaurantType == "Coffee shop"
-            || restaurantType == "Coffee roasters"
-            || restaurantType == "Coffee stand"
-        ) {
-            return `Cafe.png`;
-        }
-        if (restaurantType.includes('Fish & Chips')
-            || restaurantType.includes('Fish & Chips')
-            || restaurantType.includes('Fish and chips')
-            || restaurantType.includes('Fish & chips')
-        ) {
-            return `FishAndChips.png`;
-        }
-        if (restaurantType.includes("Pizza")) {
-            return `Pizza.png`;
-        }
-        if (restaurantType.includes("Vegan")
-            || restaurantType.toLowerCase().includes("vegetarian")
-        ) {
-            return `Vegan.png`;
-        }
-        if (restaurantType.toLowerCase().includes("Bakery".toLowerCase())) {
-            return `Bread.png`;
-        }
-        if (restaurantType.toLowerCase().includes("Thai".toLowerCase())) {
-            return `Thai.png`;
-        }
-        if (restaurantType.includes("Barbecue")
-            || restaurantType.includes("Grill")) {
-            return `BBQ.png`;
-        }
-        if (restaurantType.includes("Japanese")) {
-            return `Japanese.png`;
-        }
-        if (restaurantType.includes("Italian")) {
-            return `Italian.png`;
-        }
-        if (restaurantType.includes("French")) {
-            return `French.png`;
-        }
-        if (restaurantType.includes("Balinese")
-            || restaurantType.includes("Indonesian")) {
-            return `Balinese.png`;
-        }
-        if (restaurantType.includes("Chinese")) {
-            return `Chinese.png`;
-        }
-        if (restaurantType.toLowerCase().includes("burger")) {
-            return `Hamburger.png`;
-        }
-        if (restaurantType.includes("Vietnamese")
-            || restaurantType.includes("Pho restaurant")) {
-            return `Vietnamese.png`;
-        }
-        if (restaurantType.toLowerCase().includes("Steak".toLowerCase())) {
-            return `Steak.png`;
-        }
-        if (restaurantType.toLowerCase().includes("Australian".toLowerCase())) {
-            return `Australian.png`;
-        }
-        if (restaurantType.includes("Wine")) {
-            return `WineBar.png`;
-        }
-        if (restaurantType.includes("Brewery") || restaurantType.includes("Brewpub")
-            || restaurantType.includes("Pub") || restaurantType.includes("Sports bar")
-            || restaurantType.includes("Beer garden")
-            || restaurantType.includes("Gastropub")
-            || restaurantType.includes("Beer hall")
-            || restaurantType.includes("Microbrewery")
-
-
-        ) {
-            return `Brewery.png`;
-        }
-        if (restaurantType.toLowerCase().includes('chicken')) {
-            return `Chicken.png`;
-        }
-        if (restaurantType.toLowerCase().includes('butcher')) {
-            return `Butcher.png`;
-        }
-        if (restaurantType.toLowerCase().includes('german')) {
-            return `German.png`;
-        }
-        if (restaurantType.toLowerCase().includes('okonomiyaki')) {
-            return `Okonomiyaki.png`;
-        }
-        if (restaurantType.toLowerCase().includes('indian')) {
-            return `Indian.png`;
-        }
-        if (restaurantType.toLowerCase().includes('noodle')) {
-            return `Noodle.png`;
-        }
-        if (restaurantType.toLowerCase().includes('ramen')) {
-            return `Ramen.png`;
-        }
-        if (restaurantType.toLowerCase().includes('yakiniku')) {
-            return `Yakiniku.png`;
-        }
-        if (restaurantType.toLowerCase() == 'restaurant') {
+        if (restaurantType.toLowerCase() == 'restaurant'
+            || restaurantType.toLowerCase() == 'fixed-price restaurant') {
             return `Restaurant.png`;
         }
-
-
         return null;
     }
 

@@ -111,18 +111,17 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     var location = { latitude: 35.6844, longitude: 139.753 };
     this.map = L.map('map').setView([location.latitude, location.longitude], 8);
-    var key = "4XNqZU5WGeN8rGGyXkiP";
-    L.tileLayer(`https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=${key}`, { //style URL
-      tileSize: 512,
-      zoomOffset: -1,
-      minZoom: 1,
-      attribution: "\u003ca href=\"https://www.maptiler.com/copyright/\" target=\"_blank\"\u003e\u0026copy; MapTiler\u003c/a\u003e \u003ca href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\"\u003e\u0026copy; OpenStreetMap contributors\u003c/a\u003e",
-      crossOrigin: true
+    /*     var key = "4XNqZU5WGeN8rGGyXkiP";
+        L.tileLayer(`https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=${key}`, { //style URL
+          tileSize: 512,
+          zoomOffset: -1,
+          minZoom: 1,
+          attribution: "\u003ca href=\"https://www.maptiler.com/copyright/\" target=\"_blank\"\u003e\u0026copy; MapTiler\u003c/a\u003e \u003ca href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\"\u003e\u0026copy; OpenStreetMap contributors\u003c/a\u003e",
+          crossOrigin: true
+        }).addTo(this.map); */
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
-    https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=${key}
-    /*    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-       }).addTo(this.map);*/
     this.map.addLayer(this.markerGroup);
   }
   ngOnDestroy() {
@@ -241,7 +240,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   showMapPins(countryNames: string[]) {
     var pinTopics = this.getPinsInCountries(countryNames);
     var gmPins = this.getGMPinsInCountries(countryNames);
-    const liveMode = true; // this makes it easier to see generic pins
+    const liveMode = false; // this makes it easier to see generic pins
     this.loaded = false;
     var map: L.Map;
     if ((this.map === undefined)) return;
