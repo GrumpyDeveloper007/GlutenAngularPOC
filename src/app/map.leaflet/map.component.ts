@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy, EventEmitter, Output, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgIf, NgFor } from '@angular/common';
+import { NgIf, NgFor, NgClass } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { forkJoin, Observable, tap } from 'rxjs';
 import { GMapsPin, TopicGroup } from "../_model/model";
+import { Restaurant } from "../_model/restaurant";
 import { Others, restaurantTypes } from "../_model/staticData";
 import { ModalService, GlutenApiService, LocationService, MapDataService, PinService, DiagnosticService } from '../_services';
 import { ModalComponent } from '../_components';
@@ -20,6 +21,7 @@ import * as L from 'leaflet';
   imports: [
     NgIf,
     NgFor,
+    NgClass,
     ModalComponent,
     FormsModule,
     MatProgressSpinnerModule
@@ -69,22 +71,20 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     this._showGMPins = value;
     this.loadMapPins();
   }
-
-  selectNone(): void {
-    this.restaurants.forEach(restaurant => {
-      restaurant.Show = false;
-    });
-  }
-
-  selectAll(): void {
-    this.restaurants.forEach(restaurant => {
-      restaurant.Show = true;
-    });
+  @Input() set updateRestaurants(value: Restaurant[]) {
+    console.log("Updating restaurants");
+    this.restaurants = value;
+    this.loadMapPins();
   }
 
   isSelected(restaurantType: string): boolean {
     var result = false;
     // Special 1st option
+
+    if (this.pinService.isHotel(restaurantType)) return this._showHotels;
+    if (this.pinService.isStore(restaurantType)) return this._showStores;
+    if (this.pinService.isOther(restaurantType)) return this._showOthers;
+
     if (this.restaurants[0].Name == "All" && this.restaurants[0].Show) return true;
 
     this.restaurants.forEach(restaurant => {
@@ -95,11 +95,6 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     });
     return result;
-  }
-
-  selectComplete(): void {
-    this.modalService.close();
-    this.loadMapPins();
   }
 
   pinSelected(pin: any): void {
@@ -132,8 +127,6 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
       var a = new Restaurant(true, restaurant);
       this.restaurants.push(a);
     });
-    // Makerを配置
-    //L.marker([0, 0]).bindPopup('<b>Hello!!</b>').addTo(this.map);
 
     var location = { latitude: 35.6844, longitude: 139.753 };
     await this.locationService.getUserLocation()
@@ -213,7 +206,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     if (!waitForDataLoad) {
-      console.debug("Data load skipped");
+      //console.debug("Data load skipped");
       this.showMapPins(countryNames);
     }
   }
@@ -240,7 +233,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   showMapPins(countryNames: string[]) {
     var pinTopics = this.getPinsInCountries(countryNames);
     var gmPins = this.getGMPinsInCountries(countryNames);
-    const liveMode = false; // this makes it easier to see generic pins
+    const liveMode = true; // this makes it easier to see generic pins
     this.loaded = false;
     var map: L.Map;
     if ((this.map === undefined)) return;
@@ -262,9 +255,6 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
 
         var isSelected = this.isSelected(pin.restaurantType);
         if (!isSelected) return;
-        if (!this._showHotels && this.pinService.isHotel(pin)) return;
-        if (!this._showStores && this.pinService.isStore(pin)) return;
-        if (!this._showOthers && this.pinService.isOther(pin)) return;
         pinsToExport.push(pin);
 
         // trigger event to call a function back in angular
@@ -280,7 +270,10 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
         marker.addEventListener('click', () => {
           this.pinSelected(pin);
         })
-        if (icon.options.iconUrl == "Red.png" || liveMode) {
+        if (icon.options.iconUrl == "Red.png"
+          || icon.options.iconUrl == "Blue.png"
+          || icon.options.iconUrl == "Green.png"
+          || liveMode) {
           marker.addTo(this.markerGroup);
           this.selectedPins++;
         }
@@ -335,9 +328,3 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 }
 
-export class Restaurant {
-  constructor(
-    public Show: boolean,
-    public Name: string,
-  ) { }
-}

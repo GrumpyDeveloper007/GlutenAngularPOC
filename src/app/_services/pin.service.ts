@@ -109,7 +109,6 @@ export class PinService {
     { fileName: "HealthFood.png", search: "health food" },
     { fileName: "Malaysian.png", search: "Malaysian" },
     { fileName: "Malaysian.png", search: "Ikan bakar" },
-    { fileName: "Confectionery.png", search: "Confectionery" },
     { fileName: "Mediterranean.png", search: "Mediterranean" },
     { fileName: "Carvery.png", search: "Carvery" },
     { fileName: "Vineyard.png", search: "Vineyard" },
@@ -180,7 +179,6 @@ export class PinService {
     { fileName: "Steak.png", search: "Steak" },
     { fileName: "Australian.png", search: "Australian" },
     { fileName: "Chicken.png", search: "Chicken" },
-    { fileName: "Butcher.png", search: "Butcher" },
     { fileName: "German.png", search: "German" },
     { fileName: "Okonomiyaki.png", search: "Okonomiyaki" },
     { fileName: "Indian.png", search: "Indian" },
@@ -189,7 +187,7 @@ export class PinService {
     { fileName: "Ramen.png", search: "Ramen" },
     { fileName: "Yakiniku.png", search: "Yakiniku" },
     { fileName: "Donut.png", search: "Donut" },
-    { fileName: "Mexican.png", search: "Mexican" },
+    { fileName: "Mexican.png", search: "Mexican R" },
     { fileName: "BubbleTea.png", search: "Bubble tea" },
     { fileName: "FishAndChips.png", search: "Fish & Chips" },
     { fileName: "FishAndChips.png", search: "Fish and chips" },
@@ -225,12 +223,6 @@ export class PinService {
     { fileName: "Cafe.png", search: "Coffee stand" },
     { fileName: "Wok.png", search: "Wok restaurant" },
     { fileName: "FastFood.png", search: "fast food" },
-    { fileName: "BottleShop.png", search: "Bottle Shop and Liquor Store" },
-    { fileName: "BottleShop.png", search: "Off Licence" },
-    { fileName: "OrganicShop.png", search: "organic shop" },
-    { fileName: "OrganicShop.png", search: "organic food" },
-    { fileName: "Supermarket.png", search: "Supermarket" },
-    { fileName: "GroceryStore.png", search: "GroceryStore" },
     { fileName: "Zoo.png", search: "Zoo" },
     { fileName: "PetrolStation.png", search: "petrol station" },
     { fileName: "WildlifeSanctuary.png", search: "Wildlife Sanctuary" },
@@ -264,75 +256,85 @@ export class PinService {
     { fileName: "Falafel.png", search: "Falafel" },
     { fileName: "Exhibition.png", search: "Exhibition" },
     { fileName: "Kitchen.png", search: "Shared-use commercial kitchen" },
-
-
-
-
-
+    // Stores
+    { fileName: "Confectionery.png", search: "Confectionery" },
+    { fileName: "Butcher.png", search: "Butcher" },
+    { fileName: "BottleShop.png", search: "Bottle Shop and Liquor Store" },
+    { fileName: "BottleShop.png", search: "Off Licence" },
+    { fileName: "BottleShop.png", search: "Liquor store" },
+    { fileName: "BottleShop.png", search: "Alcohol retail monopoly" },
+    { fileName: "OrganicShop.png", search: "organic shop" },
+    { fileName: "OrganicShop.png", search: "organic food" },
+    { fileName: "Supermarket.png", search: "Supermarket" },
+    { fileName: "GroceryStore.png", search: "Grocery Store" },
+    { fileName: "Market.png", search: "Market" },
+    { fileName: "Mall.png", search: "Mall" },
+    { fileName: "DepartmentStore.png", search: "Department store" },
+    { fileName: "HobbyStore.png", search: "Hobby Store" },
     ];
 
-    isStore(pin: TopicGroup): boolean {
-        return pin.restaurantType != null && (pin.restaurantType.includes("store")
-            || pin.restaurantType.includes("Supermarket")
+    isStore(restaurantType: string): boolean {
+        return restaurantType != null && (restaurantType.includes("store")
+            || restaurantType.includes("Supermarket")
             //Donut shop, Ice cream shop .... || pin.restaurantType.includes("shop"))
-            || pin.restaurantType.includes("market") || pin.restaurantType.includes("Market")
-            || pin.restaurantType.includes("mall") || pin.restaurantType.includes("Hypermarket")
-            || pin.restaurantType.includes("Grocery store")
-            || pin.restaurantType.includes("Food products supplier")
-            || pin.restaurantType.includes("Condiments supplier")
-            || pin.restaurantType.includes("Catering food and drink supplier")
-            || pin.restaurantType.includes("Department Store")
-            || pin.restaurantType.includes("Bottle Shop")
-            || pin.restaurantType.includes("Food bank")
-            || pin.restaurantType.includes("Op Shop")
-            || pin.restaurantType == "Shop"
-            || pin.restaurantType == "Food bank"
-            || pin.restaurantType == "Oyster supplier"
-            || pin.restaurantType == "Catholic church"
-            || pin.restaurantType == "Discount Shop"
-            || pin.restaurantType == "Greengrocer"
-            || pin.restaurantType == "Wholesale grocer"
-            || pin.restaurantType == "Bottled water supplier"
-            || pin.restaurantType == "Store"
-            || pin.restaurantType == "Ham shop"
-            || pin.restaurantType == "Alcohol retail monopoly"
-            || pin.restaurantType == "Cash and carry wholesaler"
-            || pin.restaurantType == "Convenience Store"
-            || pin.restaurantType == "Beer shop"
-            || pin.restaurantType == "Alcoholic beverage wholesaler"
-            || pin.restaurantType == "Stationery Shop"
-            || pin.restaurantType == "生鲜市场" //fresh market
-            || pin.restaurantType == "美食杂货店"//gourmet grocery store
-            || pin.restaurantType == "General Store"
-            || pin.restaurantType == "Vegetable wholesaler"
-            || pin.restaurantType == "Discount Store"
-            || pin.restaurantType == "Gourmet Grocery Shop"
-
-
-
+            || restaurantType.includes("market")
+            || restaurantType.includes("Market")
+            || restaurantType.includes("mall")
+            || restaurantType.includes("Hypermarket")
+            || restaurantType.includes("Grocery store")
+            || restaurantType.includes("Food products supplier")
+            || restaurantType.includes("Condiments supplier")
+            || restaurantType.includes("Catering food and drink supplier")
+            || restaurantType.includes("Department Store")
+            || restaurantType.includes("Bottle Shop")
+            || restaurantType.includes("Food bank")
+            || restaurantType.includes("Op Shop")
+            || restaurantType == "Shop"
+            || restaurantType == "Food bank"
+            || restaurantType == "Oyster supplier"
+            || restaurantType == "Catholic church"
+            || restaurantType == "Discount Shop"
+            || restaurantType == "Greengrocer"
+            || restaurantType == "Wholesale grocer"
+            || restaurantType == "Bottled water supplier"
+            || restaurantType == "Store"
+            || restaurantType == "Ham shop"
+            || restaurantType == "Alcohol retail monopoly"
+            || restaurantType == "Cash and carry wholesaler"
+            || restaurantType == "Convenience Store"
+            || restaurantType == "Beer shop"
+            || restaurantType == "Alcoholic beverage wholesaler"
+            || restaurantType == "Stationery Shop"
+            || restaurantType == "生鲜市场" //fresh market
+            || restaurantType == "美食杂货店"//gourmet grocery store
+            || restaurantType == "General Store"
+            || restaurantType == "Vegetable wholesaler"
+            || restaurantType == "Discount Store"
+            || restaurantType == "Gourmet Grocery Shop"
+            || restaurantType == "Shopping Centre"
 
         );
     }
 
 
-    isHotel(pin: TopicGroup): boolean {
-        if (pin.restaurantType == null) return false;
-        return pin.restaurantType.toLowerCase().includes("hotel")
-            || pin.restaurantType == "5-star hotel"
-            || pin.restaurantType == "Guest house"
-            || pin.restaurantType == "Accommodation"
-            || pin.restaurantType == "Holiday apartment rental"
-            || pin.restaurantType == "Homestay"
-            || pin.restaurantType == "Self-catering accommodation"
-            || pin.restaurantType == "Holiday home"
-            || pin.restaurantType == "Serviced accommodation"
-            || pin.restaurantType == "Hostel"
-            || pin.restaurantType == "Lodging"
-
+    isHotel(restaurantType: string): boolean {
+        if (restaurantType == null) return false;
+        return restaurantType.toLowerCase().includes("hotel")
+            || restaurantType == "5-star hotel"
+            || restaurantType == "Guest house"
+            || restaurantType == "Accommodation"
+            || restaurantType == "Holiday apartment rental"
+            || restaurantType == "Homestay"
+            || restaurantType == "Self-catering accommodation"
+            || restaurantType == "Holiday home"
+            || restaurantType == "Serviced accommodation"
+            || restaurantType == "Hostel"
+            || restaurantType == "Lodging"
+            || restaurantType == "Guesthouse"
             ;
     }
-    isOther(pin: TopicGroup): boolean {
-        return pin.restaurantType == null || Others.includes(pin.restaurantType);
+    isOther(restaurantType: string): boolean {
+        return restaurantType == null || Others.includes(restaurantType);
     }
 
     isInBounds(geoLatitude: number, geoLongitude: number, bounds: maplibregl.LngLatBounds): boolean {
@@ -358,9 +360,9 @@ export class PinService {
 
     getColor(pin: TopicGroup): string {
         var color = "#FF0000";
-        if (this.isHotel(pin)) color = "#00FF00";
-        if (this.isStore(pin)) color = "#0000FF";
-        if (this.isOther(pin)) color = "#00FFFF";
+        if (this.isHotel(pin.restaurantType)) color = "#00FF00";
+        if (this.isStore(pin.restaurantType)) color = "#0000FF";
+        if (this.isOther(pin.restaurantType)) color = "#00FFFF";
         return color;
     }
 
@@ -438,6 +440,9 @@ export class PinService {
 
         if (restaurantName.toLowerCase().includes("natural lawson")) {
             return `NaturalLawson.png`;
+        }
+        if (restaurantName.toLowerCase().startsWith("lawson")) {
+            return `Lawson.png`;
         }
 
         if (restaurantName.toLowerCase().includes('indian')) {

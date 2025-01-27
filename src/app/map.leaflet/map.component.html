@@ -1,28 +1,17 @@
-<div class="page">
-    <div>
-        <button (click)="modalService.open('modal-1')">Find specific restaurant type</button>
-        <a [href]="fileUrl" download="file.csv">Download Selected Pins</a>
-        <span> Pin count : {{selectedPins}}</span>
+<div id="map" class="map">
+    <div class="pincountdiv">
+        <span [ngClass]="{'redtext': selectedPins==400}"> Pin count : {{selectedPins}}</span>
     </div>
 
-    <div id="map" class="map"></div>
+</div>
 
-    <div *ngIf="loaded" class="loading-overlay">
-        <div class="loading-content">
-            <mat-spinner></mat-spinner>
-            <p>Loading</p>
-        </div>
+<div *ngIf="loaded" class="loading-overlay">
+    <div class="loading-content">
+        <mat-spinner></mat-spinner>
+        <p>Loading</p>
     </div>
+</div>
 
-    <jw-modal id="modal-1">
-        <h1>Slect restaurant type -</h1>
-        <button (click)="selectNone()">Select None</button>
-        <button (click)="selectAll()">Select All</button>
-        <button (click)="selectComplete()">Close</button>
-        <div *ngFor="let item of restaurants; let i=index; ">
-            <label><input [(ngModel)]="item.Show" type="checkbox" />
-                {{item.Name}}
-            </label>
-        </div>
-    </jw-modal>
+<div>
+    <a [href]="fileUrl" download="file.csv">Download Selected Pins</a>
 </div>
