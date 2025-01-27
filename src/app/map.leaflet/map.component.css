@@ -3,7 +3,17 @@
   width: 100%;
 }
 
-.pincountdiv {
+.downloadFile {
+  font-size: 1.5em;
+  display: block;
+  position: absolute;
+  z-index: 1000;
+  padding: 0px 10px;
+  left: 0;
+  bottom: 0;
+}
+
+.pincount {
   font-size: 1.5em;
   display: block;
   position: absolute;

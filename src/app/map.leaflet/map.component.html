@@ -1,8 +1,11 @@
 <div id="map" class="map">
-    <div class="pincountdiv">
+    <div class="pincount">
         <span [ngClass]="{'redtext': selectedPins==400}"> Pin count : {{selectedPins}}</span>
     </div>
 
+    <div class="downloadFile">
+        <a [href]="fileUrl" download="file.csv">Download Selected Pins</a>
+    </div>
 </div>
 
 <div *ngIf="loaded" class="loading-overlay">
@@ -10,8 +13,4 @@
         <mat-spinner></mat-spinner>
         <p>Loading</p>
     </div>
-</div>
-
-<div>
-    <a [href]="fileUrl" download="file.csv">Download Selected Pins</a>
 </div>

@@ -37,6 +37,7 @@
 @media (min-width:1024px) {
   .window {
     flex-direction: row;
+  overflow: hidden;
   }
 
   .master {
@@ -47,6 +48,7 @@
 
   .detail {
     width: 25%;
+  overflow-y: auto;
   }
 }
 
