@@ -11,6 +11,7 @@ import { ModalService, GlutenApiService, LocationService, MapDataService, PinSer
 import { ModalComponent } from '../_components';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { latLng, LatLngBounds, tileLayer } from 'leaflet';
+
 import * as L from 'leaflet';
 
 @Component({
@@ -20,9 +21,7 @@ import * as L from 'leaflet';
   styleUrls: ['./map.component.css'],
   imports: [
     NgIf,
-    NgFor,
     NgClass,
-    ModalComponent,
     FormsModule,
     MatProgressSpinnerModule
   ],
@@ -72,7 +71,6 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     this.loadMapPins();
   }
   @Input() set updateRestaurants(value: Restaurant[]) {
-    console.log("Updating restaurants");
     this.restaurants = value;
     this.loadMapPins();
   }
@@ -105,6 +103,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     var location = { latitude: 35.6844, longitude: 139.753 };
+    //http://leaflet-extras.github.io/leaflet-providers/preview/
     this.map = L.map('map').setView([location.latitude, location.longitude], 8);
     /*     var key = "4XNqZU5WGeN8rGGyXkiP";
         L.tileLayer(`https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=${key}`, { //style URL
@@ -117,6 +116,11 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
+
+    //L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png', {
+    //      attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    //}).addTo(this.map);
+
     this.map.addLayer(this.markerGroup);
   }
   ngOnDestroy() {
@@ -206,7 +210,6 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     if (!waitForDataLoad) {
-      //console.debug("Data load skipped");
       this.showMapPins(countryNames);
     }
   }
@@ -273,6 +276,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
         if (icon.options.iconUrl == "Red.png"
           || icon.options.iconUrl == "Blue.png"
           || icon.options.iconUrl == "Green.png"
+          || icon.options.iconUrl == "Cyan.png"
           || liveMode) {
           marker.addTo(this.markerGroup);
           this.selectedPins++;

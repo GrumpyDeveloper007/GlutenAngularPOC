@@ -256,21 +256,59 @@ export class PinService {
     { fileName: "Falafel.png", search: "Falafel" },
     { fileName: "Exhibition.png", search: "Exhibition" },
     { fileName: "Kitchen.png", search: "Shared-use commercial kitchen" },
-    // Stores
+    { fileName: "Popcorn.png", search: "Popcorn" },
+
+    // Stores -
     { fileName: "Confectionery.png", search: "Confectionery" },
     { fileName: "Butcher.png", search: "Butcher" },
+    { fileName: "Butcher.png", search: "Poultry store" },
+    { fileName: "Butcher.png", search: "Meat products store" },
     { fileName: "BottleShop.png", search: "Bottle Shop and Liquor Store" },
+    { fileName: "BottleShop.png", search: "Bottle Shop" },
+    { fileName: "BottleShop.png", search: "Beer store" },
+
     { fileName: "BottleShop.png", search: "Off Licence" },
     { fileName: "BottleShop.png", search: "Liquor store" },
     { fileName: "BottleShop.png", search: "Alcohol retail monopoly" },
+    { fileName: "BottleShop.png", search: "Beer shop" },
+    { fileName: "BottleShop.png", search: "Alcoholic beverage wholesaler" },
+
+
     { fileName: "OrganicShop.png", search: "organic shop" },
     { fileName: "OrganicShop.png", search: "organic food" },
     { fileName: "Supermarket.png", search: "Supermarket" },
+    { fileName: "Supermarket.png", search: "Greengrocer" },
+    { fileName: "Supermarket.png", search: "Wholesale food store" },
+    { fileName: "Supermarket.png", search: "Frozen food store" },
+    { fileName: "Supermarket.png", search: "General store" },
+    { fileName: "Supermarket.png", search: "Wholesale grocer" },
+    { fileName: "Supermarket.png", search: "Cash and carry wholesaler" },
+
+
     { fileName: "GroceryStore.png", search: "Grocery Store" },
+    { fileName: "GroceryStore.png", search: "Natural goods store" },
+
     { fileName: "Market.png", search: "Market" },
     { fileName: "Mall.png", search: "Mall" },
     { fileName: "DepartmentStore.png", search: "Department store" },
     { fileName: "HobbyStore.png", search: "Hobby Store" },
+    { fileName: "WarehouseStore.png", search: "Warehouse store" },
+    { fileName: "ConvenienceStore.png", search: "Convenience store" },
+    { fileName: "CoffeeStore.png", search: "Coffee store" },
+    { fileName: "DiscountStore.png", search: "Discount store" },
+    { fileName: "DiscountStore.png", search: "Discount shop" },
+    { fileName: "VitaminStore.png", search: "Vitamin & supplements store" },
+    { fileName: "VitaminStore.png", search: "Vitamin & Supplements Shop" },
+
+    { fileName: "CandyStore.png", search: "Candy Store" },
+
+    // others -
+    { fileName: "TouristAttraction.png", search: "Tourist Attraction" },
+    { fileName: "TouristAttraction.png", search: "Landmark" },
+    { fileName: "TouristAttraction.png", search: "Reef" },
+
+
+
     ];
 
     isStore(restaurantType: string): boolean {
@@ -312,6 +350,12 @@ export class PinService {
             || restaurantType == "Discount Store"
             || restaurantType == "Gourmet Grocery Shop"
             || restaurantType == "Shopping Centre"
+            || restaurantType == "Produce wholesaler"
+            || restaurantType == "Stores and shopping"
+            || restaurantType == "Vitamin & Supplements Shop"
+
+
+
 
         );
     }
