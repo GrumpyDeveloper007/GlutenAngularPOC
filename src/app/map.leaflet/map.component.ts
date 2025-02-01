@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { NgIf, NgClass } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { forkJoin, Observable, tap } from 'rxjs';
+import { firstValueFrom, forkJoin, Observable, tap } from 'rxjs';
 import { GMapsPin, TopicGroup } from "../_model/model";
 import { Restaurant } from "../_model/restaurant";
 import { Others, restaurantTypes } from "../_model/staticData";
@@ -40,6 +40,8 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   _showStores: boolean = true;
   _showOthers: boolean = true;
   _showGMPins: boolean = true;
+  _showChains: boolean = true;
+
   mapBounds: L.LatLngBounds = new L.LatLngBounds([46.879966, -121.726909], [46.879966, -121.726909]);
   loaded = true;
   loadingData = false;
@@ -69,6 +71,10 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   @Input() set showGMPins(value: boolean) {
     this._showGMPins = value;
+    this.loadMapPins();
+  }
+  @Input() set showChains(value: boolean) {
+    this._showChains = value;
     this.loadMapPins();
   }
   @Input() set updateRestaurants(value: Restaurant[]) {
@@ -137,6 +143,16 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     var location = { latitude: 35.6844, longitude: 139.753 };
+    try {
+      var ipLocation = await firstValueFrom(this.apiService.getLocation(""))
+      if (ipLocation != null && ipLocation.loc != null && ipLocation.loc != null) {
+        var latlng = ipLocation.loc.split(',');
+        console.log(latlng);
+        location = { latitude: parseFloat(latlng[0]), longitude: parseFloat(latlng[1]) }
+      }
+    }
+    catch { }
+
     await this.locationService.getUserLocation()
       .then((loc) => {
         location = loc;
@@ -144,6 +160,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
       .catch((err) => {
         console.debug(err);
       });
+
     this.apiService.postMapHome(location.latitude, location.longitude).subscribe();
 
     const initialState = { lng: location.longitude, lat: location.latitude, zoom: 14 };
@@ -263,6 +280,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
         if (pin == undefined) return;
         this.totalPins++;
         if (this.selectedPins >= 400) return;
+        if (!this._showChains && !!pin.isC) return;
         if (!this.pinService.isInBoundsLeaflet(pin.geoLatitude, pin.geoLongitude, bounds)) return;
         if (!this.isSelected(pin.restaurantType)) return;
         pinsToExport.push(pin);

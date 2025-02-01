@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { TopicGroup, GMapsPin } from "../_model/model";
+import { TopicGroup, GMapsPin, IpAddressData } from "../_model/model";
 import { catchError } from 'rxjs';
 import { Observable, of } from 'rxjs';
 
@@ -51,6 +51,11 @@ export class GlutenApiService {
     getGMPin(country: string): Observable<GMapsPin[]> {
         return this.http.get<GMapsPin[]>(this.baseUrl + "/api/GMapsPin?country=" + country, this.httpOptions)
             .pipe(catchError(this.handleError<GMapsPin[]>(`getGMPin id=${country}`)));
+    }
+
+    getLocation(country: string): Observable<IpAddressData> {
+        return this.http.get<IpAddressData>(this.baseUrl + "/api/GetLocation", this.httpOptions)
+            .pipe(catchError(this.handleError<IpAddressData>(`getLocation id=${country}`)));
     }
 
     postMapHome(geoLatitude: number, geoLongitude: number): Observable<any> {

@@ -50,10 +50,20 @@ export class TopicGroupClass {
 }
 
 export interface Topic {
-    title: string
     facebookUrl: string
     shortTitle: string
     postCreated: Date
 }
 
 
+export interface IpAddressData {
+    ip: string;
+    hostname: string;
+    city: string;
+    region: string;
+    country: string;
+    loc: string;
+    org: string;
+    postal: string;
+    timezone: string;
+}

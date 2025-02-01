@@ -1,4 +1,7 @@
 export var Others: Array<string> = [
+    'Spring',
+    'Opera house',
+    'Scenic point',
     'Cottage',
     'Country house',
     'Performing arts theatre',

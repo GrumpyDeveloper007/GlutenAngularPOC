@@ -205,6 +205,8 @@ export class PinService {
     { fileName: "Brewery.png", search: "Sports bar" },
     { fileName: "Brewery.png", search: "Beer garden" },
     { fileName: "Brewery.png", search: "Gastropub" },
+    { fileName: "Brewery.png", search: "Beverages" },
+
     { fileName: "Brewery.png", search: "Beer hall" },
     { fileName: "Brewery.png", search: "Microbrewery" },
     { fileName: "Brewery.png", search: "Tavern" },
@@ -265,8 +267,13 @@ export class PinService {
     { fileName: "Gyro.png", search: "Gyro" },
     { fileName: "Syrian.png", search: "Syrian" },
     { fileName: "Motorway.png", search: "Motorway" },
+    { fileName: "Motorway.png", search: "Rest stop" },
+
     { fileName: "CountryFood.png", search: "Country food" },
     { fileName: "Salvadoran.png", search: "Salvadoran" },
+    { fileName: "Crab.png", search: "Crab" },
+    { fileName: "HotDog.png", search: "Hot Dog" },
+
 
 
     { fileName: "GolfClub.png", search: "golf club" },

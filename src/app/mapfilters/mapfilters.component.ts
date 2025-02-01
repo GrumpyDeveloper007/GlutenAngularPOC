@@ -71,9 +71,21 @@ export class MapfiltersComponent {
       this.optionsChange.emit(this._options);
     }
   }
+  get showChains(): boolean {
+    return this._options.ShowChainPins;
+  }
+
+  @Input() set showChains(value: boolean) {
+    if (this._options.ShowChainPins != value) {
+      this._options.ShowChainPins = value;
+      this.optionsChange.emit(this._options);
+    }
+  }
   get showGMPins(): boolean {
     return this._options.ShowGMPins;
   }
+
+
 
   selectNone(): void {
     this.restaurants.forEach(restaurant => {

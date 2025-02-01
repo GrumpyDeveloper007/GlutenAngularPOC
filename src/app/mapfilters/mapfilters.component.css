@@ -93,3 +93,9 @@ span {
         font-size: 1em;
     }
 }
+
+label,
+input {
+    display: inline-block;
+    vertical-align: middle;
+}
