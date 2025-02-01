@@ -18,6 +18,6 @@ import { FilterOptions } from "./_model/filterOptions";
 export class AppComponent {
   title = 'gluten-angular-map';
   selectedTopicGroup: TopicGroup | null = null;
-  showOptions: FilterOptions = new FilterOptions(true, true, true, true);
+  showOptions: FilterOptions = new FilterOptions(true, true, true, true, true, true);
   restaurants: Restaurant[] = [];
 }

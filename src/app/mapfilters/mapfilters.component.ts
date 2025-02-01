@@ -25,7 +25,7 @@ import { FilterOptions } from "../_model/filterOptions";
 export class MapfiltersComponent {
   @Output() optionsChange = new EventEmitter<FilterOptions>();
   @Output() restaurantChange = new EventEmitter<Restaurant[]>();
-  private _options: FilterOptions = new FilterOptions(true, true, true, true);
+  private _options: FilterOptions = new FilterOptions(true, true, true, true, true, true);
   restaurants: Restaurant[] = [];
 
   constructor(
@@ -35,7 +35,7 @@ export class MapfiltersComponent {
     if (this._options.ShowHotels != value) {
       this._options.ShowHotels = value;
       console.debug("Filter Hotels click :");
-      var options: FilterOptions = new FilterOptions(this._options.ShowHotels, this._options.ShowStores, this._options.ShowOthers, this._options.ShowGMPins)
+      var options: FilterOptions = new FilterOptions(this._options.ShowHotels, this._options.ShowStores, this._options.ShowOthers, this._options.ShowGMPins, this._options.ShowChainPins, this._options.ShowNonGFGroupPins)
       this.optionsChange.emit(options);
     }
   }

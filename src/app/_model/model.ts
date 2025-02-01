@@ -1,15 +1,31 @@
 export interface TopicGroup {
-    geoLongitude: number
-    geoLatitude: number
-    label: string
-    placeName: string
-    description: string
-    topics: Topic[]
-    mapsLink: string
-    restaurantType: string,
-    price: string,
-    stars: string,
-    isGF: boolean
+    geoLongitude: number;
+    geoLatitude: number;
+    label: string;
+    placeName: string;
+    description: string;
+    topics: Topic[];
+    mapsLink: string;
+    restaurantType: string;
+    price: string;
+    stars: string;
+    isGF: boolean;
+    isC: boolean;
+    isGFG: boolean;
+}
+
+export interface GMapsPin {
+    placeName: string;
+    label: string;
+    address: string | null;
+    geoLatitude: string;
+    geoLongitude: string;
+    mapsUrl: string | null;
+    restaurantType: string;
+    price: string | null;
+    stars: string | null;
+    comment: string | null;
+    description: string | null;
 }
 
 
@@ -41,16 +57,3 @@ export interface Topic {
 }
 
 
-export interface GMapsPin {
-    placeName: string;
-    label: string;
-    address: string | null;
-    geoLatitude: string;
-    geoLongitude: string;
-    mapsUrl: string | null;
-    restaurantType: string;
-    price: string | null;
-    stars: string | null;
-    comment: string | null;
-    description: string | null;
-}

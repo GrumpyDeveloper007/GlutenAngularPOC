@@ -53,7 +53,6 @@ export class PinService {
     { fileName: "Tapas.png", search: "Tapas" },
     { fileName: "HotPot.png", search: "hot pot" },
     { fileName: "HotPot.png", search: "Shabu" },
-
     { fileName: "FrozenYogurt.png", search: "frozen yogurt" },
     { fileName: "Casino.png", search: "Casino" },
     { fileName: "Chilean.png", search: "Chilean" },
@@ -80,6 +79,7 @@ export class PinService {
     { fileName: "Taiwanese.png", search: "Taiwanese" },
     { fileName: "European.png", search: "European" },
     { fileName: "Soup.png", search: "Soup" },
+    { fileName: "Soup.png", search: "Samgyetang" },
     { fileName: "Western.png", search: "western restaurant" },
     { fileName: "Açaí.png", search: "açaí" },
     { fileName: "Venezuelan.png", search: "Venezuelan" },
@@ -123,17 +123,18 @@ export class PinService {
     { fileName: "Turkish.png", search: "Turkish" },
     { fileName: "Lebanese.png", search: "Lebanese" },
     { fileName: "Spanish.png", search: "Spanish" },
+    { fileName: "Spanish.png", search: "Majorcan" },
     { fileName: "Nepalese.png", search: "Nepalese" },
     { fileName: "Farm.png", search: "Farm" },
     { fileName: "Plant.png", search: "Plant" },
     { fileName: "Plant.png", search: "garden center" },
     { fileName: "Cheese.png", search: "Cheese" },
-    { fileName: "GolfClub.png", search: "golf club" },
-    { fileName: "GolfClub.png", search: "golf course" },
-    { fileName: "GolfClub.png", search: "golf driving range" },
     { fileName: "Greek.png", search: "Greek" },
     { fileName: "Asian.png", search: "Asian" },
+    { fileName: "Asian.png", search: "Pacific Rim" },
+
     { fileName: "TakeAway.png", search: "Takeaway" },
+    { fileName: "TakeAway.png", search: "Takeout" },
     { fileName: "TakeAway.png", search: "Take-out" },
     { fileName: "TakeAway.png", search: "Take Away" },
     { fileName: "TakeAway.png", search: "Takeout restaurant" },
@@ -143,7 +144,9 @@ export class PinService {
     { fileName: "Brunch.png", search: "lunch" },
     { fileName: "Sundae.png", search: "Sundae" },
     { fileName: "Kiwi.png", search: "New Zealand" },
+    { fileName: "Kiwi.png", search: "Tegal" },
     { fileName: "Taco.png", search: "Taco" },
+    { fileName: "Taco.png", search: "Mexican torta restaurant" },
     { fileName: "American.png", search: "American" },
     { fileName: "MeatDish.png", search: "Meat Dish" },
     { fileName: "Kebab.png", search: "Kebab" },
@@ -156,6 +159,7 @@ export class PinService {
     { fileName: "Gyudon.png", search: "Gyudon" },
     { fileName: "Family.png", search: "Family" },
     { fileName: "Pastry.png", search: "Pastry" },
+    { fileName: "Pastry.png", search: "Konditorei" },
     { fileName: "Creperie.png", search: "Creperie" },
     { fileName: "Izakaya.png", search: "Izakaya" },
     { fileName: "Patisserie.png", search: "Patisserie" },
@@ -214,6 +218,8 @@ export class PinService {
     { fileName: "Balinese.png", search: "Indonesian" },
     { fileName: "Chinese.png", search: "Chinese" },
     { fileName: "Chinese.png", search: "中餐馆" },
+    { fileName: "Chinese.png", search: "Sichuan" },
+    { fileName: "Chinese.png", search: "Hunan" },
     { fileName: "Vietnamese.png", search: "Vietnamese" },
     { fileName: "Vietnamese.png", search: "Pho restaurant" },
     { fileName: "Cafe.png", search: "cafe" },
@@ -223,6 +229,51 @@ export class PinService {
     { fileName: "Cafe.png", search: "Coffee stand" },
     { fileName: "Wok.png", search: "Wok restaurant" },
     { fileName: "FastFood.png", search: "fast food" },
+    { fileName: "Tonkatsu.png", search: "Tonkatsu" },
+    { fileName: "Padang.png", search: "Padang" },
+    { fileName: "Chophouse.png", search: "Chophouse" },
+    { fileName: "Burrito.png", search: "Burrito" },
+    { fileName: "Unagi.png", search: "Unagi" },//eel
+    { fileName: "Unagi.png", search: "eel" },
+    { fileName: "Ryotei.png", search: "Ryotei" },
+    { fileName: "Syokudo.png", search: "Syokudo" },
+    { fileName: "Kushiyaki.png", search: "Kushiyaki" },
+    { fileName: "Falafel.png", search: "Falafel" },
+    { fileName: "Exhibition.png", search: "Exhibition" },
+    { fileName: "Kitchen.png", search: "Shared-use commercial kitchen" },
+    { fileName: "Popcorn.png", search: "Popcorn" },
+    { fileName: "Swedish.png", search: "Swedish" },
+    { fileName: "Israeli.png", search: "Israeli" },
+    { fileName: "Ecuadorian.png", search: "Ecuadorian" },
+    { fileName: "Armenian.png", search: "Armenian" },
+    { fileName: "Betawi.png", search: "Betawi" },
+    { fileName: "Curry.png", search: "Curry" },
+    { fileName: "Obanzai.png", search: "Obanzai" },
+    { fileName: "Rice.png", search: "Pilaf" },
+    { fileName: "Rice.png", search: "Rice" },
+    { fileName: "Sicilian.png", search: "Sicilian" },
+    { fileName: "Roman.png", search: "Roman" },
+    { fileName: "Tuscan.png", search: "Tuscan" },
+    { fileName: "Neapolitan.png", search: "Neapolitan" },
+    { fileName: "Paraguayan.png", search: "Paraguayan" },
+    { fileName: "Norwegian.png", search: "Norwegian" },
+    { fileName: "Southern.png", search: "Southern" },
+    { fileName: "Floridian.png", search: "Floridian" },
+    { fileName: "Fondue.png", search: "Fondue" },
+    { fileName: "SoulFood.png", search: "Soul food" },
+    { fileName: "Andalusian.png", search: "Andalusian" },
+    { fileName: "Gyro.png", search: "Gyro" },
+    { fileName: "Syrian.png", search: "Syrian" },
+    { fileName: "Motorway.png", search: "Motorway" },
+    { fileName: "CountryFood.png", search: "Country food" },
+    { fileName: "Salvadoran.png", search: "Salvadoran" },
+
+
+    { fileName: "GolfClub.png", search: "golf club" },
+    { fileName: "GolfClub.png", search: "golf course" },
+    { fileName: "GolfClub.png", search: "golf driving range" },
+    { fileName: "Cruise.png", search: "Cruise" },
+
     { fileName: "Zoo.png", search: "Zoo" },
     { fileName: "PetrolStation.png", search: "petrol station" },
     { fileName: "WildlifeSanctuary.png", search: "Wildlife Sanctuary" },
@@ -242,24 +293,21 @@ export class PinService {
     { fileName: "CiderMill.png", search: "Cider Mill" },
     { fileName: "Orchard.png", search: "Orchard" },
     { fileName: "Aquarium.png", search: "Aquarium" },
-    { fileName: "SoftDrink.png", search: "Soft drinks" },
     { fileName: "SurfShop.png", search: "Surf shop" },
-    { fileName: "Tonkatsu.png", search: "Tonkatsu" },
-    { fileName: "Padang.png", search: "Padang" },
-    { fileName: "Chophouse.png", search: "Chophouse" },
-    { fileName: "Burrito.png", search: "Burrito" },
-    { fileName: "Unagi.png", search: "Unagi" },//eel
-    { fileName: "Unagi.png", search: "eel" },
-    { fileName: "Ryotei.png", search: "Ryotei" },
-    { fileName: "Syokudo.png", search: "Syokudo" },
-    { fileName: "Kushiyaki.png", search: "Kushiyaki" },
-    { fileName: "Falafel.png", search: "Falafel" },
-    { fileName: "Exhibition.png", search: "Exhibition" },
-    { fileName: "Kitchen.png", search: "Shared-use commercial kitchen" },
-    { fileName: "Popcorn.png", search: "Popcorn" },
+    { fileName: "SoftDrink.png", search: "Soft drinks" },
+
+
+
+
+
+
+
+
 
     // Stores -
     { fileName: "Confectionery.png", search: "Confectionery" },
+    { fileName: "Confectionery.png", search: "Biscuit Shop" },
+
     { fileName: "Butcher.png", search: "Butcher" },
     { fileName: "Butcher.png", search: "Poultry store" },
     { fileName: "Butcher.png", search: "Meat products store" },
@@ -301,6 +349,7 @@ export class PinService {
     { fileName: "VitaminStore.png", search: "Vitamin & Supplements Shop" },
 
     { fileName: "CandyStore.png", search: "Candy Store" },
+    { fileName: "CandyStore.png", search: "Sweet shop" },
 
     // others -
     { fileName: "TouristAttraction.png", search: "Tourist Attraction" },
@@ -353,8 +402,8 @@ export class PinService {
             || restaurantType == "Produce wholesaler"
             || restaurantType == "Stores and shopping"
             || restaurantType == "Vitamin & Supplements Shop"
-
-
+            || restaurantType == "Baking Supply Shop"
+            || restaurantType == "Biscuit Shop"
 
 
         );
@@ -375,6 +424,8 @@ export class PinService {
             || restaurantType == "Hostel"
             || restaurantType == "Lodging"
             || restaurantType == "Guesthouse"
+            || restaurantType == "Health resort"
+
             ;
     }
     isOther(restaurantType: string): boolean {

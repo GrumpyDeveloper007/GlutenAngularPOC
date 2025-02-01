@@ -4,5 +4,7 @@ export class FilterOptions {
         public ShowStores: boolean,
         public ShowOthers: boolean,
         public ShowGMPins: boolean,
+        public ShowChainPins: boolean,
+        public ShowNonGFGroupPins: boolean,
     ) { }
 }

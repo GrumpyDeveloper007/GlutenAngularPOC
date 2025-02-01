@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy, EventEmitter, Output, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgIf, NgFor, NgClass } from '@angular/common';
+import { NgIf, NgClass } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { forkJoin, Observable, tap } from 'rxjs';
@@ -8,10 +8,9 @@ import { GMapsPin, TopicGroup } from "../_model/model";
 import { Restaurant } from "../_model/restaurant";
 import { Others, restaurantTypes } from "../_model/staticData";
 import { ModalService, GlutenApiService, LocationService, MapDataService, PinService, DiagnosticService } from '../_services';
-import { ModalComponent } from '../_components';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { latLng, LatLngBounds, tileLayer } from 'leaflet';
-
+import "leaflet.locatecontrol"; // Import plugin
+import "leaflet.locatecontrol/dist/L.Control.Locate.min.css"; // Import styles
 import * as L from 'leaflet';
 
 @Component({
@@ -36,12 +35,14 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   pinCache: { [id: string]: TopicGroup[]; } = {};
   gmPinCache: { [id: string]: GMapsPin[]; } = {};
   selectedPins = 0;
+  totalPins = 0;
   _showHotels: boolean = true;
   _showStores: boolean = true;
   _showOthers: boolean = true;
   _showGMPins: boolean = true;
-  mapBounds: LatLngBounds = new LatLngBounds([46.879966, -121.726909], [46.879966, -121.726909]);
+  mapBounds: L.LatLngBounds = new L.LatLngBounds([46.879966, -121.726909], [46.879966, -121.726909]);
   loaded = true;
+  loadingData = false;
   firstShown = true;
 
   markerGroup: L.LayerGroup = new L.LayerGroup();
@@ -121,6 +122,9 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     //      attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     //}).addTo(this.map);
 
+    //L.control.locate().addTo(this.map);
+
+
     this.map.addLayer(this.markerGroup);
   }
   ngOnDestroy() {
@@ -179,6 +183,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
       let value = countryNames[key];
       if (!(value in this.pinCache)) {
         // key does not exist
+        this.loadingData = true;
         waitForDataLoad = true;
         requests.push(this.apiService.getPinTopic(value).pipe(
           tap(data => {
@@ -188,6 +193,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
 
       if (!(value in this.gmPinCache)) {
         // key does not exist
+        this.loadingData = true;
         waitForDataLoad = true;
         requests.push(this.apiService.getGMPin(value).pipe(
           tap(data => {
@@ -199,6 +205,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     forkJoin(requests).subscribe(_ => {
       // all observables have been completed
       console.debug("Loading data complete :", howLong.ms);
+      this.loadingData = false;
       // Add this after the map is initialized
       if (this.firstShown) {
         this.firstShown = false;
@@ -243,6 +250,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     var map = this.map
     var pinsToExport: (TopicGroup | GMapsPin)[] = [];
     this.selectedPins = 0;
+    this.totalPins = 0;
 
     //console.debug("Updating pins :" + pinTopics.length);
     const bounds = map.getBounds();
@@ -253,11 +261,10 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     pinTopics.forEach(pin => {
       try {
         if (pin == undefined) return;
+        this.totalPins++;
         if (this.selectedPins >= 400) return;
         if (!this.pinService.isInBoundsLeaflet(pin.geoLatitude, pin.geoLongitude, bounds)) return;
-
-        var isSelected = this.isSelected(pin.restaurantType);
-        if (!isSelected) return;
+        if (!this.isSelected(pin.restaurantType)) return;
         pinsToExport.push(pin);
 
         // trigger event to call a function back in angular
@@ -291,10 +298,10 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
       gmPins.forEach(pin => {
         try {
           if (pin == undefined) return;
+          this.totalPins++;
           if (this.selectedPins >= 400) return;
           if (!this.pinService.isInBoundsLeaflet(parseFloat(pin.geoLatitude), parseFloat(pin.geoLongitude), bounds)) return;
-          var isSelected = this.isSelected(pin.restaurantType);
-          if (!isSelected) return;
+          if (!this.isSelected(pin.restaurantType)) return;
 
           pinsToExport.push(pin);
 

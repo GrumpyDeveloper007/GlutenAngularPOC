@@ -9,8 +9,8 @@
     <p>{{selectedTopicGroup.stars}}</p>
     <p>{{selectedTopicGroup.price}}</p>
     <a *ngIf="selectedTopicGroup.mapsLink" [href]="selectedTopicGroup.mapsLink" target="_blank">Google Maps</a>
-    <p *ngIf="selectedTopicGroup.description" md-highlight-text="selectedTopicGroup?.Description"
-        [innerHtml]="selectedTopicGroup.description | highlight: selectedTopicGroup.label">
+    <p *ngIf="selectedTopicGroup.description" md-highlight-text="summary()"
+        [innerHtml]="summary() | highlight: selectedTopicGroup.label">
     </p>
     <div *ngFor="let item of selectedTopicGroup.topics; let i=index; " class="fb-container">
         <a *ngIf="!!item.shortTitle && item.shortTitle.length>0" [href]="item.facebookUrl" target="_blank"
@@ -33,6 +33,9 @@
 </div>
 <div *ngIf="!selectedTopicGroup">
     <h2>Welcome</h2>
+    <p>Join my facebook group for more tips and info.</p>
+    <a href="https://www.facebook.com/groups/769136475365475">FB group for the App</a>
+
     <p>Please scroll the map and select a pin. Once selected a summary will be shown here.</p>
     <p>There will also be links to google maps and Facebook groups.</p>
     <p>Some groups are private so please join the group and share useful information for others.</p>

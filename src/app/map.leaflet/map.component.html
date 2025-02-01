@@ -1,11 +1,17 @@
 <div id="map" class="map">
     <div class="pincount">
-        <span [ngClass]="{'redtext': selectedPins==400}"> Pin count : {{selectedPins}}</span>
+        <span *ngIf="selectedPins<400" [ngClass]="{'redtext': selectedPins==400}"> Pin count : {{selectedPins}}</span>
+        <span *ngIf="selectedPins>=400" [ngClass]="{'redtext': selectedPins==400}"> Some pins hidden, zoom in</span>
     </div>
 
     <div class="downloadFile">
         <a [href]="fileUrl" download="file.csv">Download Selected Pins</a>
     </div>
+
+    <div *ngIf="loadingData" class="smallloading">
+        <mat-spinner [diameter]="30"></mat-spinner>
+    </div>
+
 </div>
 
 <div *ngIf="loaded" class="loading-overlay">
