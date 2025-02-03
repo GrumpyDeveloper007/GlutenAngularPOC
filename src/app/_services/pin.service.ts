@@ -106,7 +106,7 @@ export class PinService {
     { fileName: "Distillery.png", search: "Distillery" },
     { fileName: "FineDining.png", search: "fine dining" },
     { fileName: "Theater.png", search: "Theater" },
-    { fileName: "HealthFood.png", search: "health food" },
+    { fileName: "HealthFood.png", search: "health food Restaurant" },
     { fileName: "Malaysian.png", search: "Malaysian" },
     { fileName: "Malaysian.png", search: "Ikan bakar" },
     { fileName: "Mediterranean.png", search: "Mediterranean" },
@@ -354,6 +354,8 @@ export class PinService {
     { fileName: "DiscountStore.png", search: "Discount shop" },
     { fileName: "VitaminStore.png", search: "Vitamin & supplements store" },
     { fileName: "VitaminStore.png", search: "Vitamin & Supplements Shop" },
+    { fileName: "HealthFoodStore.png", search: "Health food store" },
+
 
     { fileName: "CandyStore.png", search: "Candy Store" },
     { fileName: "CandyStore.png", search: "Sweet shop" },
@@ -411,6 +413,8 @@ export class PinService {
             || restaurantType == "Vitamin & Supplements Shop"
             || restaurantType == "Baking Supply Shop"
             || restaurantType == "Biscuit Shop"
+            || restaurantType == "Organic shop"
+
 
 
         );
