@@ -389,6 +389,17 @@ export class PinService {
         { fileName: "CandyStore.png", search: "Candy Store" },
         { fileName: "CandyStore.png", search: "Sweet shop" },
 
+        //Hotels
+        { fileName: "Hotel.png", search: "Hotel" },
+        { fileName: "Hotel.png", search: "Guest house" },
+        { fileName: "HolidayHome.png", search: "Holiday Home" },
+        { fileName: "HolidayApartment.png", search: "Holiday Apartment" },
+        { fileName: "SelfCatering.png", search: "Self-catering" },
+        { fileName: "HealthResort.png", search: "Health Resort" },
+        { fileName: "Lodging.png", search: "Lodging" },
+        { fileName: "Lodging.png", search: "Homestay" },
+        { fileName: "Hostel.png", search: "Hostel" },
+
         // others -
         { fileName: "Whale.png", search: "Whale" },
         { fileName: "VideoArcade.png", search: "video arcade" },
