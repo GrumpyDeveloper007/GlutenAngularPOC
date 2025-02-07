@@ -11,10 +11,11 @@
         Google
     </label>
     <label style="color: #7F0000;word-wrap:break-word"><input [(ngModel)]="showChains" type="checkbox" />
-        Chains
+        Fuzzy Matches
     </label>
     <button (click)="modalService.open('modal-1')">Restaurant filters</button>
 
+    <button (click)="modalService.open('modal-listView')">List view</button>
 
     <jw-modal id="modal-1">
         <h1>Slect restaurant type -</h1>

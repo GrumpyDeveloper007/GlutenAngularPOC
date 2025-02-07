@@ -1,17 +1,19 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy, EventEmitter, Output, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgIf, NgClass } from '@angular/common';
+import { NgIf, NgClass, NgFor } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { firstValueFrom, forkJoin, Observable, tap } from 'rxjs';
 import { GMapsPin, TopicGroup } from "../_model/model";
 import { Restaurant } from "../_model/restaurant";
-import { Others, restaurantTypes } from "../_model/staticData";
+import { restaurantTypes } from "../_model/staticData";
 import { ModalService, GlutenApiService, LocationService, MapDataService, PinService, DiagnosticService } from '../_services';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import "leaflet.locatecontrol"; // Import plugin
 import "leaflet.locatecontrol/dist/L.Control.Locate.min.css"; // Import styles
 import * as L from 'leaflet';
+import { ModalComponent } from '../_components';
+
 
 @Component({
   selector: 'app-map',
@@ -20,8 +22,10 @@ import * as L from 'leaflet';
   styleUrls: ['./map.component.css'],
   imports: [
     NgIf,
+    NgFor,
     NgClass,
     FormsModule,
+    ModalComponent,
     MatProgressSpinnerModule
   ],
 })
@@ -35,6 +39,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   pinCache: { [id: string]: TopicGroup[]; } = {};
   gmPinCache: { [id: string]: GMapsPin[]; } = {};
   selectedPins = 0;
+  pinsToExport: (TopicGroup | GMapsPin)[] = [];
   totalPins = 0;
   _showHotels: boolean = true;
   _showStores: boolean = true;
@@ -54,7 +59,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     private apiService: GlutenApiService,
     private locationService: LocationService,
     private mapDataService: MapDataService,
-    private pinService: PinService,
+    public pinService: PinService,
     private diagService: DiagnosticService) { }
 
   @Input() set showHotels(value: boolean) {
@@ -102,6 +107,18 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     return result;
   }
 
+  closeListView(): void {
+    this.modalService.close();
+  }
+
+  locate(pin: (TopicGroup | GMapsPin)): void {
+    var t = pin as TopicGroup;
+    this.map?.flyTo({ lat: t.geoLatitude, lng: t.geoLongitude }, 18);
+    this.pinSelected(pin);
+    this.modalService.close();
+  }
+
+
   pinSelected(pin: any): void {
     this.selectedTopicGroup = pin as TopicGroup;
     this.selectedTopicGroupChange.emit(this.selectedTopicGroup);
@@ -111,7 +128,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     var location = { latitude: 35.6844, longitude: 139.753 };
     //http://leaflet-extras.github.io/leaflet-providers/preview/
-    this.map = L.map('map').setView([location.latitude, location.longitude], 8);
+    this.map = L.map('map').setView([location.latitude, location.longitude], 8).setMinZoom(2);
     /*     var key = "4XNqZU5WGeN8rGGyXkiP";
         L.tileLayer(`https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=${key}`, { //style URL
           tileSize: 512,
@@ -265,6 +282,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     var map: L.Map;
     if ((this.map === undefined)) return;
     var map = this.map
+    this.pinsToExport = [];
     var pinsToExport: (TopicGroup | GMapsPin)[] = [];
     this.selectedPins = 0;
     this.totalPins = 0;
@@ -349,6 +367,17 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
 
     console.debug("selected pins :" + this.selectedPins);
     var exportData = "Latitude, Longitude, Description\r\n";
+    this.pinsToExport = pinsToExport.sort((a, a2) => {
+      if (a.label > a2.label) {
+        return 1;
+      }
+
+      if (a.label < a2.label) {
+        return -1;
+      }
+
+      return 0;
+    });
     pinsToExport.forEach(pin => {
       exportData += `${pin.geoLatitude},${pin.geoLongitude},${pin.label}\r\n`;
     });

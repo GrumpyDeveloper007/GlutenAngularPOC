@@ -78,10 +78,32 @@ jw-modal {
   padding: 20px;
   border-radius: 8px;
   border: 1px solid #ccc;
+
 }
 
 jw-modal.active {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100% - 40px);
+  /* Account for modal padding */
+}
+
+.modal-header {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.modal-header h1 {
+  margin: 0;
+  /* Override the default margin */
+}
+
+.modal-header button {
+  margin-left: auto;
+  /* Push button to the right */
 }
 
 jw-modal h1 {
@@ -149,4 +171,50 @@ span {
   jw-modal label {
     font-size: 1em;
   }
+}
+
+/* Add these grid styles */
+.grid-container {
+  display: grid;
+  grid-template-columns: minmax(200px, 1fr) 2fr;
+  gap: 12px;
+  margin: 10px 0;
+  overflow-y: auto;
+  flex: 1;
+  /* Take remaining space */
+  min-height: 0;
+  /* Allow flex container to shrink */
+}
+
+.grid-label {
+  font-weight: bold;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.grid-image {
+  flex-shrink: 0;
+}
+
+.grid-label-text {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.locate-button {
+  padding: 4px 8px;
+  font-size: 0.8em;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.grid-description {
+  padding: 5px;
+  white-space: pre-wrap;
+  /* Preserves line breaks */
+  word-break: break-word;
 }

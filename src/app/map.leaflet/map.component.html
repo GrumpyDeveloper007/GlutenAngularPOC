@@ -1,6 +1,7 @@
 <div id="map" class="map">
     <div class="pincount">
-        <span *ngIf="selectedPins<400" [ngClass]="{'redtext': selectedPins==400}"> Pin count : {{selectedPins}}</span>
+        <span *ngIf="selectedPins<400" [ngClass]="{'redtext': selectedPins==400}"> Pin count :
+            {{selectedPins}}</span>
         <span *ngIf="selectedPins>=400" [ngClass]="{'redtext': selectedPins==400}"> Some pins hidden, zoom in</span>
     </div>
 
@@ -20,3 +21,20 @@
         <p>Loading</p>
     </div>
 </div>
+
+<jw-modal id="modal-listView">
+    <div class="modal-header">
+        <h1>Restaurants in view</h1>
+        <button (click)="closeListView()">Close</button>
+    </div>
+    <div class="grid-container">
+        <ng-container *ngFor="let item of pinsToExport; let i=index;">
+            <div class="grid-label">
+                <img src="{{pinService.getUrl(item.restaurantType,item.label)}}" alt="." class="grid-image">
+                <span class="grid-label-text">{{item.label}}</span>
+                <button class="locate-button" (click)="locate(item)">Locate</button>
+            </div>
+            <div class="grid-description">{{item.description}}</div>
+        </ng-container>
+    </div>
+</jw-modal>

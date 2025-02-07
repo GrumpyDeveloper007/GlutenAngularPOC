@@ -564,18 +564,27 @@ export class PinService {
 
         var markerOptions: MarkerOptions = ({ color: color });
 
-        var url = this.getUrlForType(restaurantType);
+        var url = this.getUrl(restaurantType, restaurantName);
         if (url != null) {
             el.style.backgroundImage = `url(${url})`;
             markerOptions.element = el;
         }
 
-        var url = this.getUrlForChain(restaurantName);
-        if (url != null) {
-            el.style.backgroundImage = `url(${url})`;
-            markerOptions.element = el;
-        }
         return markerOptions;
+    }
+
+    getUrl(restaurantType: string, restaurantName: string) {
+        var url = this.getUrlForType(restaurantType);
+        if (url != null) {
+            if (url == "Restaurant.png") {
+                var url2 = this.getUrlForGeneric(restaurantName);
+                if (url2 != null) return url2;
+            }
+        }
+
+        var url2 = this.getUrlForChain(restaurantName);
+        if (url2 != null) url = url2;
+        return url;
     }
 
     getUrlForType(restaurantType: string): string | null {
@@ -603,13 +612,8 @@ export class PinService {
         return null;
     }
 
+    getUrlForGeneric(restaurantName: string): string | null {
 
-
-    getUrlForChain(restaurantName: string): string | null {
-
-        if (restaurantName.toLowerCase().includes("starbucks")) {
-            return `Starbucks.png`;
-        }
         if (restaurantName.toLowerCase().includes("cafe")) {
             return `Cafe.png`;
         }
@@ -619,6 +623,33 @@ export class PinService {
         //
         if (restaurantName.toLowerCase().includes("sushi")) {
             return `Sushi.png`;
+        }
+        if (restaurantName.toLowerCase().includes('indian')) {
+            return `Indian.png`;
+        }
+        if (restaurantName.includes("Chinese")) {
+            return `Chinese.png`;
+        }
+        if (restaurantName.includes("Pizza")) {
+            return `Pizza.png`;
+        }
+        if (restaurantName.includes("Vegan")
+            || restaurantName.toLowerCase().includes("vegetarian")
+        ) {
+            return `Vegan.png`;
+        }
+        if (restaurantName.toLowerCase().includes('chicken')) {
+            return `Chicken.png`;
+        }
+
+        return null;
+    }
+
+
+    getUrlForChain(restaurantName: string): string | null {
+
+        if (restaurantName.toLowerCase().includes("starbucks")) {
+            return `Starbucks.png`;
         }
 
 
@@ -634,23 +665,6 @@ export class PinService {
         }
         if (restaurantName.toLowerCase().startsWith("lawson")) {
             return `Lawson.png`;
-        }
-
-        if (restaurantName.toLowerCase().includes('indian')) {
-            return `Indian.png`;
-        }
-        if (restaurantName.includes("Chinese")) {
-            return `Chinese.png`;
-        }
-
-
-        if (restaurantName.includes("Pizza")) {
-            return `Pizza.png`;
-        }
-        if (restaurantName.includes("Vegan")
-            || restaurantName.toLowerCase().includes("vegetarian")
-        ) {
-            return `Vegan.png`;
         }
 
         if (restaurantName.includes("Grill'd")
@@ -699,9 +713,6 @@ export class PinService {
         }
         if (restaurantName.toLowerCase().includes("rsl")) {
             return `RSL.png`;
-        }
-        if (restaurantName.toLowerCase().includes('chicken')) {
-            return `Chicken.png`;
         }
 
         return null;
