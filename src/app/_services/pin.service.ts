@@ -574,6 +574,7 @@ export class PinService {
     }
 
     getUrl(restaurantType: string, restaurantName: string) {
+        if (restaurantType == null) return null;
         var url = this.getUrlForType(restaurantType);
         if (url != null) {
             if (url == "Restaurant.png") {
@@ -702,7 +703,8 @@ export class PinService {
         if (restaurantName.startsWith("ALDI")) {
             return `ALDI.png`;
         }
-        if (restaurantName.toLowerCase().includes("iga")) {
+        if (restaurantName.toLowerCase().includes("iga")
+            && !restaurantName.toLowerCase().includes("hotel")) {
             return `IGA.png`;
         }
         if (restaurantName.toLowerCase().includes("7-eleven")) {
