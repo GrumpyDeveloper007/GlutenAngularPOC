@@ -14,9 +14,14 @@ export class HighlightPipe implements PipeTransform {
 
     }
 
-    const re = new RegExp(searchQuery, 'gi');
+    try {
+      const re = new RegExp(searchQuery, 'gi');
 
-    return wholeText.replace(re, '<mark>$&</mark>');
+      return wholeText.replace(re, '<mark>$&</mark>');
+    }
+    catch {
+      return wholeText;
+    }
 
   }
 
