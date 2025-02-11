@@ -132,6 +132,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     this.map = L.map('map').setView([location.latitude, location.longitude], 8).setMinZoom(2);
     /*     var key = "4XNqZU5WGeN8rGGyXkiP";
         L.tileLayer(`https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=${key}`, { //style URL
+        noWrap: true,
           tileSize: 512,
           zoomOffset: -1,
           minZoom: 1,
@@ -139,15 +140,15 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
           crossOrigin: true
         }).addTo(this.map); */
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      noWrap: true,
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
 
     //L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png', {
-    //      attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    //     noWrap: true, attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     //}).addTo(this.map);
 
     //L.control.locate().addTo(this.map);
-
 
     this.map.addLayer(this.markerGroup);
   }
@@ -206,11 +207,11 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   loadMapPins() {
     const howLong = this.diagService.timer();
     if ((this.map === undefined)) return;
-    const bounds = this.map.getBounds();
 
     // Trigger api calls
     var waitForDataLoad = false;
-    const countryNames = this.mapDataService.getCountriesInView(bounds);
+    const bounds = this.map.getBounds();
+    var countryNames = this.mapDataService.getCountriesInView(bounds);
     console.debug("Countries in view: " + countryNames);
     const requests: Observable<any>[] = [];
     for (let key in countryNames) {
@@ -258,6 +259,11 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
         this.map.invalidateSize();
       }
 
+      // Refresh country names to ensure we have the latest 
+      if (!(this.map === undefined)) {
+        const bounds = this.map.getBounds();
+        countryNames = this.mapDataService.getCountriesInView(bounds);
+      }
       this.showMapPins(countryNames);
     });
 
