@@ -36,6 +36,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   selectedTopicGroup: TopicGroup | null = null;
   restaurants: Restaurant[] = [];
   fileUrl: SafeResourceUrl = "";
+  pendingCountries: string[] = [];
   pinCache: { [id: string]: TopicGroup[]; } = {};
   gmPinCache: { [id: string]: GMapsPin[]; } = {};
   selectedPins = 0;
@@ -178,7 +179,6 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
         console.debug(err);
       });
 
-    this.apiService.postMapHome(location.latitude, location.longitude).subscribe();
 
     const initialState = { lng: location.longitude, lat: location.latitude, zoom: 14 };
     this.map.setView([initialState.lat, initialState.lng], initialState.zoom);
@@ -215,31 +215,42 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     const requests: Observable<any>[] = [];
     for (let key in countryNames) {
       let value = countryNames[key];
-      if (!(value in this.pinCache)) {
-        // key does not exist
-        this.loadingData = true;
-        waitForDataLoad = true;
-        requests.push(this.apiService.getPinTopic(value).pipe(
-          tap(data => {
-            this.pinCache[value] = data;
-          })));
-      }
+      if (!(this.pendingCountries.includes(value))) {
+        if (!(value in this.pinCache)) {
+          // key does not exist
+          this.pendingCountries.push(value);
+          //console.log("pending :" + this.pendingCountries);
+          this.loadingData = true;
+          waitForDataLoad = true;
+          requests.push(this.apiService.getPinTopic(value).pipe(
+            tap(data => {
+              this.pinCache[value] = data;
+              const index = this.pendingCountries.indexOf(value, 0);
+              if (index > -1) {
+                this.pendingCountries.splice(index, 1);
+              }
+            })));
+        }
 
-      if (!(value in this.gmPinCache)) {
-        // key does not exist
-        this.loadingData = true;
-        waitForDataLoad = true;
-        requests.push(this.apiService.getGMPin(value).pipe(
-          tap(data => {
-            this.gmPinCache[value] = data;
-          })));
+        if (!(value in this.gmPinCache)) {
+          // key does not exist
+          this.loadingData = true;
+          waitForDataLoad = true;
+          requests.push(this.apiService.getGMPin(value).pipe(
+            tap(data => {
+              this.gmPinCache[value] = data;
+            })));
+        }
       }
     }
 
     forkJoin(requests).subscribe(_ => {
       // all observables have been completed
-      console.debug("Loading data complete :", howLong.ms);
-      this.loadingData = false;
+      console.debug("Loading data join :", howLong.ms);
+      if (this.pendingCountries.length == 0) {
+        console.debug("Loading data complete :", howLong.ms);
+        this.loadingData = false;
+      }
       // Add this after the map is initialized
       if (this.firstShown) {
         this.firstShown = false;

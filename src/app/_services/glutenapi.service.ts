@@ -33,6 +33,18 @@ export class GlutenApiService {
         };
     }
 
+    private handleErrorServerLog<T>(operation = 'operation', result?: T) {
+        return (error: any): Observable<T> => {
+
+            // TODO: send the error to remote logging infrastructure
+            console.error(error); // log to console instead
+            this.postLog(error).subscribe();
+
+            // Let the app keep running by returning an empty result.
+            return of(result as T);
+        };
+    }
+
     // Dev
     baseUrl = "https://thedevshire.azurewebsites.net";
     // Prod
@@ -45,23 +57,27 @@ export class GlutenApiService {
 
     getPinTopic(country: string): Observable<TopicGroup[]> {
         return this.http.get<TopicGroup[]>(this.baseUrl + "/api/PinTopic?country=" + country, this.httpOptions)
-            .pipe(catchError(this.handleError<TopicGroup[]>(`getPinTopic id=${country}`)));
+            .pipe(catchError(this.handleErrorServerLog<TopicGroup[]>(`getPinTopic id=${country}`)));
     }
 
     getGMPin(country: string): Observable<GMapsPin[]> {
         return this.http.get<GMapsPin[]>(this.baseUrl + "/api/GMapsPin?country=" + country, this.httpOptions)
-            .pipe(catchError(this.handleError<GMapsPin[]>(`getGMPin id=${country}`)));
+            .pipe(catchError(this.handleErrorServerLog<GMapsPin[]>(`getGMPin id=${country}`)));
     }
 
     getLocation(country: string): Observable<IpAddressData> {
         return this.http.get<IpAddressData>(this.baseUrl + "/api/GetLocation", this.httpOptions)
-            .pipe(catchError(this.handleError<IpAddressData>(`getLocation id=${country}`)));
+            .pipe(catchError(this.handleErrorServerLog<IpAddressData>(`getLocation id=${country}`)));
     }
 
     postMapHome(geoLatitude: number, geoLongitude: number): Observable<any> {
         return this.http.post(this.baseUrl + "/api/MapHome", JSON.stringify({ geoLatitude, geoLongitude }), this.httpOptionsPost)
-            .pipe(catchError(this.handleError()));
+            .pipe(catchError(this.handleErrorServerLog()));
+    }
 
+    postLog(message: any): Observable<any> {
+        return this.http.post(this.baseUrl + "/api/Log", JSON.stringify({ message }), this.httpOptionsPost)
+            .pipe(catchError(this.handleError()));
     }
 
 }

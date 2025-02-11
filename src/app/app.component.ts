@@ -17,7 +17,7 @@ import { Title, Meta } from '@angular/platform-browser';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'gluten-angular-map';
+  title = 'FB Group Indexer';
   description = "Provides the indexing of gluten free FB group posts. A helpful site for coeliacs and people looking for gluten free places to eat or stay.";
   selectedTopicGroup: TopicGroup | null = null;
   showOptions: FilterOptions = new FilterOptions(true, true, true, true, false, true);
@@ -52,10 +52,10 @@ export class AppComponent {
     {
       "@context": "http://schema.org",
       "@type": "Organization",
-      "name": this.title,
+      "name": "${this.title}",
       "url": "https://www.dalesgfmap.com/",
       "logo": "https://www.dalesgfmap.com/favicon.ico",
-      "description": this.description
+      "description": "${this.description}"
     }`;
     this.renderer.appendChild(document.head, script);
   }
