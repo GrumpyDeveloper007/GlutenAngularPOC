@@ -2,12 +2,11 @@ import { NgFor } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { ModalService } from '../_services';
+import { ModalService, AnalyticsService } from '../_services';
 import { ModalComponent } from '../_components';
 import { Restaurant } from "../_model/restaurant";
 import { restaurantTypes } from "../_model/staticData";
 import { FilterOptions } from "../_model/filterOptions";
-
 
 @Component({
   selector: 'app-mapfilters',
@@ -25,17 +24,18 @@ import { FilterOptions } from "../_model/filterOptions";
 export class MapfiltersComponent {
   @Output() optionsChange = new EventEmitter<FilterOptions>();
   @Output() restaurantChange = new EventEmitter<Restaurant[]>();
-  private _options: FilterOptions = new FilterOptions(true, true, true, true, false, true);
+  private _options: FilterOptions = new FilterOptions(true, true, true, true, false, true, false);
   restaurants: Restaurant[] = [];
 
   constructor(
-    protected modalService: ModalService, private cd: ChangeDetectorRef) { }
+    protected modalService: ModalService,
+    private gaService: AnalyticsService) { }
 
   @Input() set showHotels(value: boolean) {
     if (this._options.ShowHotels != value) {
       this._options.ShowHotels = value;
       console.debug("Filter Hotels click :");
-      var options: FilterOptions = new FilterOptions(this._options.ShowHotels, this._options.ShowStores, this._options.ShowOthers, this._options.ShowGMPins, this._options.ShowChainPins, this._options.ShowNonGFGroupPins)
+      var options: FilterOptions = new FilterOptions(this._options.ShowHotels, this._options.ShowStores, this._options.ShowOthers, this._options.ShowGMPins, this._options.ShowChainPins, this._options.ShowNonGFGroupPins, this._options.ShowTemporarilyClosed)
       this.optionsChange.emit(options);
     }
   }
@@ -71,6 +71,9 @@ export class MapfiltersComponent {
       this.optionsChange.emit(this._options);
     }
   }
+  get showGMPins(): boolean {
+    return this._options.ShowGMPins;
+  }
   get showChains(): boolean {
     return this._options.ShowChainPins;
   }
@@ -81,11 +84,26 @@ export class MapfiltersComponent {
       this.optionsChange.emit(this._options);
     }
   }
-  get showGMPins(): boolean {
-    return this._options.ShowGMPins;
+  get showTemporarilyClosed(): boolean {
+    return this._options.ShowTemporarilyClosed;
   }
 
+  @Input() set showTemporarilyClosed(value: boolean) {
+    if (this._options.ShowTemporarilyClosed != value) {
+      this._options.ShowTemporarilyClosed = value;
+      this.optionsChange.emit(this._options);
+    }
+  }
 
+  showRestaurantList(): void {
+    this.modalService.open('modal-1')
+    this.gaService.trackEvent("Restaurant List", "Open", "MapFilters");
+  }
+
+  showPinListView(): void {
+    this.modalService.open('modal-listView')
+    this.gaService.trackEvent("Pin List", "Open", "MapFilters");
+  }
 
   selectNone(): void {
     this.restaurants.forEach(restaurant => {
@@ -101,8 +119,6 @@ export class MapfiltersComponent {
 
   selectComplete(): void {
     this.modalService.close();
-    //this.cd.detectChanges();
-    console.log("Select Complete");
     this.restaurantChange.emit([...this.restaurants]);
   }
 

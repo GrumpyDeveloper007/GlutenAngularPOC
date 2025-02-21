@@ -11,6 +11,14 @@ export class GlutenApiService {
         headers: new HttpHeaders({})//'Content-Type': 'application/json'
     };
 
+    httpOptionsNoCache = {
+        headers: new HttpHeaders({
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
+            'Pragma': 'no-cache',
+            'Expires': '0'
+        })
+    };
+
     httpOptionsPost = {
         headers: new HttpHeaders({
             "Content-Type": "application/json",

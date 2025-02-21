@@ -13,19 +13,32 @@
     <label style="color: #7F0000;word-wrap:break-word"><input [(ngModel)]="showChains" type="checkbox" />
         Fuzzy Matches
     </label>
-    <button (click)="modalService.open('modal-1')">Restaurant filters</button>
+    <label style="color: #7F0000;word-wrap:break-word"><input [(ngModel)]="showTemporarilyClosed" type="checkbox" />
+        Temporarily Closed
+    </label>
+    <button (click)="showRestaurantList()">Restaurant filters</button>
 
-    <button (click)="modalService.open('modal-listView')">List view</button>
+    <button (click)="showPinListView()">List view</button>
 
     <jw-modal id="modal-1">
-        <h1>Slect restaurant type -</h1>
-        <button (click)="selectNone()">Select None</button>
-        <button (click)="selectAll()">Select All</button>
-        <button (click)="selectComplete()">Close</button>
-        <div *ngFor="let item of restaurants; let i=index; ">
-            <label><input [(ngModel)]="item.Show" type="checkbox" />
-                {{item.Name}}
-            </label>
+        <div class="modal-header">
+            <div class="left-group">
+                <h1>Select restaurant type -</h1>
+                <button (click)="selectNone()">Select None</button>
+                <button (click)="selectAll()">Select All</button>
+            </div>
+            <button (click)="selectComplete()">Close</button>
         </div>
+        <div class="modal-content">
+            <div class="grid-container">
+                <div *ngFor="let item of restaurants; let i=index; ">
+                    <label><input [(ngModel)]="item.Show" type="checkbox" />
+                        {{item.Name}}
+                    </label>
+                </div>
+            </div>
+        </div>
+
+
     </jw-modal>
 </div>

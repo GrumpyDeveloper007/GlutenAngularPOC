@@ -1,35 +1,30 @@
 <div *ngIf="selectedTopicGroup">
-    <!-- TODO: This sint the always the correct pin, lets see if I can make the AI smart enough to split topic info -->
-    <!-- <h2>{{selectedTopic.UrlsV2[0].Pin?.Label}}</h2> -->
     <h2><img *ngIf="!selectedTopicGroup.isGF" class="xgfimage" src="GFQ.png" alt="" />
         <img *ngIf="selectedTopicGroup.isGF" class="xgfimage" src="GFT.png" alt="" />
-        {{selectedTopicGroup.label}}
+        {{selectedTopicGroup.label}}<span class="tc" *ngIf="selectedTopicGroup.isTC">(TC)</span>
     </h2>
     <p>{{selectedTopicGroup.restaurantType}}</p>
     <p>{{selectedTopicGroup.stars}}</p>
     <p>{{selectedTopicGroup.price}}</p>
-    <a *ngIf="selectedTopicGroup.mapsLink" [href]="selectedTopicGroup.mapsLink" target="_blank">Google Maps</a>
+    <a *ngIf="selectedTopicGroup.mapsLink" [href]="selectedTopicGroup.mapsLink"
+        (click)="mapLinkClick(selectedTopicGroup.mapsLink)" target="_blank">Google Maps</a>
     <p *ngIf="selectedTopicGroup.description" md-highlight-text="summary()"
         [innerHtml]="summary() | highlight: selectedTopicGroup.label">
     </p>
     <div *ngFor="let item of selectedTopicGroup.topics; let i=index; " class="fb-container">
-        <a *ngIf="!!item.shortTitle && item.shortTitle.length>0" [href]="item.facebookUrl" target="_blank"
-            class="smallText fb-link">
+        <a *ngIf="!!item.shortTitle && item.shortTitle.length>0" [href]="item.facebookUrl"
+            (click)="linkClick(item.facebookUrl)" target="_blank" class="smallText fb-link">
             <img src="FB.png" alt="Facebook" />
             <div>
                 <div>{{item.shortTitle}}</div>
                 <div>{{dateOnly(item.postCreated)}}</div>
             </div>
         </a>
-        <a *ngIf="!item.shortTitle" [href]="item.facebookUrl" target="_blank" class="smallText">
+        <a *ngIf="!item.shortTitle" [href]="item.facebookUrl" (click)="linkClick(item.facebookUrl)" target="_blank"
+            class="smallText">
             <img src="FB.png" alt="Facebook" />Facebook</a>
     </div>
-    <p>{{selectedTopicGroup.placeName}}</p>
 
-
-    <!-- It would be nice if this works, but its blocked by FB-->
-    <!--    <iframe [src]="facebookLink" style="margin: 0px; padding: 0px; border: none;">
-        </iframe>-->
 </div>
 <div *ngIf="!selectedTopicGroup">
     <h2>Welcome</h2>

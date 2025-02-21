@@ -8,7 +8,6 @@ import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { ErrorHandler, Injectable, inject } from '@angular/core';
 class MyErrorHandler implements ErrorHandler {
-
   private http = inject(HttpClient);
 
   constructor() { }

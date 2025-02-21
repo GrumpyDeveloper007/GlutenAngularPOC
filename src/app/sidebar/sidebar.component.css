@@ -24,6 +24,11 @@ a:hover {
     width: 20px;
 }
 
+.tc {
+    color: red;
+    font-size: 0.5em;
+}
+
 /* Highlight Classes */
 .highlight {
     background-color: #d4edda;

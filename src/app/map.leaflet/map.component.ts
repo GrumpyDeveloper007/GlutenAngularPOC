@@ -7,7 +7,7 @@ import { firstValueFrom, forkJoin, Observable, tap } from 'rxjs';
 import { GMapsPin, TopicGroup } from "../_model/model";
 import { Restaurant } from "../_model/restaurant";
 import { restaurantTypes } from "../_model/staticData";
-import { ModalService, GlutenApiService, LocationService, MapDataService, PinService, DiagnosticService } from '../_services';
+import { ModalService, GlutenApiService, LocationService, MapDataService, PinService, DiagnosticService, AnalyticsService } from '../_services';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import "leaflet.locatecontrol"; // Import plugin
 import "leaflet.locatecontrol/dist/L.Control.Locate.min.css"; // Import styles
@@ -47,6 +47,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   _showOthers: boolean = true;
   _showGMPins: boolean = true;
   _showChains: boolean = true;
+  _showTemporarilyClosed: boolean = true;
 
   mapBounds: L.LatLngBounds = new L.LatLngBounds([46.879966, -121.726909], [46.879966, -121.726909]);
   loaded = true;
@@ -61,7 +62,8 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     private locationService: LocationService,
     private mapDataService: MapDataService,
     public pinService: PinService,
-    private diagService: DiagnosticService) { }
+    private diagService: DiagnosticService,
+    private gaService: AnalyticsService) { }
 
   @Input() set showHotels(value: boolean) {
     this._showHotels = value;
@@ -83,6 +85,11 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     this._showChains = value;
     this.loadMapPins();
   }
+  @Input() set showTemporarilyClosed(value: boolean) {
+    this._showTemporarilyClosed = value;
+    this.loadMapPins();
+  }
+
   @Input() set updateRestaurants(value: Restaurant[]) {
     this.restaurants = value;
     this.loadMapPins();
@@ -123,6 +130,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   pinSelected(pin: any): void {
     this.selectedTopicGroup = pin as TopicGroup;
     this.selectedTopicGroupChange.emit(this.selectedTopicGroup);
+    this.gaService.trackEvent("Pin selected:" + this.selectedTopicGroup.label, this.selectedTopicGroup.label, "Map");
     return;
   }
 
@@ -226,6 +234,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
           requests.push(this.apiService.getPinTopic(value).pipe(
             tap(data => {
               this.pinCache[value] = data;
+              this.gaService.trackEvent("Loaded:" + value, "Map loaded", "Map");
               const index = this.pendingCountries.indexOf(value, 0);
               if (index > -1) {
                 this.pendingCountries.splice(index, 1);
@@ -292,6 +301,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   showMapPins(countryNames: string[]) {
+    this.gaService.trackEvent("Show:" + countryNames.toString(), "Map shown", "Map");
     var pinTopics = this.getPinsInCountries(countryNames);
     var gmPins = this.getGMPinsInCountries(countryNames);
     const liveMode = true; // this makes it easier to see generic pins
@@ -316,6 +326,8 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
         this.totalPins++;
         if (this.selectedPins >= 400) return;
         if (!this._showChains && !!pin.isC) return;
+        if (!this._showTemporarilyClosed && !!pin.isTC) return;
+
         if (!this.pinService.isInBoundsLeaflet(pin.geoLatitude, pin.geoLongitude, bounds)) return;
         if (!this.isSelected(pin.restaurantType)) return;
         pinsToExport.push(pin);
@@ -382,7 +394,6 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
       });
     }
 
-    console.debug("selected pins :" + this.selectedPins);
     var exportData = "Latitude, Longitude, Description\r\n";
     this.pinsToExport = pinsToExport.sort((a, a2) => {
       if (a.label > a2.label) {

@@ -6,7 +6,7 @@
     </div>
 
     <div class="downloadFile">
-        <a [href]="fileUrl" download="file.csv">Download Selected Pins</a>
+        <a [href]="fileUrl" download="file.csv">Download Pins</a>
     </div>
 
     <div *ngIf="loadingData" class="smallloading">
@@ -18,7 +18,7 @@
 <div *ngIf="loaded" class="loading-overlay">
     <div class="loading-content">
         <mat-spinner></mat-spinner>
-        <p>Loading</p>
+        <p>Loading (this can be very slow on mobile connections)</p>
     </div>
 </div>
 
@@ -27,14 +27,16 @@
         <h1>Restaurants in view</h1>
         <button (click)="closeListView()">Close</button>
     </div>
-    <div class="grid-container">
-        <ng-container *ngFor="let item of pinsToExport; let i=index;">
-            <div class="grid-label">
-                <img src="{{pinService.getUrl(item.restaurantType,item.label)}}" alt="." class="grid-image">
-                <span class="grid-label-text">{{item.label}}</span>
-                <button class="locate-button" (click)="locate(item)">Locate</button>
-            </div>
-            <div class="grid-description">{{item.description}}</div>
-        </ng-container>
+    <div class="modal-content">
+        <div class="grid-container">
+            <ng-container *ngFor="let item of pinsToExport; let i=index;">
+                <div class="grid-label">
+                    <img src="{{pinService.getUrl(item.restaurantType,item.label)}}" alt="." class="grid-image">
+                    <span class="grid-label-text">{{item.label}}</span>
+                    <button class="locate-button" (click)="locate(item)">Locate</button>
+                </div>
+                <div class="grid-description">{{item.description}}</div>
+            </ng-container>
+        </div>
     </div>
 </jw-modal>

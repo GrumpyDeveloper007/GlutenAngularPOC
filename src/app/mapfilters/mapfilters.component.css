@@ -94,6 +94,55 @@ span {
     }
 }
 
+.modal-header {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.modal-header .left-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.modal-header h1 {
+    margin: 0;
+    font-size: 1.2em;
+    flex-shrink: 0;
+}
+
+.modal-header .button-group {
+    display: flex;
+    gap: 8px;
+    margin-left: auto;
+}
+
+.modal-header button {
+    margin: 4px;
+}
+
+.modal-content {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: minmax(200px, 1fr) 2fr;
+    gap: 12px;
+    overflow-y: auto;
+    flex: 1;
+    padding: 0px;
+    max-height: calc(90vh - 50px);
+}
+
 label,
 input {
     display: inline-block;

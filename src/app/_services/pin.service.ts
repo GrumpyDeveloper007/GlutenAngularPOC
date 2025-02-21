@@ -554,25 +554,6 @@ export class PinService {
     }
 
 
-    getMarkerOptions(color: string, restaurantType: string, restaurantName: string): MarkerOptions {
-        var el = document.createElement('div');
-        el.style.width = '36px';
-        el.style.height = '48px';
-        el.style.backgroundSize = 'contain';
-        el.style.backgroundRepeat = 'no-repeat';
-        el.style.backgroundPosition = 'center center';
-
-        var markerOptions: MarkerOptions = ({ color: color });
-
-        var url = this.getUrl(restaurantType, restaurantName);
-        if (url != null) {
-            el.style.backgroundImage = `url(${url})`;
-            markerOptions.element = el;
-        }
-
-        return markerOptions;
-    }
-
     getUrl(restaurantType: string, restaurantName: string) {
         if (restaurantType == null) return null;
         var url = this.getUrlForType(restaurantType);
@@ -614,7 +595,13 @@ export class PinService {
     }
 
     getUrlForGeneric(restaurantName: string): string | null {
-
+        //
+        if (restaurantName.toLowerCase().includes("dumplings")) {
+            return `Dumpling.png`;
+        }
+        if (restaurantName.toLowerCase().includes("bar and grill")) {
+            return `BBQ.png`;
+        }
         if (restaurantName.toLowerCase().includes("cafe")) {
             return `Cafe.png`;
         }
@@ -744,8 +731,9 @@ export class PinService {
             iconAnchor: [15, 40],
         });
 
-        if (restaurantType != null) {
-            var url = this.getUrlForType(restaurantType);
+        if (restaurantType != null && restaurantName != null) {
+            var url = this.getUrl(restaurantType, restaurantName);
+
             if (url != null) {
                 customIcon = L.icon({
                     iconUrl: url,
@@ -755,16 +743,6 @@ export class PinService {
             }
         }
 
-        if (restaurantName != null) {
-            var url = this.getUrlForChain(restaurantName);
-            if (url != null) {
-                customIcon = L.icon({
-                    iconUrl: url,
-                    iconSize: [36, 48],
-                    iconAnchor: [18, 48],
-                });
-            }
-        }
         return customIcon;
     }
 

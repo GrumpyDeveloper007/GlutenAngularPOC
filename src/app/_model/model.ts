@@ -12,6 +12,7 @@ export interface TopicGroup {
     isGF: boolean;
     isC: boolean;
     isGFG: boolean;
+    isTC: boolean;
 }
 
 export interface GMapsPin {

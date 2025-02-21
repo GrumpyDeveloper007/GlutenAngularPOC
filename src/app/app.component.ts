@@ -20,7 +20,7 @@ export class AppComponent {
   title = 'FB Group Indexer';
   description = "Provides the indexing of gluten free FB group posts. A helpful site for coeliacs and people looking for gluten free places to eat or stay.";
   selectedTopicGroup: TopicGroup | null = null;
-  showOptions: FilterOptions = new FilterOptions(true, true, true, true, false, true);
+  showOptions: FilterOptions = new FilterOptions(true, true, true, true, false, true, false);
   restaurants: Restaurant[] = [];
   private renderer = inject(Renderer2)
   private rendererFactory = inject(RendererFactory2)
