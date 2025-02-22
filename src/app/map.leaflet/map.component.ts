@@ -32,6 +32,7 @@ import { ModalComponent } from '../_components';
 export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output() selectedTopicGroupChange = new EventEmitter<TopicGroup>();
   @ViewChild('map') mapContainer!: ElementRef<HTMLElement>;
+  @ViewChild('searchInput') searchInput!: ElementRef;
   map: L.Map | undefined;
   selectedTopicGroup: TopicGroup | null = null;
   restaurants: Restaurant[] = [];
@@ -114,6 +115,11 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     });
     return result;
+  }
+
+  // TODO:Write up?
+  openListView(): void {
+    this.searchInput.nativeElement.focus();
   }
 
   closeListView(): void {
@@ -412,6 +418,14 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     const blob = new Blob([exportData], { type: 'application/octet-stream' });
     this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+  }
+
+  showPinListView(): void {
+    this.modalService.open('modal-listView');
+    // Add small delay to ensure modal is rendered
+    setTimeout(() => {
+      this.searchInput?.nativeElement?.focus();
+    }, 100);
   }
 }
 

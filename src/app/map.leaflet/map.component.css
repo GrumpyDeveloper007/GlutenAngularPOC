@@ -186,8 +186,8 @@ span {
 /* Add these grid styles */
 .grid-container {
   display: grid;
-  grid-template-columns: minmax(200px, 1fr) 2fr;
-  gap: 12px;
+  grid-template-columns: minmax(150px, 1fr) 5fr;
+  gap: 0px;
   overflow-y: auto;
   flex: 1;
   padding: 0px;
@@ -198,6 +198,14 @@ span {
   font-weight: bold;
   padding: 5px;
   display: flex;
+  flex-direction: column;
+  /* Stack items vertically */
+  gap: 8px;
+}
+
+.label-content {
+  display: flex;
+  /* New container for image and text */
   align-items: center;
   gap: 8px;
 }
@@ -214,10 +222,11 @@ span {
 }
 
 .locate-button {
+  align-self: flex-start;
+  /* Align button to the left */
   padding: 4px 8px;
   font-size: 0.8em;
   margin: 0;
-  flex-shrink: 0;
 }
 
 .grid-description {
@@ -232,7 +241,7 @@ span {
   border: 1px solid #ccc;
   border-radius: 4px;
   margin: 0 10px;
-  min-width: 200px;
+  min-width: 20px;
   font-size: 0.9em;
 }
 
