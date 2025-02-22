@@ -48,6 +48,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   _showGMPins: boolean = true;
   _showChains: boolean = true;
   _showTemporarilyClosed: boolean = true;
+  searchText: string = "";
 
   mapBounds: L.LatLngBounds = new L.LatLngBounds([46.879966, -121.726909], [46.879966, -121.726909]);
   loaded = true;
@@ -116,6 +117,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   closeListView(): void {
+    this.searchText = "";
     this.modalService.close();
   }
 
@@ -125,7 +127,6 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     this.pinSelected(pin);
     this.modalService.close();
   }
-
 
   pinSelected(pin: any): void {
     this.selectedTopicGroup = pin as TopicGroup;
