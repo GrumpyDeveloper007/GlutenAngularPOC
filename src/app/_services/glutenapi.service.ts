@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { TopicGroup, GMapsPin, IpAddressData, PinSummary } from "../_model/model";
+import { TopicGroup, GMapsPin, IpAddressData, PinSummary, PinTopicDTO } from "../_model/model";
 import { catchError } from 'rxjs';
 import { Observable, of } from 'rxjs';
 
@@ -73,6 +73,15 @@ export class GlutenApiService {
             .pipe(catchError(this.handleErrorServerLog<PinSummary>(`getSummary id=${pinId}, language=${language}`)));
     }
 
+    getPin(country: string): Observable<PinTopicDTO[]> {
+        return this.http.get<PinTopicDTO[]>(this.baseUrl + "/api/Pin?country=" + country, this.httpOptions)
+            .pipe(catchError(this.handleErrorServerLog<PinTopicDTO[]>(`getPin id=${country}`)));
+    }
+
+    getPinDetails(country: string, pinId: number): Observable<PinTopicDTO[]> {
+        return this.http.get<PinTopicDTO[]>(this.baseUrl + "/api/Pin?country=" + country + '&pinid=' + pinId, this.httpOptions)
+            .pipe(catchError(this.handleErrorServerLog<PinTopicDTO[]>(`getPinDetails id=${country},pinId=${pinId}`)));
+    }
 
     getGMPin(country: string): Observable<GMapsPin[]> {
         return this.http.get<GMapsPin[]>(this.baseUrl + "/api/GMapsPin?country=" + country, this.httpOptions)

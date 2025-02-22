@@ -57,28 +57,31 @@ export interface Topic {
     postCreated: Date
 }
 
+////////////////////////////////////////
 
 export interface PinTopicDTO {
-    id: number;
-    lo: number;
-    la: number;
+    pinId: number;
+    geoLongitude: number;
+    geoLatitude: number;
     label: string;
-    t: PinLinkInfoDTO[];
-    mL: string | null;
-    rT: string | null;
-    p: string | null;
-    s: string | null;
-    isGF: boolean | null;
-    isC: boolean | null;
-    isGFG: boolean | null;
-    isTC: boolean | null;
 }
 
-export interface PinLinkInfoDTO {
-    u: string | null;
-    t: string | null;
-    pC: string | null;
+export interface PinTopicDetailDTO {
+    pinId: number;
+    description: string;
+    topics: Topic[];
+    mapsLink: string;
+    restaurantType: string;
+    price: string;
+    stars: string;
+    isGF: boolean;
+    isC: boolean;
+    isGFG: boolean;
+    isTC: boolean;
 }
+
+
+
 export interface PinSummary {
     pinId: number;
     summary: string;

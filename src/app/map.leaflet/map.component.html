@@ -25,8 +25,7 @@
 <jw-modal id="modal-listView">
     <div class="modal-header">
         <h1>Restaurants in view</h1>
-        <input type="text" [(ngModel)]="searchText" />
-
+        <input type="text" [(ngModel)]="searchText" class="search-input" placeholder="Search restaurants..." />
         <button (click)="closeListView()">Close</button>
     </div>
     <div class="modal-content">

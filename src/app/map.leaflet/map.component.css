@@ -226,3 +226,18 @@ span {
   /* Preserves line breaks */
   word-break: break-word;
 }
+
+.search-input {
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin: 0 10px;
+  min-width: 200px;
+  font-size: 0.9em;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 3px rgba(74, 175, 80, 0.3);
+}
