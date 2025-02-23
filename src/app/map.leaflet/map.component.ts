@@ -144,11 +144,9 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     if (pin.pinId == undefined) return;
 
     if (pin.description != undefined && pin.description?.length > 0) return;
-    console.log("fetching pin details", pin.pinId);
     this.pinDetailsLoading = true;
     this.apiService.getPinDetails(pin.pinId).subscribe(data => {
 
-      console.log("processing pin details");
       for (let key in this.pinCache) {
         let value = this.pinCache[key];
         this.pinDetailsLoading = false;
