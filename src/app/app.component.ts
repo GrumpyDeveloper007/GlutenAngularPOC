@@ -1,4 +1,4 @@
-import { Component, inject, Renderer2, RendererFactory2 } from '@angular/core';
+import { Component, inject, Renderer2, RendererFactory2, ViewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from "./navbar/navbar.component";
 import { MapLeafletComponent } from "./map.leaflet/map.component";
@@ -14,7 +14,7 @@ import { Title, Meta } from '@angular/platform-browser';
   standalone: true,
   imports: [MapLeafletComponent, NavbarComponent, SidebarComponent, MapfiltersComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
 export class AppComponent {
   title = 'FB Group Indexer';
@@ -24,8 +24,15 @@ export class AppComponent {
   restaurants: Restaurant[] = [];
   private renderer = inject(Renderer2)
   private rendererFactory = inject(RendererFactory2)
+  @ViewChild(MapLeafletComponent, { static: false }) child!: MapLeafletComponent;
 
-  constructor(private titleService: Title, private metaService: Meta) { }
+  constructor(private titleService: Title,
+    private metaService: Meta
+  ) { }
+
+  receiveMessage() {
+    this.child.showPinListView();
+  }
 
   setSEOData(title: string, description: string) {
     //https://gist.github.com/whitingx/3840905

@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import { MarkerOptions } from 'maplibre-gl';
 import { TopicGroup } from '../_model/model';
 import { Others } from "../_model/staticData";
-import * as maplibre from 'maplibre-gl';
 import L from "leaflet";
 
 
@@ -538,11 +536,6 @@ export class PinService {
         if (geoLongitude > bounds.getNorthEast().lng) return false;
         if (geoLongitude < bounds.getSouthWest().lng) return false;
         return true;
-    }
-
-    createPopup(label: string): maplibre.Popup {
-        return new maplibre.Popup({ offset: 25 })
-            .setHTML(`<h3>${label}</h3>`);
     }
 
     getColor(pin: TopicGroup): string {

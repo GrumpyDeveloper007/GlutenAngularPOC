@@ -4,6 +4,15 @@
         {{selectedTopicGroup.label}}<span class="tc" *ngIf="selectedTopicGroup.isTC">(TC)</span>
     </h2>
     <p>{{selectedTopicGroup.restaurantType}}</p>
+    <div class="spinner-container" *ngIf="selectedTopicGroup.description==undefined">
+        <mat-spinner [diameter]="30"></mat-spinner>
+        <p></p>
+        <p></p>
+        <p></p>
+        <p></p>
+        <p></p>
+
+    </div>
     <p>{{selectedTopicGroup.stars}}</p>
     <p>{{selectedTopicGroup.price}}</p>
     <a *ngIf="selectedTopicGroup.mapsLink" [href]="selectedTopicGroup.mapsLink"
@@ -28,12 +37,12 @@
 </div>
 <div *ngIf="!selectedTopicGroup">
     <h2>Welcome</h2>
-    <p>Join my facebook group for more tips and info.</p>
+    <p>Please join my facebook group for more tips and info.</p>
     <a href="https://www.facebook.com/groups/769136475365475">FB group for the App</a>
-
-    <p>Please scroll the map and select a pin. Once selected a summary will be shown here.</p>
+    <p>Remember this information may not be 100% accurate and up to date, <strong>always confirm the details with
+            restaurant
+            staff.</strong></p>
+    <p>Please scroll the map and select a pin.</p>
     <p>There will also be links to google maps and Facebook groups.</p>
     <p>Some groups are private so please join the group and share useful information for others.</p>
-    <p>Remember this information may not be 100% accurate and up to date, always confirm the details with restaurant
-        staff.</p>
 </div>

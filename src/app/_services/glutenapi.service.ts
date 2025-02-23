@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { TopicGroup, GMapsPin, IpAddressData, PinSummary, PinTopicDTO } from "../_model/model";
+import { TopicGroup, GMapsPin, IpAddressData, PinSummary, PinTopicDTO, PinTopicDetailDTO } from "../_model/model";
 import { catchError } from 'rxjs';
 import { Observable, of } from 'rxjs';
 
@@ -54,15 +54,16 @@ export class GlutenApiService {
     }
 
     // Dev
-    baseUrl = "https://thedevshire.azurewebsites.net";
+    //baseUrl = "https://thedevshire.azurewebsites.net";
     // Prod
-    //baseUrl = "https://thegfshire.azurewebsites.net";
+    baseUrl = "https://thegfshire.azurewebsites.net";
     // Local
     //baseUrl = "http://localhost:7121";
     // Mordor
     //baseUrl = "https://localhost:7125";
 
 
+    // Returns large data set
     getPinTopic(country: string): Observable<TopicGroup[]> {
         return this.http.get<TopicGroup[]>(this.baseUrl + "/api/PinTopic?country=" + country, this.httpOptions)
             .pipe(catchError(this.handleErrorServerLog<TopicGroup[]>(`getPinTopic id=${country}`)));
@@ -73,14 +74,22 @@ export class GlutenApiService {
             .pipe(catchError(this.handleErrorServerLog<PinSummary>(`getSummary id=${pinId}, language=${language}`)));
     }
 
-    getPin(country: string): Observable<PinTopicDTO[]> {
-        return this.http.get<PinTopicDTO[]>(this.baseUrl + "/api/Pin?country=" + country, this.httpOptions)
-            .pipe(catchError(this.handleErrorServerLog<PinTopicDTO[]>(`getPin id=${country}`)));
+    // Returns only info needed for the map
+    getPins(country: string): Observable<TopicGroup[]> {
+        return this.http.get<TopicGroup[]>(this.baseUrl + "/api/Pin?country=" + country, this.httpOptions)
+            .pipe(catchError(this.handleErrorServerLog<TopicGroup[]>(`getPin id=${country}`)));
     }
 
-    getPinDetails(country: string, pinId: number): Observable<PinTopicDTO[]> {
-        return this.http.get<PinTopicDTO[]>(this.baseUrl + "/api/Pin?country=" + country + '&pinid=' + pinId, this.httpOptions)
-            .pipe(catchError(this.handleErrorServerLog<PinTopicDTO[]>(`getPinDetails id=${country},pinId=${pinId}`)));
+    // Returns details needed for the side bar
+    getPinDetails(pinId: number): Observable<PinTopicDetailDTO[]> {
+        return this.http.get<PinTopicDetailDTO[]>(this.baseUrl + "/api/PinDetail?pinid=" + pinId, this.httpOptions)
+            .pipe(catchError(this.handleErrorServerLog<PinTopicDetailDTO[]>(`getPinDetails pinId=${pinId}`)));
+    }
+
+    // Returns details needed for the list view
+    getPinDetailsCountry(country: string): Observable<PinTopicDetailDTO[]> {
+        return this.http.get<PinTopicDetailDTO[]>(this.baseUrl + "/api/PinDetail?country=" + country, this.httpOptions)
+            .pipe(catchError(this.handleErrorServerLog<PinTopicDetailDTO[]>(`getPinDetails id=${country}`)));
     }
 
     getGMPin(country: string): Observable<GMapsPin[]> {

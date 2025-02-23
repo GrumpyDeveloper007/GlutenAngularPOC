@@ -24,6 +24,7 @@ import { FilterOptions } from "../_model/filterOptions";
 export class MapfiltersComponent {
   @Output() optionsChange = new EventEmitter<FilterOptions>();
   @Output() restaurantChange = new EventEmitter<Restaurant[]>();
+  @Output() listViewOpenChange = new EventEmitter<number>();
   private _options: FilterOptions = new FilterOptions(true, true, true, true, false, true, false);
   restaurants: Restaurant[] = [];
 
@@ -101,6 +102,7 @@ export class MapfiltersComponent {
   }
 
   showPinListView(): void {
+    this.listViewOpenChange.emit(1);
     this.modalService.open('modal-listView')
     this.gaService.trackEvent("Pin List", "Open", "MapFilters");
   }

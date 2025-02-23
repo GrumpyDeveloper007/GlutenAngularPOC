@@ -1,5 +1,6 @@
 
 export interface GMapsPin {
+    pinId: number;
     label: string;
     address: string | null;
     geoLatitude: string;

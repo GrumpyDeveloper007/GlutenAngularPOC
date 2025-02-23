@@ -26,6 +26,7 @@
     <div class="modal-header">
         <h1>Restaurants in view</h1>
         <input #searchInput type="text" [(ngModel)]="searchText" class="search-input" placeholder="Search..." />
+        <mat-spinner [diameter]="30" *ngIf="pinListLoading"></mat-spinner>
         <button (click)="closeListView()">Close</button>
     </div>
     <div class="modal-content">

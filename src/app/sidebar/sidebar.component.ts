@@ -4,12 +4,14 @@ import { TopicGroup, PinSummary } from "../_model/model";
 import { Input } from '@angular/core';
 import { HighlightPipe } from '../highlight.pipe';
 import { AnalyticsService, GlutenApiService } from '../_services';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [NgIf, NgFor, HighlightPipe],
+  imports: [NgIf, NgFor, HighlightPipe, MatProgressSpinnerModule],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css',
 })
