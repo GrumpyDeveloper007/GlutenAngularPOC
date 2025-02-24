@@ -7,5 +7,6 @@ export class FilterOptions {
         public ShowChainPins: boolean,
         public ShowNonGFGroupPins: boolean,
         public ShowTemporarilyClosed: boolean,
+        public SelectedLanguage: string
     ) { }
 }

@@ -16,6 +16,13 @@
     <label style="color: #7F0000;word-wrap:break-word"><input [(ngModel)]="showTemporarilyClosed" type="checkbox" />
         Temporarily Closed
     </label>
+
+    <!-- Add language selector -->
+    <select [(ngModel)]="selectedLanguage" (change)="onLanguageChange()">
+        <option value="English">English</option>
+        <option value="Spanish">Spanish</option>
+    </select>
+
     <button (click)="showRestaurantList()">Restaurant filters</button>
 
     <button (click)="showPinListView()">List view</button>

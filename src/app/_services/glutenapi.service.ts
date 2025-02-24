@@ -54,9 +54,9 @@ export class GlutenApiService {
     }
 
     // Dev
-    //baseUrl = "https://thedevshire.azurewebsites.net";
+    baseUrl = "https://thedevshire.azurewebsites.net";
     // Prod
-    baseUrl = "https://thegfshire.azurewebsites.net";
+    //baseUrl = "https://thegfshire.azurewebsites.net";
     // Local
     //baseUrl = "http://localhost:7121";
     // Mordor
@@ -81,8 +81,8 @@ export class GlutenApiService {
     }
 
     // Returns details needed for the side bar
-    getPinDetails(pinId: number): Observable<PinTopicDetailDTO[]> {
-        return this.http.get<PinTopicDetailDTO[]>(this.baseUrl + "/api/PinDetail?pinid=" + pinId, this.httpOptions)
+    getPinDetails(pinId: number, language: string): Observable<PinTopicDetailDTO[]> {
+        return this.http.get<PinTopicDetailDTO[]>(this.baseUrl + "/api/PinDetail?pinid=" + pinId + "&language=" + language, this.httpOptions)
             .pipe(catchError(this.handleErrorServerLog<PinTopicDetailDTO[]>(`getPinDetails pinId=${pinId}`)));
     }
 

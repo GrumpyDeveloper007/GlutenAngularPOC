@@ -49,6 +49,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   _showGMPins: boolean = true;
   _showChains: boolean = true;
   _showTemporarilyClosed: boolean = true;
+  _selectedLanguage: string = "English";
   searchText: string = "";
   userMovedMap: number = 0;
 
@@ -60,6 +61,8 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   pinListLoading = false;
 
   markerGroup: L.LayerGroup = new L.LayerGroup();
+
+  language: string = "English";
 
   constructor(public sanitizer: DomSanitizer,
     protected modalService: ModalService, private http: HttpClient,
@@ -99,6 +102,17 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     this.restaurants = value;
     this.loadMapPins();
   }
+
+  @Input() set selectedLanguage(value: string) {
+    this._selectedLanguage = value;
+    if (this.selectedTopicGroup == null) return;
+    if (this._selectedLanguage != this.language) {
+      this.selectedTopicGroup.description = "";
+      this.language = this._selectedLanguage;
+    }
+    this.pinSelected(this.selectedTopicGroup as TopicGroup);
+  }
+
 
   isSelected(restaurantType: string): boolean {
     var result = false;
@@ -145,7 +159,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (pin.description != undefined && pin.description?.length > 0) return;
     this.pinDetailsLoading = true;
-    this.apiService.getPinDetails(pin.pinId).subscribe(data => {
+    this.apiService.getPinDetails(pin.pinId, this._selectedLanguage).subscribe(data => {
 
       for (let key in this.pinCache) {
         let value = this.pinCache[key];

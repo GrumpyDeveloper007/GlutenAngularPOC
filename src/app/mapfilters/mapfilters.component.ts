@@ -25,18 +25,30 @@ export class MapfiltersComponent {
   @Output() optionsChange = new EventEmitter<FilterOptions>();
   @Output() restaurantChange = new EventEmitter<Restaurant[]>();
   @Output() listViewOpenChange = new EventEmitter<number>();
-  private _options: FilterOptions = new FilterOptions(true, true, true, true, false, true, false);
+  @Output() languageChange = new EventEmitter<string>();
+  private _options: FilterOptions = new FilterOptions(true, true, true, true, false, true, false, "English");
   restaurants: Restaurant[] = [];
+
 
   constructor(
     protected modalService: ModalService,
     private gaService: AnalyticsService) { }
 
+  @Input() set selectedLanguage(value: string) {
+    if (this._options.SelectedLanguage != value) {
+      this._options.SelectedLanguage = value;
+      this.optionsChange.emit(this._options);
+    }
+  }
+  get selectedLanguage(): string {
+    return this._options.SelectedLanguage;
+  }
+
   @Input() set showHotels(value: boolean) {
     if (this._options.ShowHotels != value) {
       this._options.ShowHotels = value;
       console.debug("Filter Hotels click :");
-      var options: FilterOptions = new FilterOptions(this._options.ShowHotels, this._options.ShowStores, this._options.ShowOthers, this._options.ShowGMPins, this._options.ShowChainPins, this._options.ShowNonGFGroupPins, this._options.ShowTemporarilyClosed)
+      var options: FilterOptions = new FilterOptions(this._options.ShowHotels, this._options.ShowStores, this._options.ShowOthers, this._options.ShowGMPins, this._options.ShowChainPins, this._options.ShowNonGFGroupPins, this._options.ShowTemporarilyClosed, "English")
       this.optionsChange.emit(options);
     }
   }
@@ -48,7 +60,6 @@ export class MapfiltersComponent {
     if (this._options.ShowStores != value) {
       this._options.ShowStores = value;
       this.optionsChange.emit(this._options);
-      console.debug("Filter Stores click :");
     }
   }
   get showStores(): boolean {
@@ -59,7 +70,6 @@ export class MapfiltersComponent {
     if (this._options.ShowOthers != value) {
       this._options.ShowOthers = value;
       this.optionsChange.emit(this._options);
-      console.debug("Filter Others click :");
     }
   }
   get showOthers(): boolean {
@@ -122,6 +132,11 @@ export class MapfiltersComponent {
   selectComplete(): void {
     this.modalService.close();
     this.restaurantChange.emit([...this.restaurants]);
+  }
+
+  onLanguageChange() {
+    this.languageChange.emit(this.selectedLanguage);
+    this.gaService.trackEvent("Language Changed", this.selectedLanguage, "MapFilters");
   }
 
   ngOnInit() {
