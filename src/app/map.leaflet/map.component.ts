@@ -47,7 +47,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   _showStores: boolean = true;
   _showOthers: boolean = true;
   _showGMPins: boolean = true;
-  _showChains: boolean = true;
+  _showChains: boolean = false;
   _showTemporarilyClosed: boolean = true;
   _selectedLanguage: string = "English";
   searchText: string = "";
