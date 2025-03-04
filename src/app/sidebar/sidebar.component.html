@@ -4,7 +4,7 @@
         {{selectedTopicGroup.label}}<span class="tc" *ngIf="selectedTopicGroup.isTC">(TC)</span>
     </h2>
     <p>{{selectedTopicGroup.restaurantType}}</p>
-    <div class="spinner-container" *ngIf="selectedTopicGroup.description==undefined">
+    <div class="spinner-container" *ngIf="!hasSummary()">
         <mat-spinner [diameter]="30"></mat-spinner>
         <p></p>
         <p></p>
@@ -17,8 +17,7 @@
     <p>{{selectedTopicGroup.price}}</p>
     <a *ngIf="selectedTopicGroup.mapsLink" [href]="selectedTopicGroup.mapsLink"
         (click)="mapLinkClick(selectedTopicGroup.mapsLink)" target="_blank">Google Maps</a>
-    <p *ngIf="selectedTopicGroup.description" md-highlight-text="summary()"
-        [innerHtml]="summary() | highlight: selectedTopicGroup.label">
+    <p *ngIf="hasSummary()" md-highlight-text="summary()" [innerHtml]="summary() | highlight: selectedTopicGroup.label">
     </p>
     <div *ngFor="let item of selectedTopicGroup.topics; let i=index; " class="fb-container">
         <a *ngIf="!!item.shortTitle && item.shortTitle.length>0" [href]="item.facebookUrl"

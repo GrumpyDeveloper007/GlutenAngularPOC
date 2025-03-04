@@ -17,28 +17,26 @@ import { tap } from 'rxjs';
 })
 export class SidebarComponent {
   _selectedTopicGroup: TopicGroup | null = null;
+  _selectedLanguage: string = "English";
   _pinCache: PinSummary[] = [];
   _loadingSummary: boolean = false;
+  facebookLink = 'about:blank';
+
+
+  @Input() set selectedLanguage(value: string | null) {
+    if (value == null) return;
+    this._selectedLanguage = value;
+  }
   @Input() set selectedTopicGroup(value: TopicGroup | null) {
 
     this._selectedTopicGroup = value;
     // load summary
     this._loadingSummary = true;
-    /*if (this._selectedTopicGroup == null) return;
-    this.apiService.getPinDescription(this._selectedTopicGroup?.pinId, "EN").pipe(
-      tap(data => {
-        this._pinCache.push(data);
-        this._loadingSummary = false;
-      }))
-*/
   }
 
   get selectedTopicGroup(): TopicGroup | null {
-
     return this._selectedTopicGroup;
-
   }
-  facebookLink = 'about:blank';
 
   constructor(
     private gaService: AnalyticsService,
@@ -53,10 +51,28 @@ export class SidebarComponent {
     this.gaService.trackEvent("Map Link Click:", url, "Map");
   }
 
+  hasSummary() {
+    if (this.selectedTopicGroup == null) return false;
+    if (this.selectedTopicGroup.pinId == undefined) return true;//GM Pin
+    if (this._selectedLanguage == "English") {
+      return this.selectedTopicGroup.description != undefined;
+    }
+    if (this.selectedTopicGroup.languages != undefined) {
+      return this.selectedTopicGroup.languages[this._selectedLanguage] != undefined;
+    }
+    return false;
+  }
+
   summary() {
     if (this.selectedTopicGroup == null) return "";
     if (this.selectedTopicGroup.topics == null) return 'Pin generated from Google maps :' + this.selectedTopicGroup.description;
-    return 'AI Generated :' + this.selectedTopicGroup.description;
+    if (this._selectedLanguage == "English") {
+      return 'AI Generated :' + this.selectedTopicGroup.description;
+    }
+    else {
+
+      return 'AI Generated :' + this.selectedTopicGroup.languages[this._selectedLanguage];
+    }
   }
 
   dateOnly(date: Date) {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { TopicGroup, GMapsPin, IpAddressData, PinSummary, PinTopicDTO, PinTopicDetailDTO } from "../_model/model";
+import { TopicGroup, GMapsPin, IpAddressData, PinSummary, PinTopicDetailDTO } from "../_model/model";
 import { catchError } from 'rxjs';
 import { Observable, of } from 'rxjs';
 

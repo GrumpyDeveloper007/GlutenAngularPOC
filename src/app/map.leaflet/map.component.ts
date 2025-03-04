@@ -4,7 +4,7 @@ import { NgIf, NgClass, NgFor } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { firstValueFrom, forkJoin, Observable, tap } from 'rxjs';
-import { GMapsPin, TopicGroup } from "../_model/model";
+import { GMapsPin, TopicGroup, PinLanguage } from "../_model/model";
 import { Restaurant } from "../_model/restaurant";
 import { restaurantTypes } from "../_model/staticData";
 import { ModalService, GlutenApiService, LocationService, MapDataService, PinService, DiagnosticService, AnalyticsService } from '../_services';
@@ -107,7 +107,6 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     this._selectedLanguage = value;
     if (this.selectedTopicGroup == null) return;
     if (this._selectedLanguage != this.language) {
-      this.selectedTopicGroup.description = "";
       this.language = this._selectedLanguage;
     }
     this.pinSelected(this.selectedTopicGroup as TopicGroup);
@@ -156,8 +155,12 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     this.selectedTopicGroupChange.emit(this.selectedTopicGroup);
     this.gaService.trackEvent("Pin selected:" + this.selectedTopicGroup.label, this.selectedTopicGroup.label, "Map");
     if (pin.pinId == undefined) return;
+    console.log("pinid", pin.pinId);
+    //if (this.selectedTopicGroup.topics == null) return;//GM Pin
 
-    if (pin.description != undefined && pin.description?.length > 0) return;
+    if (pin.description != undefined && pin.description?.length > 0 && this._selectedLanguage == "English") return;
+    //if (this._selectedLanguage != "English" && (this.selectedTopicGroup.languages == undefined || this.selectedTopicGroup.languages[this._selectedLanguage] == undefined)) return;
+
     this.pinDetailsLoading = true;
     this.apiService.getPinDetails(pin.pinId, this._selectedLanguage).subscribe(data => {
 
@@ -167,7 +170,12 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
         // Use `key` and `value`
         value.forEach(pin => {
           if (pin.pinId == data[0].pinId) {
-            pin.description = data[0].description;
+            if (pin.languages == undefined) pin.languages = {};
+            pin.languages[this._selectedLanguage] = data[0].description;
+            console.log("lang", pin.languages);
+            if (this._selectedLanguage == "English") {
+              pin.description = data[0].description;
+            }
             pin.mapsLink = data[0].mapsLink;
             pin.restaurantType = data[0].restaurantType;
             pin.price = data[0].price;
@@ -479,7 +487,12 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
           for (let newData of data) {
             for (let pin of countryPinList) {
               if (pin.pinId == newData.pinId) {
+                if (pin.languages == undefined) pin.languages = {};
+                pin.languages[this._selectedLanguage] = newData.description;
+                //TODO: Support other languages in list view
+                //if (this._selectedLanguage == "English") {
                 pin.description = newData.description;
+                //}
                 pin.mapsLink = newData.mapsLink;
                 pin.restaurantType = newData.restaurantType;
                 pin.price = newData.price;

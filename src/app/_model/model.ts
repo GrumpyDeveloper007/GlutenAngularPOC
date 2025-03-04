@@ -49,6 +49,8 @@ export interface TopicGroup {
     isC: boolean;
     isGFG: boolean;
     isTC: boolean;
+    languages: { [id: string]: string; };
+
 }
 
 
@@ -60,11 +62,9 @@ export interface Topic {
 
 ////////////////////////////////////////
 
-export interface PinTopicDTO {
-    pinId: number;
-    geoLongitude: number;
-    geoLatitude: number;
-    label: string;
+export interface PinLanguage {
+    description: string;
+    language: string;
 }
 
 export interface PinTopicDetailDTO {
@@ -79,6 +79,7 @@ export interface PinTopicDetailDTO {
     isC: boolean;
     isGFG: boolean;
     isTC: boolean;
+    languages: { [id: string]: string; };
 }
 
 
