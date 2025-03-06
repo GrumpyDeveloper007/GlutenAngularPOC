@@ -145,7 +145,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
 
   locate(pin: (TopicGroup | GMapsPin)): void {
     var t = pin as TopicGroup;
-    this.map?.flyTo({ lat: t.geoLatitude, lng: t.geoLongitude }, 18);
+    this.map?.flyTo({ lat: t.geoLatitude, lng: t.geoLongitude }, 1);
     this.pinSelected(pin);
     this.modalService.close();
   }
@@ -196,7 +196,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     var location = { latitude: 35.6844, longitude: 139.753 };
     //http://leaflet-extras.github.io/leaflet-providers/preview/
-    this.map = L.map('map').setView([location.latitude, location.longitude], 8).setMinZoom(2);
+    this.map = L.map('map').setView([location.latitude, location.longitude], 8).setMinZoom(3).setMaxZoom(17);
     /*     var key = "4XNqZU5WGeN8rGGyXkiP";
         L.tileLayer(`https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=${key}`, { //style URL
         noWrap: true,

@@ -17,7 +17,7 @@ import { Title, Meta } from '@angular/platform-browser';
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-  title = 'FB Group Indexer';
+  title = 'FB Gluten free Group Indexer Map';
   description = "Provides the indexing of gluten free FB group posts. A helpful site for coeliacs and people looking for gluten free places to eat or stay.";
   selectedTopicGroup: TopicGroup | null = null;
   showOptions: FilterOptions = new FilterOptions(true, true, true, true, false, true, false, "English");
@@ -39,7 +39,7 @@ export class AppComponent {
     this.titleService.setTitle(title);
     this.metaService.updateTag({ name: 'description', content: description });
 
-    this.metaService.addTag({ name: 'keywords', content: 'Gluten, Coeliac, Restaurant, Map' });
+    this.metaService.addTag({ name: 'keywords', content: 'Gluten, Coeliac, Restaurant, Map, GF, gluten free near me, gluten free restaurants near me, gluten free bakery, gluten free food near me' });
 
     // Open Graph Meta Tags
     this.metaService.addTag({ property: 'og:title', content: title });
