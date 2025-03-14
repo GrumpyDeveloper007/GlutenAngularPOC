@@ -145,7 +145,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
 
   locate(pin: (TopicGroup | GMapsPin)): void {
     var t = pin as TopicGroup;
-    this.map?.flyTo({ lat: t.geoLatitude, lng: t.geoLongitude }, 1);
+    this.map?.flyTo({ lat: t.geoLatitude, lng: t.geoLongitude }, 15);
     this.pinSelected(pin);
     this.modalService.close();
   }
@@ -196,7 +196,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     var location = { latitude: 35.6844, longitude: 139.753 };
     //http://leaflet-extras.github.io/leaflet-providers/preview/
-    this.map = L.map('map').setView([location.latitude, location.longitude], 8).setMinZoom(3).setMaxZoom(17);
+    this.map = L.map('map').setView([location.latitude, location.longitude], 8).setMinZoom(3).setMaxZoom(15);
     /*     var key = "4XNqZU5WGeN8rGGyXkiP";
         L.tileLayer(`https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=${key}`, { //style URL
         noWrap: true,
@@ -211,6 +211,9 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
      }).addTo(this.map);*/
 
+    /*L.tileLayer('https://tile.thunderforest.com/atlas/{z}/{x}/{y}.png?apikey=1b4b20af6bf5459b82658bc0d86c5b5a', {
+      noWrap: true, attribution: '',
+    }).addTo(this.map);*/
     L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png', {
       noWrap: true, attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(this.map);
