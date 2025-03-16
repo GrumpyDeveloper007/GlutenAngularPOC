@@ -63,17 +63,6 @@ export class GlutenApiService {
     //baseUrl = "https://localhost:7125";
 
 
-    // Returns large data set
-    getPinTopic(country: string): Observable<TopicGroup[]> {
-        return this.http.get<TopicGroup[]>(this.baseUrl + "/api/PinTopic?country=" + country, this.httpOptions)
-            .pipe(catchError(this.handleErrorServerLog<TopicGroup[]>(`getPinTopic id=${country}`)));
-    }
-
-    getPinDescription(pinId: number, language: string): Observable<PinSummary> {
-        return this.http.get<PinSummary>(this.baseUrl + "/api/GetSummary?pinId=" + pinId + '&language=' + language, this.httpOptions)
-            .pipe(catchError(this.handleErrorServerLog<PinSummary>(`getSummary id=${pinId}, language=${language}`)));
-    }
-
     // Returns only info needed for the map
     getPins(country: string): Observable<TopicGroup[]> {
         return this.http.get<TopicGroup[]>(this.baseUrl + "/api/Pin?country=" + country, this.httpOptions)
@@ -92,14 +81,16 @@ export class GlutenApiService {
             .pipe(catchError(this.handleErrorServerLog<PinTopicDetailDTO[]>(`getPinDetails id=${country}`)));
     }
 
-    getGMPin(country: string): Observable<GMapsPin[]> {
-        return this.http.get<GMapsPin[]>(this.baseUrl + "/api/GMapsPin?country=" + country, this.httpOptions)
-            .pipe(catchError(this.handleErrorServerLog<GMapsPin[]>(`getGMPin id=${country}`)));
-    }
-
+    // Use IP address to center the map
     getLocation(country: string): Observable<IpAddressData> {
         return this.http.get<IpAddressData>(this.baseUrl + "/api/GetLocation", this.httpOptions)
             .pipe(catchError(this.handleErrorServerLog<IpAddressData>(`getLocation id=${country}`)));
+    }
+
+    // Get pins sourced from GM
+    getGMPin(country: string): Observable<GMapsPin[]> {
+        return this.http.get<GMapsPin[]>(this.baseUrl + "/api/GMapsPin?country=" + country, this.httpOptions)
+            .pipe(catchError(this.handleErrorServerLog<GMapsPin[]>(`getGMPin id=${country}`)));
     }
 
     postMapHome(geoLatitude: number, geoLongitude: number): Observable<any> {
@@ -107,6 +98,7 @@ export class GlutenApiService {
             .pipe(catchError(this.handleErrorServerLog()));
     }
 
+    // Log errors to the database
     postLog(message: any): Observable<any> {
         return this.http.post(this.baseUrl + "/api/Log", JSON.stringify({ message }), this.httpOptionsPost)
             .pipe(catchError(this.handleError()));
