@@ -1,4 +1,4 @@
-import { Component, inject, Renderer2, RendererFactory2, ViewChild } from '@angular/core';
+import { Component, inject, Input, Renderer2, RendererFactory2, ViewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from "./navbar/navbar.component";
 import { MapLeafletComponent } from "./map.leaflet/map.component";
@@ -26,6 +26,9 @@ export class AppComponent {
   private rendererFactory = inject(RendererFactory2)
   @ViewChild(MapLeafletComponent, { static: false }) child!: MapLeafletComponent;
 
+  @Input('id') productId = '';
+
+
   constructor(private titleService: Title,
     private metaService: Meta
   ) { }
@@ -48,6 +51,14 @@ export class AppComponent {
   }
 
   ngOnInit() {
+    // Get pin ID from URL
+    //const path = window.location.pathname;
+    //const pinId = path.split('/products/')[1];
+
+
+    if (this.productId) {
+      //this.productDetailService.setSelectedProductId(Number(this.id));
+    }
     this.setSEOData(this.title, this.description)
     this.addStructuredData();
   }

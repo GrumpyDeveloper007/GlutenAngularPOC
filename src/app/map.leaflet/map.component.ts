@@ -156,6 +156,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     this.gaService.trackEvent("Pin selected:" + this.selectedTopicGroup.label, this.selectedTopicGroup.label, "Map");
     if (pin.pinId == undefined) return;
     console.log("pinid", pin.pinId);
+    window.history.replaceState({}, '', `/products/${pin.pinId}`);
     //if (this.selectedTopicGroup.topics == null) return;//GM Pin
 
     if (pin.description != undefined && pin.description?.length > 0 && this._selectedLanguage == "English") return;
