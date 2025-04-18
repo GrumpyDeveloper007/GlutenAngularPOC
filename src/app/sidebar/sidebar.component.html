@@ -1,6 +1,6 @@
 <div *ngIf="selectedTopicGroup">
-    <h2><img *ngIf="!selectedTopicGroup.isGF" class="xgfimage" src="GFQ.png" alt="" />
-        <img *ngIf="selectedTopicGroup.isGF" class="xgfimage" src="GFT.png" alt="" />
+    <h2><img hidden *ngIf="!selectedTopicGroup.isGF" class="xgfimage" src="GFQ.png" alt="" />
+        <img hidden *ngIf="selectedTopicGroup.isGF" class="xgfimage" src="GFT.png" alt="" />
         {{selectedTopicGroup.label}}<span class="tc" *ngIf="selectedTopicGroup.isTC">(TC)</span>
     </h2>
     <p>{{selectedTopicGroup.restaurantType}}</p>

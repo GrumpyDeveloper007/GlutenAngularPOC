@@ -2,7 +2,7 @@
     <div class="pincount">
         <span *ngIf="selectedPins<400" [ngClass]="{'redtext': selectedPins==400}"> Pin count :
             {{selectedPins}}</span>
-        <span *ngIf="selectedPins>=400" [ngClass]="{'redtext': selectedPins==400}"> Some pins hidden, zoom in</span>
+        <span *ngIf="selectedPins>=400" [ngClass]="{'flash': selectedPins==400}"> Some pins hidden, zoom in</span>
     </div>
 
     <div class="downloadFile">

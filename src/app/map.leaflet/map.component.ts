@@ -155,8 +155,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     this.selectedTopicGroupChange.emit(this.selectedTopicGroup);
     this.gaService.trackEvent("Pin selected:" + this.selectedTopicGroup.label, this.selectedTopicGroup.label, "Map");
     if (pin.pinId == undefined) return;
-    console.log("pinid", pin.pinId);
-    window.history.replaceState({}, '', `/products/${pin.pinId}`);
+    window.history.replaceState({}, '', `/places/${pin.pinId}`);
     //if (this.selectedTopicGroup.topics == null) return;//GM Pin
 
     if (pin.description != undefined && pin.description?.length > 0 && this._selectedLanguage == "English") return;
@@ -173,7 +172,6 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
           if (pin.pinId == data[0].pinId) {
             if (pin.languages == undefined) pin.languages = {};
             pin.languages[this._selectedLanguage] = data[0].description;
-            console.log("lang", pin.languages);
             if (this._selectedLanguage == "English") {
               pin.description = data[0].description;
             }
@@ -197,7 +195,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     var location = { latitude: 35.6844, longitude: 139.753 };
     //http://leaflet-extras.github.io/leaflet-providers/preview/
-    this.map = L.map('map').setView([location.latitude, location.longitude], 8).setMinZoom(3).setMaxZoom(15);
+    this.map = L.map('map').setView([location.latitude, location.longitude], 8).setMinZoom(3).setMaxZoom(18);
     /*     var key = "4XNqZU5WGeN8rGGyXkiP";
         L.tileLayer(`https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=${key}`, { //style URL
         noWrap: true,
@@ -216,7 +214,12 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
       noWrap: true, attribution: '',
     }).addTo(this.map);*/
     L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png', {
-      noWrap: true, attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      noWrap: true,
+      minNativeZoom: 3,
+      maxNativeZoom: 14,
+      minZoom: 3,
+      maxZoom: 18,
+      attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(this.map);
 
     //L.control.locate().addTo(this.map);
@@ -248,6 +251,13 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
         location = loc;
         if ((this.userMovedMap < 2)) {
           this.map?.setView([location.latitude, location.longitude], 14);
+          if ((this.map === undefined)) return;
+          L.circle([location.latitude, location.longitude], {
+            radius: 6,
+            color: 'blue',
+            fillColor: '#30f',
+            fillOpacity: 0.2
+          }).addTo(this.map);
         }
       })
       .catch((err) => {
@@ -294,7 +304,6 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
         if (!(value in this.pinCache)) {
           // key does not exist
           this.pendingCountries.push(value);
-          //console.log("pending :" + this.pendingCountries);
           this.loadingData = true;
           waitForDataLoad = true;
           requests.push(this.apiService.getPins(value).pipe(

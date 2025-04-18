@@ -53,7 +53,7 @@ export class AppComponent {
   ngOnInit() {
     // Get pin ID from URL
     //const path = window.location.pathname;
-    //const pinId = path.split('/products/')[1];
+    //const pinId = path.split('/places/')[1];
 
 
     if (this.productId) {

@@ -250,3 +250,19 @@ span {
   border-color: #4CAF50;
   box-shadow: 0 0 3px rgba(74, 175, 80, 0.3);
 }
+
+.flash {
+  animation: flash-bg 1s infinite;
+}
+
+@keyframes flash-bg {
+
+  0%,
+  100% {
+    background-color: red;
+  }
+
+  50% {
+    background-color: yellow;
+  }
+}
