@@ -27,7 +27,7 @@
         <h1>Restaurants in view</h1>
         <input #searchInput type="text" [(ngModel)]="searchText" class="search-input" placeholder="Search..." />
         <mat-spinner [diameter]="30" *ngIf="pinListLoading"></mat-spinner>
-        <button (click)="closeListView()">Close</button>
+        <button (click)="closeModal()">Close</button>
     </div>
     <div class="modal-content">
         <div class="grid-container">
@@ -41,6 +41,24 @@
                 </div>
                 <div *ngIf="item.label.toLowerCase().includes(searchText.toLowerCase())" class="grid-description">
                     {{item.description}}</div>
+            </ng-container>
+        </div>
+    </div>
+</jw-modal>
+
+<jw-modal id="modal-groups">
+    <div class="modal-header">
+        <h1>Group finder - groups in view</h1>
+        <button (click)="closeModal()">Close</button>
+    </div>
+    <div class="modal-content">
+        <div class="group-grid-container">
+            <ng-container *ngFor="let item of getActiveGroups(); let i=index;">
+                <div class="grid-description">
+                    <a [href]="generateFBUrl(item.groupId)" (click)="groupClick(item.groupId)" target="_blank"
+                        class="smallText">
+                        <img src="FB.png" alt="Facebook" />{{item.name + ' (' + item.totalPins + ')'}}</a>
+                </div>
             </ng-container>
         </div>
     </div>

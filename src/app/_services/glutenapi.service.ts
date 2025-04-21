@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { TopicGroup, GMapsPin, IpAddressData, PinSummary, PinTopicDetailDTO } from "../_model/model";
+import { TopicGroup, GMapsPin, IpAddressData, PinSummary, PinTopicDetailDTO, GroupData } from "../_model/model";
 import { catchError } from 'rxjs';
 import { Observable, of } from 'rxjs';
 
@@ -103,5 +103,11 @@ export class GlutenApiService {
         return this.http.post(this.baseUrl + "/api/Log", JSON.stringify({ message }), this.httpOptionsPost)
             .pipe(catchError(this.handleError()));
     }
+
+    getGroups(): Observable<GroupData[]> {
+        return this.http.get<GroupData[]>(this.baseUrl + "/api/Groups", this.httpOptions)
+            .pipe(catchError(this.handleErrorServerLog<GroupData[]>(`getPinDetails`)));
+    }
+
 
 }

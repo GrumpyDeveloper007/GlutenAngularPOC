@@ -194,6 +194,16 @@ span {
   max-height: calc(90vh - 50px);
 }
 
+.group-grid-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0px;
+  overflow-y: auto;
+  flex: 1;
+  padding: 0px;
+  max-height: calc(90vh - 50px);
+}
+
 .grid-label {
   font-weight: bold;
   padding: 5px;

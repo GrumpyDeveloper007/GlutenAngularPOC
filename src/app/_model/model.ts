@@ -33,6 +33,17 @@ export interface IpAddressData {
     timezone: string;
 }
 
+export interface GroupData {
+    name: string;
+    groupId: string;
+    country: string;
+    geoLatitudeMin: number;
+    geoLongitudeMin: number;
+    geoLatitudeMax: number;
+    geoLongitudeMax: number;
+    totalPins: number;
+}
+
 ////////////////////////////////////////
 export interface TopicGroup {
     pinId: number;

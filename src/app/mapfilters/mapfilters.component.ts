@@ -116,6 +116,11 @@ export class MapfiltersComponent {
     this.modalService.open('modal-listView')
     this.gaService.trackEvent("Pin List", "Open", "MapFilters");
   }
+  showGroupListView(): void {
+    this.modalService.open('modal-groups')
+    this.gaService.trackEvent("Group List", "Open", "MapFilters");
+  }
+
 
   selectNone(): void {
     this.restaurants.forEach(restaurant => {

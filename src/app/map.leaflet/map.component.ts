@@ -4,7 +4,7 @@ import { NgIf, NgClass, NgFor } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { firstValueFrom, forkJoin, Observable, tap } from 'rxjs';
-import { GMapsPin, TopicGroup, PinLanguage } from "../_model/model";
+import { GMapsPin, TopicGroup, GroupData } from "../_model/model";
 import { Restaurant } from "../_model/restaurant";
 import { restaurantTypes } from "../_model/staticData";
 import { ModalService, GlutenApiService, LocationService, MapDataService, PinService, DiagnosticService, AnalyticsService } from '../_services';
@@ -42,6 +42,8 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   gmPinCache: { [id: string]: GMapsPin[]; } = {};
   selectedPins = 0;
   pinsToExport: (TopicGroup | GMapsPin)[] = [];
+  groups: GroupData[] = [];
+  allGroups: GroupData[] = [];
   totalPins = 0;
   _showHotels: boolean = true;
   _showStores: boolean = true;
@@ -138,7 +140,17 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     this.searchInput.nativeElement.focus();
   }
 
-  closeListView(): void {
+  generateFBUrl(groupId: string): string {
+    return "https://www.facebook.com/groups/" + groupId;
+  }
+
+  groupClick(groupId: string): void {
+    this.gaService.trackEvent("Group selected:" + groupId, groupId, "Map");
+  }
+
+
+
+  closeModal(): void {
     this.searchText = "";
     this.modalService.close();
   }
@@ -267,6 +279,10 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
       this.restaurants.push(a);
     });
 
+    this.apiService.getGroups().subscribe(data => {
+      this.allGroups = data;
+    });
+
     var location = { latitude: 35.6844, longitude: 139.753 };
     try {
       var ipLocation = await firstValueFrom(this.apiService.getLocation(""))
@@ -326,11 +342,34 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     // Trigger api calls
     var waitForDataLoad = false;
     const bounds = this.map.getBounds();
+    const mapCenter = this.map.getCenter();
     var countryNames = this.mapDataService.getCountriesInView(bounds);
     console.debug("Countries in view: " + countryNames);
     const requests: Observable<any>[] = [];
+    this.groups = [];
     for (let key in countryNames) {
       let value = countryNames[key];
+      this.allGroups.forEach(g => {
+        if (g.country == value) {
+          if (g.geoLatitudeMin != 0) {
+            if (g.geoLatitudeMin < mapCenter.lat
+              && g.geoLatitudeMax > mapCenter.lat
+              && g.geoLongitudeMin < mapCenter.lng
+              && g.geoLongitudeMax > mapCenter.lng) {
+              this.groups.push(g);
+              //console.log("added group", g.country, value, g.name);
+            }
+            else {
+              //console.log("geo skipped group", g.country, g, mapCenter);
+            }
+          }
+          else {
+            this.groups.push(g);
+            //console.log("added group", g.country, g.name);
+          }
+        }
+      });
+
       if (!(this.pendingCountries.includes(value))) {
         if (!(value in this.pinCache)) {
           // key does not exist
@@ -411,6 +450,19 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     return gmPins;
   }
 
+  getActiveGroups() {
+    return this.groups.sort((a, b) => {
+      if (a.name > b.name) {
+        return 1;
+      }
+
+      if (a.name < b.name) {
+        return -1;
+      }
+
+      return 0;
+    });
+  }
 
   showMapPins(countryNames: string[]) {
     this.gaService.trackEvent("Show:" + countryNames.toString(), "Map shown", "Map");
