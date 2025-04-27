@@ -145,7 +145,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   groupClick(groupId: string): void {
-    this.gaService.trackEvent("Group selected:" + groupId, groupId, "Map");
+    this.gaService.trackEvent("Group selected:", groupId, "Map");
   }
 
 
@@ -224,6 +224,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.selectedTopicGroup = pin as TopicGroup;
     this.selectedTopicGroupChange.emit(this.selectedTopicGroup);
+    this.gaService.trackEvent("Pin click", this.selectedTopicGroup.label, "Map");
     this.gaService.trackEvent("Pin selected:" + this.selectedTopicGroup.label, this.selectedTopicGroup.label, "Map");
     if (pin.pinId == undefined) return;
     window.history.replaceState({}, '', `/places/${pin.pinId}`);
@@ -379,7 +380,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
           requests.push(this.apiService.getPins(value).pipe(
             tap(data => {
               this.pinCache[value] = data;
-              this.gaService.trackEvent("Loaded:" + value, "Map loaded", "Map");
+              this.gaService.trackEvent("Map Loaded:", value, "Map");
               const index = this.pendingCountries.indexOf(value, 0);
               if (index > -1) {
                 this.pendingCountries.splice(index, 1);
@@ -465,7 +466,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   showMapPins(countryNames: string[]) {
-    this.gaService.trackEvent("Show:" + countryNames.toString(), "Map shown", "Map");
+    this.gaService.trackEvent("Show Map:", countryNames.toString(), "Map");
     var pinTopics = this.getPinsInCountries(countryNames);
     var gmPins = this.getGMPinsInCountries(countryNames);
     const liveMode = true; // this makes it easier to see generic pins
@@ -480,9 +481,21 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
 
     //console.debug("Updating pins :" + pinTopics.length);
     const bounds = map.getBounds();
+    var selectedIcon = L.icon({
+      iconUrl: "/Empty.png",
+      iconSize: [30, 40],
+      iconAnchor: [15, 40],
+    });
 
     // Remove existing pins
     this.markerGroup.clearLayers();
+
+    if (this.selectedTopicGroup != null && this.selectedTopicGroup.pinId == this.selectedTopicGroup?.pinId && !this.pinService.isInBoundsLeaflet(this.selectedTopicGroup.geoLatitude, this.selectedTopicGroup.geoLongitude, bounds)) {
+      console.log("Pin moved out of view, deselecting");
+      window.history.replaceState({}, '', `/`);
+      this.selectedTopicGroup = null;
+      this.selectedTopicGroupChange.emit(undefined);
+    }
 
     pinTopics.forEach(pin => {
       try {
@@ -492,12 +505,6 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
         if (!this._showChains && !!pin.isC) return;
         if (!this._showTemporarilyClosed && !!pin.isTC) return;
 
-        if (pin.pinId == this.selectedTopicGroup?.pinId && !this.pinService.isInBoundsLeaflet(pin.geoLatitude, pin.geoLongitude, bounds)) {
-          console.log("Pin moved out of view, deselecting");
-          window.history.replaceState({}, '', `/`);
-          this.selectedTopicGroup = null;
-          this.selectedTopicGroupChange.emit(undefined);
-        }
         if (!this.pinService.isInBoundsLeaflet(pin.geoLatitude, pin.geoLongitude, bounds)) return;
         if (!this.isSelected(pin.restaurantType)) return;
         pinsToExport.push(pin);
@@ -509,11 +516,6 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
         })
 
         var icon = this.pinService.getMarkerIcon(color, pin.restaurantType, pin.label);
-        var selectedIcon = L.icon({
-          iconUrl: "/Empty.png",
-          iconSize: [30, 40],
-          iconAnchor: [15, 40],
-        });
         if (pin.pinId == this.selectedTopicGroup?.pinId) {
           this.lastIcon = icon;
           this.lastMarker = marker;
@@ -564,8 +566,29 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
           var color = "#7f7f7f";
           const marker = new L.Marker([parseFloat(pin.geoLatitude), parseFloat(pin.geoLongitude)])
           var icon = this.pinService.getMarkerIcon(color, pin.restaurantType, pin.label);
-          marker.setIcon(icon);
+
+          if (pin.pinId == this.selectedTopicGroup?.pinId) {
+            this.lastIcon = icon;
+            this.lastMarker = marker;
+            marker.setIcon(selectedIcon);
+            marker.setZIndexOffset(100);
+          }
+          else {
+            marker.setIcon(icon);
+          }
+
           marker.addEventListener('click', () => {
+            if (this.lastMarker == marker) return;
+            if (this.lastMarker != null && this.lastIcon != null) {
+              this.lastMarker.setIcon(this.lastIcon);
+              this.lastMarker.setZIndexOffset(0);
+            }
+
+            this.lastIcon = icon;
+            this.lastMarker = marker;
+            marker.setIcon(selectedIcon);
+            marker.setZIndexOffset(100);
+
             this.pinSelected(pin);
           })
           if (icon.options.iconUrl == "Grey.png" || liveMode) {
