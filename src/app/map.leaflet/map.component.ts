@@ -43,6 +43,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   selectedPins = 0;
   pinsToExport: (TopicGroup | GMapsPin)[] = [];
   groups: GroupData[] = [];
+  globalGroups: GroupData[] = [];
   allGroups: GroupData[] = [];
   totalPins = 0;
   _showHotels: boolean = true;
@@ -282,6 +283,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.apiService.getGroups().subscribe(data => {
       this.allGroups = data;
+      this.globalGroups = data.filter((group: GroupData) => group.country == "");
     });
 
     var location = { latitude: 35.6844, longitude: 139.753 };

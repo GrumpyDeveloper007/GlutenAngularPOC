@@ -120,7 +120,10 @@ export class MapfiltersComponent {
     this.modalService.open('modal-groups')
     this.gaService.trackEvent("Group List", "Open", "MapFilters");
   }
-
+  showGlobalGroupListView(): void {
+    this.modalService.open('modal-global-groups')
+    this.gaService.trackEvent("Global Group List", "Open", "MapFilters");
+  }
 
   selectNone(): void {
     this.restaurants.forEach(restaurant => {
