@@ -127,8 +127,8 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.restaurants[0].Name == "All" && this.restaurants[0].Show) return true;
 
     this.restaurants.forEach(restaurant => {
-      if (restaurant.Name === restaurantType) {
-        if (restaurant.Show === true) {
+      if (restaurant.Show === true) {
+        if (restaurantType.toLowerCase()===restaurant.Name.toLowerCase()) {
           result = true;
         }
       }

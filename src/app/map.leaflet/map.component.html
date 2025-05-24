@@ -32,14 +32,16 @@
     <div class="modal-content">
         <div class="grid-container">
             <ng-container *ngFor="let item of pinsToExport; let i=index;">
-                <div *ngIf="item.label.toLowerCase().includes(searchText.toLowerCase())" class="grid-label">
+                <div *ngIf="item.label.toLowerCase().includes(searchText.toLowerCase()) || item.description?.toLowerCase()?.includes(searchText.toLowerCase())"
+                    class="grid-label">
                     <div class="label-content">
                         <img src="{{pinService.getUrl(item.restaurantType,item.label)}}" alt="." class="grid-image">
                         <span class="grid-label-text">{{item.label}}</span>
                     </div>
                     <button class="locate-button" (click)="locate(item)">Locate</button>
                 </div>
-                <div *ngIf="item.label.toLowerCase().includes(searchText.toLowerCase())" class="grid-description">
+                <div *ngIf="item.label.toLowerCase().includes(searchText.toLowerCase())|| item.description?.toLowerCase()?.includes(searchText.toLowerCase())"
+                    class="grid-description">
                     {{item.description}}</div>
             </ng-container>
         </div>
@@ -48,7 +50,7 @@
 
 <jw-modal id="modal-groups">
     <div class="modal-header">
-        <h1>Group finder - groups in view</h1>
+        <h1>Group finder - groups in country</h1>
         <button (click)="closeModal()">Close</button>
     </div>
     <div class="modal-content">
