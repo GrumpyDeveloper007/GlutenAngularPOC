@@ -27,7 +27,7 @@ export class MapfiltersComponent {
   @Output() listViewOpenChange = new EventEmitter<number>();
   @Output() languageChange = new EventEmitter<string>();
   @Output() mapChange = new EventEmitter<string>();
-  private _options: FilterOptions = new FilterOptions(true, true, true, true, false, true, false, "English", "");
+  private _options: FilterOptions = new FilterOptions(true, true, true, true, false, true, false, "English", "Open");
   restaurants: Restaurant[] = [];
 
 
