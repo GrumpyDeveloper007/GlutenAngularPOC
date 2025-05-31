@@ -53,17 +53,37 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   _showChains: boolean = false;
   _showTemporarilyClosed: boolean = true;
   _selectedLanguage: string = "English";
+  _selectedMap: string = "Open";
   searchText: string = "";
   userMovedMap: number = 0;
   lastMarker: L.Marker | null = null;
   lastIcon: L.Icon | L.DivIcon | null = null;
-
   mapBounds: L.LatLngBounds = new L.LatLngBounds([46.879966, -121.726909], [46.879966, -121.726909]);
   loaded = true;
   loadingData = false;
   firstShown = true;
   pinDetailsLoading = false;
   pinListLoading = false;
+  stadiaTiles = L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png', {
+    noWrap: true,
+    minNativeZoom: 3,
+    maxNativeZoom: 14,
+    minZoom: 3,
+    maxZoom: 18,
+    attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  });
+  openTiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    noWrap: true,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  });
+  mapTilerTiles = L.tileLayer(`https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=4XNqZU5WGeN8rGGyXkiP`, { //style URL
+    noWrap: true,
+    tileSize: 512,
+    zoomOffset: -1,
+    minZoom: 1,
+    attribution: "\u003ca href=\"https://www.maptiler.com/copyright/\" target=\"_blank\"\u003e\u0026copy; MapTiler\u003c/a\u003e \u003ca href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\"\u003e\u0026copy; OpenStreetMap contributors\u003c/a\u003e",
+    crossOrigin: true
+  });
 
   markerGroup: L.LayerGroup = new L.LayerGroup();
 
@@ -117,6 +137,18 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     this.pinSelected(this.selectedTopicGroup as TopicGroup);
   }
 
+  @Input() set selectedMap(value: string) {
+    if (this._selectedMap != value) {
+      if (this._selectedMap == "Stadia" && this.map != undefined) this.map.removeLayer(this.stadiaTiles);
+      if (this._selectedMap == "Open" && this.map != undefined) this.map.removeLayer(this.openTiles);
+      this._selectedMap = value;
+      if (this._selectedMap == "Stadia" && this.map != undefined) this.map.addLayer(this.stadiaTiles);
+      if (this._selectedMap == "Open" && this.map != undefined) this.map.addLayer(this.openTiles);
+      // Update map tiles
+      console.log('tile', this._selectedMap);
+    }
+  }
+
 
   isSelected(restaurantType: string): boolean {
     var result = false;
@@ -128,7 +160,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.restaurants.forEach(restaurant => {
       if (restaurant.Show === true) {
-        if (restaurantType.toLowerCase()===restaurant.Name.toLowerCase()) {
+        if (restaurantType.toLowerCase() === restaurant.Name.toLowerCase()) {
           result = true;
         }
       }
@@ -242,35 +274,12 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     var location = { latitude: 35.6844, longitude: 139.753 };
     //http://leaflet-extras.github.io/leaflet-providers/preview/
     this.map = L.map('map').setView([location.latitude, location.longitude], 8).setMinZoom(3).setMaxZoom(18);
-    /*     var key = "4XNqZU5WGeN8rGGyXkiP";
-        L.tileLayer(`https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=${key}`, { //style URL
-        noWrap: true,
-          tileSize: 512,
-          zoomOffset: -1,
-          minZoom: 1,
-          attribution: "\u003ca href=\"https://www.maptiler.com/copyright/\" target=\"_blank\"\u003e\u0026copy; MapTiler\u003c/a\u003e \u003ca href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\"\u003e\u0026copy; OpenStreetMap contributors\u003c/a\u003e",
-          crossOrigin: true
-        }).addTo(this.map); */
-    /* L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-       noWrap: true,
-       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-     }).addTo(this.map);*/
-
     /*L.tileLayer('https://tile.thunderforest.com/atlas/{z}/{x}/{y}.png?apikey=1b4b20af6bf5459b82658bc0d86c5b5a', {
       noWrap: true, attribution: '',
     }).addTo(this.map);*/
-    L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png', {
-      noWrap: true,
-      minNativeZoom: 3,
-      maxNativeZoom: 14,
-      minZoom: 3,
-      maxZoom: 18,
-      attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(this.map);
-
-    //L.control.locate().addTo(this.map);
-
+    this.openTiles.addTo(this.map);
     this.map.addLayer(this.markerGroup);
+    //L.control.locate().addTo(this.map);
   }
   ngOnDestroy() {
   }
@@ -303,10 +312,10 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
           this.map?.setView([location.latitude, location.longitude], 14);
           if ((this.map === undefined)) return;
           L.circle([location.latitude, location.longitude], {
-            radius: 6,
+            radius: 10,
             color: 'blue',
             fillColor: '#30f',
-            fillOpacity: 0.2
+            fillOpacity: 0.8
           }).addTo(this.map);
         }
       })

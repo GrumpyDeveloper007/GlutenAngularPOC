@@ -26,7 +26,8 @@ export class MapfiltersComponent {
   @Output() restaurantChange = new EventEmitter<Restaurant[]>();
   @Output() listViewOpenChange = new EventEmitter<number>();
   @Output() languageChange = new EventEmitter<string>();
-  private _options: FilterOptions = new FilterOptions(true, true, true, true, false, true, false, "English");
+  @Output() mapChange = new EventEmitter<string>();
+  private _options: FilterOptions = new FilterOptions(true, true, true, true, false, true, false, "English", "");
   restaurants: Restaurant[] = [];
 
 
@@ -44,11 +45,21 @@ export class MapfiltersComponent {
     return this._options.SelectedLanguage;
   }
 
+  @Input() set selectedMap(value: string) {
+    if (this._options.SelectedMap != value) {
+      this._options.SelectedMap = value;
+      this.optionsChange.emit(this._options);
+    }
+  }
+  get selectedMap(): string {
+    return this._options.SelectedMap;
+  }
+
   @Input() set showHotels(value: boolean) {
     if (this._options.ShowHotels != value) {
       this._options.ShowHotels = value;
       console.debug("Filter Hotels click :");
-      var options: FilterOptions = new FilterOptions(this._options.ShowHotels, this._options.ShowStores, this._options.ShowOthers, this._options.ShowGMPins, this._options.ShowChainPins, this._options.ShowNonGFGroupPins, this._options.ShowTemporarilyClosed, "English")
+      var options: FilterOptions = new FilterOptions(this._options.ShowHotels, this._options.ShowStores, this._options.ShowOthers, this._options.ShowGMPins, this._options.ShowChainPins, this._options.ShowNonGFGroupPins, this._options.ShowTemporarilyClosed, this._options.SelectedLanguage, this._options.SelectedMap)
       this.optionsChange.emit(options);
     }
   }
@@ -146,6 +157,12 @@ export class MapfiltersComponent {
     this.languageChange.emit(this.selectedLanguage);
     this.gaService.trackEvent("Language Changed", this.selectedLanguage, "MapFilters");
   }
+
+  onMapChange() {
+    this.mapChange.emit(this.selectedMap);
+    this.gaService.trackEvent("MapProvider Changed", this.selectedMap, "MapFilters");
+  }
+
 
   ngOnInit() {
     restaurantTypes.forEach(restaurant => {
