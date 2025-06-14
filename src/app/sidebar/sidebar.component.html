@@ -19,6 +19,7 @@
         (click)="mapLinkClick(selectedTopicGroup.mapsLink)" target="_blank">Google Maps</a>
     <p *ngIf="hasSummary()" md-highlight-text="summary()" [innerHtml]="summary() | highlight: selectedTopicGroup.label">
     </p>
+    <p><b>If you find the pin useful, you can click and like the FB posts used to create this info -</b></p>
     <div *ngFor="let item of selectedTopicGroup.topics; let i=index; " class="fb-container">
         <a *ngIf="!!item.shortTitle && item.shortTitle.length>0" [href]="item.facebookUrl"
             (click)="linkClick(item.facebookUrl)" target="_blank" class="smallText fb-link">
