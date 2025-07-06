@@ -5,8 +5,11 @@
         <span *ngIf="selectedPins>=400" [ngClass]="{'flash': selectedPins==400}"> Some pins hidden, zoom in</span>
     </div>
 
+
+    <button class="homeButton" (click)="SetMapToUserLocation(true)">O</button>
+
     <div class="downloadFile">
-        <a [href]="fileUrl" download="file.csv">Download Pins</a>
+        <a [href]="fileUrl" download="file.csv">Save Pins</a>
     </div>
 
     <div *ngIf="loadingData" class="smallloading">
@@ -56,24 +59,6 @@
     <div class="modal-content">
         <div class="group-grid-container">
             <ng-container *ngFor="let item of getActiveGroups(); let i=index;">
-                <div class="grid-description">
-                    <a [href]="generateFBUrl(item.groupId)" (click)="groupClick(item.groupId)" target="_blank"
-                        class="smallText">
-                        <img src="FB.png" alt="Facebook" />{{item.name + ' (' + item.totalPins + ')'}}</a>
-                </div>
-            </ng-container>
-        </div>
-    </div>
-</jw-modal>
-
-<jw-modal id="modal-global-groups">
-    <div class="modal-header">
-        <h1>Global Groups</h1>
-        <button (click)="closeModal()">Close</button>
-    </div>
-    <div class="modal-content">
-        <div class="group-grid-container">
-            <ng-container *ngFor="let item of globalGroups; let i=index;">
                 <div class="grid-description">
                     <a [href]="generateFBUrl(item.groupId)" (click)="groupClick(item.groupId)" target="_blank"
                         class="smallText">

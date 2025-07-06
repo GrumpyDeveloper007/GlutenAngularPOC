@@ -28,7 +28,7 @@ export class MapDataService {
         return countriesInView.map(feature => feature.properties.Country);
     }
 
-    getCountriesInViewPoint(bounds: maplibre.LngLat): string[] {
+    getCountriesInViewPoint(bounds: L.LatLng): string[] {
 
         // Load or fetch your GeoJSON data (e.g., countriesGeoJSON)
         const countriesInView = countriesGeoJSON2.features.filter(feature => {

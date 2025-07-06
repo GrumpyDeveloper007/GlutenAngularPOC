@@ -43,7 +43,6 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   selectedPins = 0;
   pinsToExport: (TopicGroup | GMapsPin)[] = [];
   groups: GroupData[] = [];
-  globalGroups: GroupData[] = [];
   allGroups: GroupData[] = [];
   totalPins = 0;
   _showHotels: boolean = true;
@@ -270,6 +269,28 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     return;
   }
 
+  SetMapToUserLocation(alwaysFly: boolean) {
+    //console.log('home loc');
+    this.locationService.getUserLocation()
+      .then((loc) => {
+        var location = loc;
+        //console.log('fly to loc');
+        if ((this.userMovedMap < 2 || alwaysFly)) {
+          this.map?.setView([location.latitude, location.longitude], 14);
+          if ((this.map === undefined)) return;
+          L.circle([location.latitude, location.longitude], {
+            radius: 10,
+            color: 'blue',
+            fillColor: '#30f',
+            fillOpacity: 0.8
+          }).addTo(this.map);
+        }
+      })
+      .catch((err) => {
+        console.debug(err);
+      });
+  }
+
   ngOnInit() {
     var location = { latitude: 35.6844, longitude: 139.753 };
     //http://leaflet-extras.github.io/leaflet-providers/preview/
@@ -292,7 +313,6 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.apiService.getGroups().subscribe(data => {
       this.allGroups = data;
-      this.globalGroups = data.filter((group: GroupData) => group.country == "");
     });
 
     var location = { latitude: 35.6844, longitude: 139.753 };
@@ -305,24 +325,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     catch { }
 
-    this.locationService.getUserLocation()
-      .then((loc) => {
-        location = loc;
-        if ((this.userMovedMap < 2)) {
-          this.map?.setView([location.latitude, location.longitude], 14);
-          if ((this.map === undefined)) return;
-          L.circle([location.latitude, location.longitude], {
-            radius: 10,
-            color: 'blue',
-            fillColor: '#30f',
-            fillOpacity: 0.8
-          }).addTo(this.map);
-        }
-      })
-      .catch((err) => {
-        console.debug(err);
-      });
-
+    this.SetMapToUserLocation(false);
 
     const initialState = { lng: location.longitude, lat: location.latitude, zoom: 14 };
     this.map.setView([initialState.lat, initialState.lng], initialState.zoom);
@@ -356,11 +359,13 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     const bounds = this.map.getBounds();
     const mapCenter = this.map.getCenter();
     var countryNames = this.mapDataService.getCountriesInView(bounds);
+    var centerCountryNames = this.mapDataService.getCountriesInViewPoint(mapCenter);
     console.debug("Countries in view: " + countryNames);
+    console.debug("Center Countries in view: " + centerCountryNames);
     const requests: Observable<any>[] = [];
     this.groups = [];
-    for (let key in countryNames) {
-      let value = countryNames[key];
+    for (let key in centerCountryNames) {
+      let value = centerCountryNames[key];
       this.allGroups.forEach(g => {
         if (g.country == value) {
           if (g.geoLatitudeMin != 0) {
@@ -464,11 +469,11 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getActiveGroups() {
     return this.groups.sort((a, b) => {
-      if (a.name > b.name) {
+      if (a.totalPins < b.totalPins) {
         return 1;
       }
 
-      if (a.name < b.name) {
+      if (a.totalPins > b.totalPins) {
         return -1;
       }
 
