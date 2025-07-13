@@ -67,11 +67,11 @@ export class SidebarComponent {
     if (this.selectedTopicGroup == null) return "";
     if (this.selectedTopicGroup.topics == null) return 'Pin generated from Google maps :' + this.selectedTopicGroup.description;
     if (this._selectedLanguage == "English") {
-      return 'AI Generated :' + this.selectedTopicGroup.description;
+      return 'AI Generated : ' + this.selectedTopicGroup.description;
     }
     else {
 
-      return 'AI Generated :' + this.selectedTopicGroup.languages[this._selectedLanguage];
+      return 'AI Generated : ' + this.selectedTopicGroup.languages[this._selectedLanguage];
     }
   }
 
