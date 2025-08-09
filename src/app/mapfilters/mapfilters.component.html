@@ -1,47 +1,17 @@
 <div>
-    <p>Map Filters</p>
-    <label style="color: #00FF00;"><input [(ngModel)]="showHotels" type="checkbox" />
-        Hotels</label>
-    <label style="color: #0000FF;"><input [(ngModel)]="showStores" type="checkbox" />
-        Stores</label>
-    <label style="color: #00FFFF;"><input [(ngModel)]="showOthers" type="checkbox" />
-        Others
-    </label>
-    <label style="color: #7F7F7F;"><input [(ngModel)]="showGMPins" type="checkbox" />
-        Google
-    </label>
-    <label style="color: #7F0000;word-wrap:break-word"><input [(ngModel)]="showChains" type="checkbox" />
-        Fuzzy Matches
-    </label>
-    <label style="color: #7F0000;word-wrap:break-word"><input [(ngModel)]="showTemporarilyClosed" type="checkbox" />
-        Temporarily Closed
-    </label>
-
-    <!-- Add language selector -->
-    <select [(ngModel)]="selectedLanguage" (change)="onLanguageChange()">
-        <option value="English">English</option>
-        <option value="Spanish">Spanish</option>
-    </select>
-
-    <button (click)="showRestaurantList()">Restaurant filters</button>
-
-    <button (click)="showPinListView()">List view</button>
+    <button (click)="showMapFilters()">Map Filters</button>
+    <button (click)="showRestaurantList()">Type Filters</button>
+    <button (click)="showPinListView()">List</button>
     <button (click)="showGroupListView()">Groups</button>
-
-    <select [(ngModel)]="selectedMap" (change)="onLanguageChange()">
-        <option value="Stadia">Stadia Map</option>
-        <option value="Open">Open Map</option>
-    </select>
-
 
     <jw-modal id="modal-1">
         <div class="modal-header">
             <div class="left-group">
-                <h1>Select restaurant type -</h1>
+                <h1>Types -</h1>
                 <button (click)="selectNone()">Select None</button>
                 <button (click)="selectAll()">Select All</button>
             </div>
-            <button (click)="selectComplete()">Close</button>
+            <button (click)="selectCompleteRestaurantTypes()">Close</button>
         </div>
         <div class="modal-content">
             <div class="grid-container">
@@ -52,7 +22,47 @@
                 </div>
             </div>
         </div>
-
-
     </jw-modal>
+
+    <jw-modal id="modal-mapFilters">
+        <div class="modal-header">
+            <p>Map Filters</p>
+            <button (click)="selectComplete()">Close</button>
+        </div>
+        <div class="modal-content">
+            <label style="color: #00FF00;"><input [(ngModel)]="showHotels" type="checkbox" />
+                Hotels</label>
+            <p></p>
+            <label style="color: #0000FF;"><input [(ngModel)]="showStores" type="checkbox" />
+                Stores</label>
+            <p></p>
+            <label style="color: #00FFFF;"><input [(ngModel)]="showOthers" type="checkbox" />
+                Others
+            </label>
+            <p></p>
+            <label style="color: #7F7F7F;"><input [(ngModel)]="showGMPins" type="checkbox" />
+                Google
+            </label>
+            <p></p>
+            <label style="color: #7F0000;word-wrap:break-word"><input [(ngModel)]="showChains" type="checkbox" />
+                Fuzzy Matches
+            </label>
+            <p></p>
+            <label style="color: #7F0000;word-wrap:break-word"><input [(ngModel)]="showTemporarilyClosed"
+                    type="checkbox" />
+                Temporarily Closed
+            </label>
+            <p></p>
+            <select [(ngModel)]="selectedMap" (change)="onLanguageChange()">
+                <option value="Stadia">Stadia Map</option>
+                <option value="Open">Open Map</option>
+            </select>
+            <!-- Add language selector -->
+            <select [(ngModel)]="selectedLanguage" (change)="onLanguageChange()">
+                <option value="English">English</option>
+                <option value="Spanish">Spanish</option>
+            </select>
+        </div>
+    </jw-modal>
+
 </div>

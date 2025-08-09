@@ -1,20 +1,32 @@
-.heading {
-  margin: 0;
-  padding: 0px;
-  background-color: black;
-  color: white;
+.pageHeader {
+  display: none;
 }
 
-.heading>h1 {
-  padding: 20px;
-  margin: 0;
-}
+@media (min-width:1024px) {
+  .pageHeader {
+    display: block;
+  }
 
-p {
-  background-color: #4CAF50;
-  color: white;
-  text-align: center;
-  padding: 5px;
-  font-size: 1.0em;
-  margin: 0;
+  .heading {
+    margin: 0;
+    padding: 0px;
+    background-color: black;
+    color: white;
+  }
+
+  .heading>h1 {
+    padding: 20px;
+    margin: 0;
+  }
+
+  p {
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    padding: 5px;
+    font-size: 1.0em;
+    margin: 0;
+  }
+
+
 }

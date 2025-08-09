@@ -122,6 +122,10 @@ export class MapfiltersComponent {
     this.gaService.trackEvent("Restaurant List", "Open", "MapFilters");
   }
 
+  showMapFilters(): void {
+    this.modalService.open('modal-mapFilters')
+  }
+
   showPinListView(): void {
     this.listViewOpenChange.emit(1);
     this.modalService.open('modal-listView')
@@ -144,10 +148,15 @@ export class MapfiltersComponent {
     });
   }
 
-  selectComplete(): void {
+  selectCompleteRestaurantTypes(): void {
     this.modalService.close();
     this.restaurantChange.emit([...this.restaurants]);
   }
+
+  selectComplete(): void {
+    this.modalService.close();
+  }
+
 
   onLanguageChange() {
     this.languageChange.emit(this.selectedLanguage);
