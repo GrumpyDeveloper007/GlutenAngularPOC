@@ -61,11 +61,14 @@ export interface TopicGroup {
     isGFG: boolean;
     isTC: boolean;
     languages: { [id: string]: string; };
+    Oh: string;
 
 }
 
 
 export interface Topic {
+    GId: string
+    LId: string
     facebookUrl: string
     shortTitle: string
     postCreated: Date
@@ -91,6 +94,7 @@ export interface PinTopicDetailDTO {
     isGFG: boolean;
     isTC: boolean;
     languages: { [id: string]: string; };
+    Oh: string;
 }
 
 

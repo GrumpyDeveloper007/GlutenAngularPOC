@@ -56,9 +56,9 @@ export class GlutenApiService {
     // Dev
     //baseUrl = "https://thedevshire.azurewebsites.net";
     // Prod
-    baseUrl = "https://thegfshire.azurewebsites.net";
+    //baseUrl = "https://thegfshire.azurewebsites.net";
     // Local
-    //baseUrl = "http://localhost:7121";
+    baseUrl = "http://localhost:7121";
     // Mordor
     //baseUrl = "https://localhost:7125";
 
