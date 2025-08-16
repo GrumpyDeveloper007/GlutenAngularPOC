@@ -149,7 +149,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
 
-  isSelected(restaurantType: string): boolean {
+  isRestaurantSelected(restaurantType: string): boolean {
     var result = false;
     if (this.pinService.isHotel(restaurantType)) return this._showHotels;
     if (this.pinService.isStore(restaurantType)) return this._showStores;
@@ -164,6 +164,26 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
     });
+    return result;
+  }
+
+  isGroupSelected(pinTopicGroup: TopicGroup): boolean {
+    var result = false;
+    if (pinTopicGroup.topics == undefined) return true;
+
+    for (const group of this.groups) {
+      if (group.selected === true) {
+        for (const pinGroup of pinTopicGroup.topics) {
+          if (group.groupId === pinGroup.gId) {
+            result = true;
+            pinGroup.selected = true;
+          }
+          else {
+            pinGroup.selected = false;
+          }
+        };
+      }
+    };
     return result;
   }
 
@@ -313,6 +333,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.apiService.getGroups().subscribe(data => {
       this.allGroups = data;
+      this.allGroups.forEach(p => p.selected = true);
     });
 
     var location = { latitude: 35.6844, longitude: 139.753 };
@@ -341,6 +362,28 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
         this.mapBounds = this.map.getBounds();
       });
 
+    this.loadMapPins();
+  }
+
+  selectNoGroups(): void {
+    this.allGroups.forEach(group => {
+      group.selected = false;
+    });
+    this.showPinListView();
+    this.loadMapPins();
+  }
+
+  selectAllGroups(): void {
+    this.allGroups.forEach(group => {
+      group.selected = true;
+    });
+    this.showPinListView();
+    this.loadMapPins();
+  }
+
+  groupSelected() {
+    // Make sure we load all the pins
+    this.showPinListView();
     this.loadMapPins();
   }
 
@@ -522,7 +565,8 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
         if (!this._showTemporarilyClosed && !!pin.isTC) return;
 
         if (!this.pinService.isInBoundsLeaflet(pin.geoLatitude, pin.geoLongitude, bounds)) return;
-        if (!this.isSelected(pin.restaurantType)) return;
+        if (!this.isRestaurantSelected(pin.restaurantType)) return;
+        if (!this.isGroupSelected(pin)) return;
         pinsToExport.push(pin);
 
         var color = this.pinService.getColor(pin);
@@ -575,7 +619,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
           this.totalPins++;
           if (this.selectedPins >= 400) return;
           if (!this.pinService.isInBoundsLeaflet(parseFloat(pin.geoLatitude), parseFloat(pin.geoLongitude), bounds)) return;
-          if (!this.isSelected(pin.restaurantType)) return;
+          if (!this.isRestaurantSelected(pin.restaurantType)) return;
 
           pinsToExport.push(pin);
 

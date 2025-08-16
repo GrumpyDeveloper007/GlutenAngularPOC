@@ -5,9 +5,6 @@
         <span *ngIf="selectedPins>=400" [ngClass]="{'flash': selectedPins==400}"> Some pins hidden, zoom in</span>
     </div>
 
-
-    <button class="homeButton" (click)="SetMapToUserLocation(true)">O</button>
-
     <div class="downloadFile">
         <a [href]="fileUrl" download="file.csv">Save Pins</a>
     </div>
@@ -54,12 +51,16 @@
 <jw-modal id="modal-groups">
     <div class="modal-header">
         <h1>Group finder - groups in country</h1>
+        <button (click)="selectNoGroups()">None</button>
+        <button (click)="selectAllGroups()">All</button>
+
         <button (click)="closeModal()">Close</button>
     </div>
     <div class="modal-content">
         <div class="group-grid-container">
             <ng-container *ngFor="let item of getActiveGroups(); let i=index;">
                 <div class="grid-description">
+                    <input [(ngModel)]="item.selected" type="checkbox" (change)="groupSelected()" />
                     <a [href]="generateFBUrl(item.groupId)" (click)="groupClick(item.groupId)" target="_blank"
                         class="smallText">
                         <img src="FB.png" alt="Facebook" />{{item.name + ' (' + item.totalPins + ')'}}</a>

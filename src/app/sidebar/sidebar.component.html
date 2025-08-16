@@ -3,7 +3,7 @@
         <img hidden *ngIf="selectedTopicGroup.isGF" class="xgfimage" src="GFT.png" alt="" />
         {{selectedTopicGroup.label}}<span class="tc" *ngIf="selectedTopicGroup.isTC">(TC)</span>
     </h2>
-    <p>{{selectedTopicGroup.restaurantType}} {{selectedTopicGroup.stars.replace(' stars','')}}<img src="star.png"
+    <p>{{selectedTopicGroup.restaurantType}} {{removeStars(selectedTopicGroup)}}<img src="star.png"
             alt="" />{{selectedTopicGroup.price}}</p>
     <div class="spinner-container" *ngIf="!hasSummary()">
         <mat-spinner [diameter]="30"></mat-spinner>
@@ -18,15 +18,15 @@
         (click)="mapLinkClick(selectedTopicGroup.mapsLink)" target="_blank">Google Maps</a>
     <p><b>Conversations related to this pin (click links) -</b></p>
     <div *ngFor="let item of selectedTopicGroup.topics; let i=index; " class="fb-container">
-        <a *ngIf="!!item.shortTitle && item.shortTitle.length>0" [href]="item.facebookUrl"
-            (click)="linkClick(item.facebookUrl)" target="_blank" class="smallText fb-link">
+        <a *ngIf="!!item.shortTitle && item.shortTitle.length>0 && (item.selected || item.selected == undefined)"
+            [href]="buildFbUrl(item)" (click)="linkClick(buildFbUrl(item))" target="_blank" class="smallText fb-link">
             <img src="FB.png" alt="Facebook" />
             <div>
                 <div>{{item.shortTitle}}</div>
                 <div>{{dateOnly(item.postCreated)}}</div>
             </div>
         </a>
-        <a *ngIf="!item.shortTitle" [href]="item.facebookUrl" (click)="linkClick(item.facebookUrl)" target="_blank"
+        <a *ngIf="!item.shortTitle" [href]="buildFbUrl(item)" (click)="linkClick(buildFbUrl(item))" target="_blank"
             class="smallText">
             <img src="FB.png" alt="Facebook" />Facebook</a>
     </div>

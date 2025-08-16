@@ -42,6 +42,7 @@ export interface GroupData {
     geoLatitudeMax: number;
     geoLongitudeMax: number;
     totalPins: number;
+    selected: boolean;
 }
 
 ////////////////////////////////////////
@@ -67,11 +68,12 @@ export interface TopicGroup {
 
 
 export interface Topic {
-    GId: string
-    LId: string
+    gId: string
+    lId: string
     facebookUrl: string
     shortTitle: string
     postCreated: Date
+    selected: boolean
 }
 
 ////////////////////////////////////////

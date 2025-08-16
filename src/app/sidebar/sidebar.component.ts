@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NgIf, NgFor } from '@angular/common';
-import { TopicGroup, PinSummary } from "../_model/model";
+import { TopicGroup, PinSummary, Topic } from "../_model/model";
 import { Input } from '@angular/core';
 import { HighlightPipe } from '../highlight.pipe';
 import { AnalyticsService, GlutenApiService } from '../_services';
@@ -51,6 +51,9 @@ export class SidebarComponent {
     this.gaService.trackEvent("Map Link Click:", url, "Map");
   }
 
+  buildFbUrl(item: Topic) {
+    return `https://www.facebook.com/groups/${item.gId}/permalink/${item.lId}`;
+  }
   hasSummary() {
     if (this.selectedTopicGroup == null) return false;
     if (this.selectedTopicGroup.pinId == undefined) return true;//GM Pin
@@ -80,4 +83,8 @@ export class SidebarComponent {
     return currentDate.toDateString();
   }
 
+  removeStars(item: TopicGroup) {
+    if (item.stars == undefined) return '';
+    return item.stars.replace(' stars', '');
+  }
 }
