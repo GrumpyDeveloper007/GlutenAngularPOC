@@ -43,6 +43,7 @@ export interface GroupData {
     geoLongitudeMax: number;
     totalPins: number;
     selected: boolean;
+    localPins: number;
 }
 
 ////////////////////////////////////////

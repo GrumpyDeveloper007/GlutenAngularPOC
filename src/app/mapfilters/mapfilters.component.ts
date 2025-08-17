@@ -132,6 +132,7 @@ export class MapfiltersComponent {
     this.gaService.trackEvent("Pin List", "Open", "MapFilters");
   }
   showGroupListView(): void {
+    this.listViewOpenChange.emit(1);
     this.modalService.open('modal-groups')
     this.gaService.trackEvent("Group List", "Open", "MapFilters");
   }

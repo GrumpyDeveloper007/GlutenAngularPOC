@@ -3,16 +3,6 @@
   width: 100%;
 }
 
-.downloadFile {
-  font-size: 1.5em;
-  display: block;
-  position: absolute;
-  z-index: 1000;
-  padding: 0px 10px;
-  left: 0;
-  bottom: 0;
-}
-
 .homeButton {
   font-size: 1.5em;
   display: block;
@@ -29,7 +19,8 @@
   position: absolute;
   z-index: 1000;
   padding: 0px 10px;
-  right: 0;
+  left: 0;
+  bottom: 0;
 }
 
 .smallloading {
@@ -173,6 +164,13 @@ span {
 
 /* Desktop styles */
 @media (min-width: 1024px) {
+  .pincount {
+    right: 0;
+    top: 0;
+    left: unset;
+    bottom: unset;
+  }
+
   button {
     margin: 8px;
     padding: 8px 16px;

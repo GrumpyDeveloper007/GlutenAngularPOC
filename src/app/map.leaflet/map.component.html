@@ -5,10 +5,6 @@
         <span *ngIf="selectedPins>=400" [ngClass]="{'flash': selectedPins==400}"> Some pins hidden, zoom in</span>
     </div>
 
-    <div class="downloadFile">
-        <a [href]="fileUrl" download="file.csv">Save Pins</a>
-    </div>
-
     <div *ngIf="loadingData" class="smallloading">
         <mat-spinner [diameter]="30"></mat-spinner>
     </div>
@@ -51,6 +47,7 @@
 <jw-modal id="modal-groups">
     <div class="modal-header">
         <h1>Group finder - groups in country</h1>
+        <mat-spinner [diameter]="30" *ngIf="pinListLoading"></mat-spinner>
         <button (click)="selectNoGroups()">None</button>
         <button (click)="selectAllGroups()">All</button>
 
@@ -59,11 +56,12 @@
     <div class="modal-content">
         <div class="group-grid-container">
             <ng-container *ngFor="let item of getActiveGroups(); let i=index;">
-                <div class="grid-description">
+                <div *ngIf="item.localPins>0" class="grid-description">
                     <input [(ngModel)]="item.selected" type="checkbox" (change)="groupSelected()" />
                     <a [href]="generateFBUrl(item.groupId)" (click)="groupClick(item.groupId)" target="_blank"
                         class="smallText">
-                        <img src="FB.png" alt="Facebook" />{{item.name + ' (' + item.totalPins + ')'}}</a>
+                        <img src="FB.png" alt="Facebook" />{{item.name + ' (' + item.localPins + '/' + item.totalPins +
+                        ')'}}</a>
                 </div>
             </ng-container>
         </div>

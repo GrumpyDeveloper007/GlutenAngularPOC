@@ -36,7 +36,6 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   map: L.Map | undefined;
   selectedTopicGroup: TopicGroup | null = null;
   restaurants: Restaurant[] = [];
-  fileUrl: SafeResourceUrl = "";
   pendingCountries: string[] = [];
   pinCache: { [id: string]: TopicGroup[]; } = {};
   gmPinCache: { [id: string]: GMapsPin[]; } = {};
@@ -169,21 +168,22 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
 
   isGroupSelected(pinTopicGroup: TopicGroup): boolean {
     var result = false;
-    if (pinTopicGroup.topics == undefined) return true;
+    if (pinTopicGroup.topics == undefined) {
+      return true;
+    }
 
     for (const group of this.groups) {
-      if (group.selected === true) {
-        for (const pinGroup of pinTopicGroup.topics) {
-          if (group.groupId === pinGroup.gId) {
-            result = true;
-            pinGroup.selected = true;
-          }
-          else {
-            pinGroup.selected = false;
-          }
-        };
+      let match = false;
+      for (const pinGroup of pinTopicGroup.topics) {
+        if (group.groupId === pinGroup.gId) {
+          match = true;
+          group.localPins++;
+          result = group.selected === true;
+          pinGroup.selected = group.selected === true;
+        }
       }
-    };
+      //if (match) group.localPins++;
+    }
     return result;
   }
 
@@ -239,6 +239,10 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
             pin.isGFG = data[0].isGFG;
             pin.isTC = data[0].isTC;
             pin.topics = data[0].topics;
+            for (const pinGroup of pin.topics) {
+              pinGroup.selected = true;
+            }
+
             if (pin.pinId != this.selectedTopicGroup?.pinId) {
               this.userMovedMap = 2;
               this.selectedTopicGroup = pin;
@@ -284,7 +288,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (pin.description != undefined && pin.description?.length > 0 && this._selectedLanguage == "English") return;
     //if (this._selectedLanguage != "English" && (this.selectedTopicGroup.languages == undefined || this.selectedTopicGroup.languages[this._selectedLanguage] == undefined)) return;
-
+    this.isGroupSelected(this.selectedTopicGroup)
     this.loadPinDetails(pin.pinId);
     return;
   }
@@ -416,6 +420,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
               && g.geoLatitudeMax > mapCenter.lat
               && g.geoLongitudeMin < mapCenter.lng
               && g.geoLongitudeMax > mapCenter.lng) {
+              g.localPins = 0;
               this.groups.push(g);
               //console.log("added group", g.country, value, g.name);
             }
@@ -424,6 +429,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
             }
           }
           else {
+            g.localPins = 0;
             this.groups.push(g);
             //console.log("added group", g.country, g.name);
           }
@@ -494,8 +500,18 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getPinsInCountries(countryNames: string[]): TopicGroup[] {
     var pinTopics: TopicGroup[] = [];
+    var centerCountryNames: string[];
+
+    if ((this.map != undefined)) {
+      const mapCenter = this.map.getCenter();
+      centerCountryNames = this.mapDataService.getCountriesInViewPoint(mapCenter);
+      centerCountryNames.forEach(key => {
+        pinTopics = pinTopics.concat(this.pinCache[key]);
+      });
+    }
 
     countryNames.forEach(key => {
+      if (centerCountryNames?.includes(key)) return;
       pinTopics = pinTopics.concat(this.pinCache[key]);
     });
     return pinTopics;
@@ -512,11 +528,11 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getActiveGroups() {
     return this.groups.sort((a, b) => {
-      if (a.totalPins < b.totalPins) {
+      if (a.localPins < b.localPins) {
         return 1;
       }
 
-      if (a.totalPins > b.totalPins) {
+      if (a.localPins > b.localPins) {
         return -1;
       }
 
@@ -560,13 +576,13 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
       try {
         if (pin == undefined) return;
         this.totalPins++;
+        if (!this.isGroupSelected(pin)) return;
         if (this.selectedPins >= 400) return;
         if (!this._showChains && !!pin.isC) return;
         if (!this._showTemporarilyClosed && !!pin.isTC) return;
 
         if (!this.pinService.isInBoundsLeaflet(pin.geoLatitude, pin.geoLongitude, bounds)) return;
         if (!this.isRestaurantSelected(pin.restaurantType)) return;
-        if (!this.isGroupSelected(pin)) return;
         pinsToExport.push(pin);
 
         var color = this.pinService.getColor(pin);
@@ -661,7 +677,6 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
       });
     }
 
-    var exportData = "Latitude, Longitude, Description\r\n";
     this.pinsToExport = pinsToExport.sort((a, a2) => {
       if (a.label > a2.label) {
         return 1;
@@ -673,11 +688,6 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
 
       return 0;
     });
-    pinsToExport.forEach(pin => {
-      exportData += `${pin.geoLatitude},${pin.geoLongitude},${pin.label}\r\n`;
-    });
-    const blob = new Blob([exportData], { type: 'application/octet-stream' });
-    this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
   }
 
   showPinListView(): void {
@@ -689,13 +699,17 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
       for (let index in countryNames) {
         let countryName = countryNames[index];
         let countryPinList = this.pinCache[countryName];
+        if (countryPinList == undefined) {
+          console.log("countryPinList is undefined", countryName);
+          continue
+        }
         if (countryPinList.length == 0) continue;
-        var found = false;
+        var isPinsWithoutDetails = false;
         for (let pin of countryPinList) {
-          if ((pin.description == undefined || pin.description?.length == 0)) found = true;
+          if ((pin.description == undefined || pin.description?.length == 0)) isPinsWithoutDetails = true;
         }
 
-        if (!found) continue;
+        if (!isPinsWithoutDetails) continue;
         this.pinListLoading = true;
         this.apiService.getPinDetailsCountry(countryName).subscribe(data => {
 
@@ -718,6 +732,10 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
                 pin.isGFG = newData.isGFG;
                 pin.isTC = newData.isTC;
                 pin.topics = newData.topics;
+                for (const pinGroup of pin.topics) {
+                  pinGroup.selected = true;
+                };
+
                 break;
               }
             };
