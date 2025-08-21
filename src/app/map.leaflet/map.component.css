@@ -124,7 +124,7 @@ jw-modal h1 {
 }
 
 jw-modal div {
-  margin: 5px 0;
+  margin: 0px 0;
 }
 
 /* Checkbox and Labels */
@@ -211,12 +211,161 @@ span {
 .group-grid-container {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 0px;
+  gap: 12px;
   overflow-y: auto;
   flex: 1;
-  padding: 0px;
+  padding: 8px;
   max-height: calc(90vh - 50px);
 }
+
+/* Improved group item styling */
+.group-grid-container .grid-description {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.group-grid-container .grid-description:hover {
+  background: #e9ecef;
+  border-color: #4CAF50;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+/* Enhanced checkbox styling */
+.group-grid-container input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  cursor: pointer;
+  accent-color: #4CAF50;
+  border: 2px solid #4CAF50;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.group-grid-container input[type="checkbox"]:checked {
+  background-color: #4CAF50;
+  border-color: #4CAF50;
+}
+
+.group-grid-container input[type="checkbox"]:focus {
+  outline: 2px solid #4CAF50;
+  outline-offset: 2px;
+}
+
+/* Improved group image styling */
+.group-grid-container .groupimg {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  object-fit: cover;
+  border: 2px solid #e9ecef;
+  transition: border-color 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.group-grid-container .grid-description:hover .groupimg {
+  border-color: #4CAF50;
+  box-shadow: 0 2px 6px rgba(76, 175, 80, 0.2);
+}
+
+/* Enhanced group link styling */
+.group-grid-container .smallText {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  font-size: 0.95em;
+  line-height: 1.4;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  transition: color 0.2s ease;
+}
+
+.group-grid-container .smallText:hover {
+  color: #4CAF50;
+}
+
+/* Group name styling */
+.group-grid-container .group-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Group count styling */
+.group-grid-container .smallText::after {
+  content: attr(data-count);
+  background: #4CAF50;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8em;
+  font-weight: 600;
+  margin-left: auto;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Responsive improvements for groups modal */
+@media (max-width: 768px) {
+  .group-grid-container {
+    gap: 8px;
+    padding: 6px;
+  }
+
+  .group-grid-container .grid-description {
+    padding: 12px;
+    gap: 8px;
+  }
+
+  .group-grid-container .groupimg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .group-grid-container .smallText {
+    font-size: 0.9em;
+  }
+
+  #modal-groups .modal-header {
+    padding: 12px 15px;
+  }
+
+  #modal-groups .modal-header h1 {
+    font-size: 1.1em;
+  }
+}
+
+/* Loading state improvements */
+#modal-groups .modal-header mat-spinner {
+  margin: 0 10px;
+}
+
+
+/* Empty state styling */
+.group-grid-container:empty::after {
+  content: "No groups found in this area";
+  display: block;
+  text-align: center;
+  padding: 40px 20px;
+  color: #666;
+  font-style: italic;
+  background: #f8f9fa;
+  border-radius: 8px;
+  margin: 20px;
+}
+
 
 .grid-label {
   font-weight: bold;
