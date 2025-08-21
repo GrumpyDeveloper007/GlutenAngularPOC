@@ -20,7 +20,7 @@
     <div *ngFor="let item of selectedTopicGroup.topics; let i=index; " class="fb-container">
         <a *ngIf="!!item.shortTitle && item.shortTitle.length>0 && item.selected" [href]="buildFbUrl(item)"
             (click)="linkClick(buildFbUrl(item))" target="_blank" class="smallText fb-link">
-            <img src="FB.png" alt="Facebook" />
+            <img src="Groups\{{item.gId}}.jpg" alt="FB" (error)="onImgError($event)" />
             <div>
                 <div>{{item.shortTitle}}</div>
                 <div>{{dateOnly(item.postCreated)}}</div>
@@ -28,7 +28,7 @@
         </a>
         <a *ngIf="!item.shortTitle" [href]="buildFbUrl(item)" (click)="linkClick(buildFbUrl(item))" target="_blank"
             class="smallText">
-            <img src="FB.png" alt="Facebook" />Facebook</a>
+            <img src="Groups\{{item.gId}}.jpg" alt="FB" (error)="onImgError($event)" />Facebook</a>
     </div>
     <p *ngIf="hasSummary()" md-highlight-text="summary()" [innerHtml]="summary() | highlight: selectedTopicGroup.label">
     </p>

@@ -236,7 +236,6 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
             pin.stars = data[0].stars;
             pin.isGF = data[0].isGF;
             pin.isC = data[0].isC;
-            pin.isGFG = data[0].isGFG;
             pin.isTC = data[0].isTC;
             pin.topics = data[0].topics;
             for (const pinGroup of pin.topics) {
@@ -403,10 +402,9 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // Trigger api calls
     var waitForDataLoad = false;
-    const bounds = this.map.getBounds();
     const mapCenter = this.map.getCenter();
-    var countryNames = this.mapDataService.getCountriesInView(bounds);
-    var centerCountryNames = this.mapDataService.getCountriesInViewPoint(mapCenter);
+    var countryNames = this.getCountriesInViewWithCentreCountryFirst(false);
+    var centerCountryNames = this.getCountriesInViewWithCentreCountryFirst(true);
     console.debug("Countries in view: " + countryNames);
     console.debug("Center Countries in view: " + centerCountryNames);
     const requests: Observable<any>[] = [];
@@ -486,10 +484,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
       }
 
       // Refresh country names to ensure we have the latest 
-      if (!(this.map === undefined)) {
-        const bounds = this.map.getBounds();
-        countryNames = this.mapDataService.getCountriesInView(bounds);
-      }
+      countryNames = this.getCountriesInViewWithCentreCountryFirst(false);
       this.showMapPins(countryNames);
     });
 
@@ -498,20 +493,41 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  getPinsInCountries(countryNames: string[]): TopicGroup[] {
-    var pinTopics: TopicGroup[] = [];
-    var centerCountryNames: string[];
-
-    if ((this.map != undefined)) {
+  getCountriesInViewWithCentreCountryFirst(centreOnly: boolean): string[] {
+    let countryNames: string[] = [];
+    if (!(this.map === undefined)) {
       const mapCenter = this.map.getCenter();
-      centerCountryNames = this.mapDataService.getCountriesInViewPoint(mapCenter);
-      centerCountryNames.forEach(key => {
-        pinTopics = pinTopics.concat(this.pinCache[key]);
+      countryNames = this.mapDataService.getCountriesInViewPoint(mapCenter);
+
+      var centerStateNames = this.mapDataService.getStatesInViewPoint(mapCenter);
+      centerStateNames.forEach(key => {
+        countryNames.push("United States" + key);
       });
+
+      if (!centreOnly) {
+        const bounds = this.map.getBounds();
+        var tempCountryNames = this.mapDataService.getCountriesInView(bounds);
+        tempCountryNames.forEach(key => {
+          if (countryNames?.includes(key)) return;
+          countryNames.push(key);
+        });
+
+        var stateNames = this.mapDataService.getStatesInView(bounds);
+        stateNames.forEach(key => {
+          if (countryNames?.includes("United States" + key)) return;
+          countryNames.push("United States" + key);
+        });
+      }
+
     }
 
+    return countryNames;
+  }
+
+  getPinsInCountries(countryNames: string[]): TopicGroup[] {
+    var pinTopics: TopicGroup[] = [];
+
     countryNames.forEach(key => {
-      if (centerCountryNames?.includes(key)) return;
       pinTopics = pinTopics.concat(this.pinCache[key]);
     });
     return pinTopics;
@@ -692,9 +708,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
 
   showPinListView(): void {
     if (!(this.map === undefined)) {
-      const bounds = this.map.getBounds();
-      var countryNames = this.mapDataService.getCountriesInView(bounds);
-
+      var countryNames = this.getCountriesInViewWithCentreCountryFirst(false);
 
       for (let index in countryNames) {
         let countryName = countryNames[index];
@@ -729,7 +743,6 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
                 pin.stars = newData.stars;
                 pin.isGF = newData.isGF;
                 pin.isC = newData.isC;
-                pin.isGFG = newData.isGFG;
                 pin.isTC = newData.isTC;
                 pin.topics = newData.topics;
                 for (const pinGroup of pin.topics) {
@@ -747,6 +760,11 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
       }
 
     }
+  }
+
+  onImgError(event: Event) {
+    const img = event.target as HTMLImageElement;
+    img.src = 'FB.png';
   }
 }
 

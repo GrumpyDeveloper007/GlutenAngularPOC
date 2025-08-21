@@ -162,6 +162,12 @@ span {
   font-size: 0.8em;
 }
 
+.groupimg {
+  width: 30px;
+  height: 30px;
+  margin: 2px;
+}
+
 /* Desktop styles */
 @media (min-width: 1024px) {
   .pincount {

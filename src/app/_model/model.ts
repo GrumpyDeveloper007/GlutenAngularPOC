@@ -60,7 +60,6 @@ export interface TopicGroup {
     stars: string;
     isGF: boolean;
     isC: boolean;
-    isGFG: boolean;
     isTC: boolean;
     languages: { [id: string]: string; };
     Oh: string;
@@ -94,10 +93,10 @@ export interface PinTopicDetailDTO {
     stars: string;
     isGF: boolean;
     isC: boolean;
-    isGFG: boolean;
     isTC: boolean;
     languages: { [id: string]: string; };
-    Oh: string;
+    oh: string;
+    rc: string;
 }
 
 

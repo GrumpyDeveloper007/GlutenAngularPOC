@@ -60,7 +60,10 @@
                     <input [(ngModel)]="item.selected" type="checkbox" (change)="groupSelected()" />
                     <a [href]="generateFBUrl(item.groupId)" (click)="groupClick(item.groupId)" target="_blank"
                         class="smallText">
-                        <img src="FB.png" alt="Facebook" />{{item.name + ' (' + item.localPins + '/' + item.totalPins +
+                        <img class="groupimg" src="Groups\{{item.groupId}}.jpg" alt="FB"
+                            (error)="onImgError($event)" />{{item.name + '
+                        (' +
+                        item.localPins + '/' + item.totalPins +
                         ')'}}</a>
                 </div>
             </ng-container>

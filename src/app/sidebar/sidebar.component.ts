@@ -78,6 +78,11 @@ export class SidebarComponent {
     }
   }
 
+  onImgError(event: Event) {
+    const img = event.target as HTMLImageElement;
+    img.src = 'FB.png';
+  }
+
   dateOnly(date: Date) {
     let currentDate = new Date(date);
     return currentDate.toDateString();
