@@ -16,7 +16,7 @@
     </div>
     <a *ngIf="selectedTopicGroup.mapsLink" [href]="selectedTopicGroup.mapsLink"
         (click)="mapLinkClick(selectedTopicGroup.mapsLink)" target="_blank">Google Maps</a>
-    <p><b>Conversations related to this pin (click links) -</b></p>
+    <p><b>Conversations related to this pin (click) -</b></p>
     <div *ngFor="let item of selectedTopicGroup.topics; let i=index; " class="fb-container">
         <a *ngIf="!!item.shortTitle && item.shortTitle.length>0 && item.selected" [href]="buildFbUrl(item)"
             (click)="linkClick(buildFbUrl(item))" target="_blank" class="smallText fb-link">

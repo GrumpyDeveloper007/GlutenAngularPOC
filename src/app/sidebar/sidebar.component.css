@@ -52,24 +52,67 @@ a:hover {
 .fb-link {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin: 5px auto;
-    width: fit-content;
+    gap: 12px;
+    padding: 1px 8px 1px 8px;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+    text-decoration: none;
+}
+
+.fb-link:hover {
+    background-color: rgba(76, 175, 80, 0.1);
+    text-decoration: none;
 }
 
 .fb-link img {
     width: 30px;
     height: 30px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    flex-shrink: 0;
 }
 
-/* Add style for the container div */
-.fb-container {
-    text-align: center;
+/* Style for the text content within fb-link */
+.fb-link div {
+    flex: 1;
+    line-height: 1.4;
+    min-width: 0;
+}
 
-    color: black;
-    /*border-style: solid;*/
+.fb-link div:first-child {
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 2px;
+}
+
+.fb-link div:last-child {
+    font-size: 0.85em;
+    color: #666;
+}
+
+/* Style for the fallback Facebook link (when no shortTitle) */
+.fb-container a:not(.fb-link) {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+    text-decoration: none;
+}
+
+.fb-container a:not(.fb-link):hover {
+    background-color: rgba(76, 175, 80, 0.1);
+    text-decoration: none;
+}
+
+.fb-container a:not(.fb-link) img {
+    width: 30px;
+    height: 30px;
     border-radius: 4px;
-    margin: 5px;
+    border: 1px solid #ddd;
+    flex-shrink: 0;
 }
 
 /* Add this for spinner container */

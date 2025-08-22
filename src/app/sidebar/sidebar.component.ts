@@ -85,7 +85,7 @@ export class SidebarComponent {
 
   dateOnly(date: Date) {
     let currentDate = new Date(date);
-    return currentDate.toDateString();
+    return currentDate.toLocaleDateString("en-US", { month: "short", year: "numeric" })
   }
 
   removeStars(item: TopicGroup) {
