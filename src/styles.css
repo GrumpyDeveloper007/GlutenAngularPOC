@@ -28,7 +28,7 @@ body {
 /* Pin highlight styling for selected pins */
 .pinHighlight1 {
   filter: drop-shadow(0 0 5px rgba(255, 255, 0, 1)) drop-shadow(0 0 10px rgba(255, 255, 0, 0.5));
-  z-index: 400 !important;
+  z-index: 999 !important;
 }
 
 .pinHighlight {

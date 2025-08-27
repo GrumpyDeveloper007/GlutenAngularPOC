@@ -212,7 +212,7 @@ span {
   display: grid;
   grid-template-columns: 1fr;
   gap: 12px;
-  overflow-y: auto;
+  overflow-y: scroll;
   flex: 1;
   padding: 8px;
   max-height: calc(90vh - 50px);

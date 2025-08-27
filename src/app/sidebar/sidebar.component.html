@@ -18,8 +18,8 @@
         (click)="mapLinkClick(selectedTopicGroup.mapsLink)" target="_blank">Google Maps</a>
     <p><b>Conversations related to this pin (click) -</b></p>
     <div *ngFor="let item of selectedTopicGroup.topics; let i=index; " class="fb-container">
-        <div class="grid-container">
-            <a *ngIf="!!item.shortTitle && item.shortTitle.length>0 && item.selected" [href]="buildFbUrl(item)"
+        <div *ngIf="item.selected" class="grid-container">
+            <a *ngIf="!!item.shortTitle && item.shortTitle.length>0" [href]="buildFbUrl(item)"
                 (click)="linkClick(buildFbUrl(item))" target="_blank" class="smallText fb-link">
                 <img src="Groups\{{item.gId}}.jpg" alt="FB" (error)="onImgError($event)" />
                 <div>
