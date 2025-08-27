@@ -700,7 +700,7 @@ export class PinService {
         return null;
     }
 
-    getMarkerIcon(color: string, restaurantType: string | null, restaurantName: string | null): L.Icon {
+    getMarkerIcon(color: string, restaurantType: string | null, restaurantName: string | null, className: string): L.Icon {
         var genericUrl = "/Empty.png";
         if (color == "#FF0000") {
             genericUrl = "Red.png";
@@ -729,6 +729,7 @@ export class PinService {
 
             if (url != null) {
                 customIcon = L.icon({
+                    className: className,
                     iconUrl: url,
                     iconSize: [36, 48],
                     iconAnchor: [18, 48],

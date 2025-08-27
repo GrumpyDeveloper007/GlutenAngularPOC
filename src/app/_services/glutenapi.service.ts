@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { TopicGroup, GMapsPin, IpAddressData, PinSummary, PinTopicDetailDTO, GroupData } from "../_model/model";
+import { TopicGroup, GMapsPin, IpAddressData, PinSummary, PinTopicDetailDTO, GroupData, PinHighlight } from "../_model/model";
 import { catchError } from 'rxjs';
 import { Observable, of } from 'rxjs';
 
@@ -67,6 +67,12 @@ export class GlutenApiService {
     getPins(country: string): Observable<TopicGroup[]> {
         return this.http.get<TopicGroup[]>(this.baseUrl + "/api/Pin?country=" + country, this.httpOptions)
             .pipe(catchError(this.handleErrorServerLog<TopicGroup[]>(`getPin id=${country}`)));
+    }
+
+    // Returns interesting pins
+    getPinHightlight(country: string): Observable<PinHighlight[]> {
+        return this.http.get<PinHighlight[]>(this.baseUrl + "/api/PinHighlight?country=" + country, this.httpOptions)
+            .pipe(catchError(this.handleErrorServerLog<PinHighlight[]>(`getPinHightlight id=${country}`)));
     }
 
     // Returns details needed for the side bar

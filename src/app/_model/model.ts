@@ -33,6 +33,8 @@ export interface IpAddressData {
     timezone: string;
 }
 
+////////////////////////////////////////
+
 export interface GroupData {
     name: string;
     groupId: string;
@@ -45,6 +47,16 @@ export interface GroupData {
     selected: boolean;
     localPins: number;
 }
+
+////////////////////////////////////////
+
+export interface PinHighlight {
+    pinId: number;
+    autoSelect: boolean;
+    highlightEffect: number;
+    country: string;
+}
+
 
 ////////////////////////////////////////
 export interface TopicGroup {

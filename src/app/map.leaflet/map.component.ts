@@ -4,7 +4,7 @@ import { NgIf, NgClass, NgFor } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { firstValueFrom, forkJoin, Observable, tap } from 'rxjs';
-import { GMapsPin, TopicGroup, GroupData } from "../_model/model";
+import { GMapsPin, TopicGroup, GroupData, PinHighlight } from "../_model/model";
 import { Restaurant } from "../_model/restaurant";
 import { restaurantTypes } from "../_model/staticData";
 import { ModalService, GlutenApiService, LocationService, MapDataService, PinService, DiagnosticService, AnalyticsService } from '../_services';
@@ -43,6 +43,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   pinsToExport: (TopicGroup | GMapsPin)[] = [];
   groups: GroupData[] = [];
   allGroups: GroupData[] = [];
+  pinHightlight: PinHighlight[] = [];
   totalPins = 0;
   _showHotels: boolean = true;
   _showStores: boolean = true;
@@ -335,8 +336,12 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     this.apiService.getGroups().subscribe(data => {
-      this.allGroups = data;
+      this.allGroups = data ?? [];
       this.allGroups.forEach(p => p.selected = true);
+    });
+
+    this.apiService.getPinHightlight('').subscribe(data => {
+      this.pinHightlight = data ?? [];
     });
 
     var location = { latitude: 35.6844, longitude: 139.753 };
@@ -457,7 +462,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
           waitForDataLoad = true;
           requests.push(this.apiService.getGMPin(value).pipe(
             tap(data => {
-              this.gmPinCache[value] = data;
+              this.gmPinCache[value] = data ?? [];
             })));
         }
       }
@@ -569,6 +574,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     var pinsToExport: (TopicGroup | GMapsPin)[] = [];
     this.selectedPins = 0;
     this.totalPins = 0;
+    var iconClassName = '';
 
     //console.debug("Updating pins :" + pinTopics.length);
     const bounds = map.getBounds();
@@ -607,8 +613,19 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
           title: pin.pinId.toString()  // Store identifier for lookup
         })
 
-        var icon = this.pinService.getMarkerIcon(color, pin.restaurantType, pin.label);
+        const selectedPinHighlight = this.pinHightlight.find(u => u.pinId === pin.pinId);
+
+        let effectClass = '';
+        if (selectedPinHighlight) {
+          effectClass = `pinHighlight${selectedPinHighlight.highlightEffect}`;
+          if (this.selectedTopicGroup === null && selectedPinHighlight.autoSelect) {
+            //TODO: Test - this.loadPinDetails(pin.pinId);
+          }
+        }
+
+        var icon = this.pinService.getMarkerIcon(color, pin.restaurantType, pin.label, effectClass);
         if (pin.pinId == this.selectedTopicGroup?.pinId) {
+          selectedIcon = this.pinService.getMarkerIcon(color, pin.restaurantType, pin.label, 'pinHighlight');
           this.lastIcon = icon;
           this.lastMarker = marker;
           marker.setIcon(selectedIcon);
@@ -624,6 +641,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
             this.lastMarker.setZIndexOffset(0);
           }
 
+          selectedIcon = this.pinService.getMarkerIcon(color, pin.restaurantType, pin.label, 'pinHighlight');
           this.lastIcon = icon;
           this.lastMarker = marker;
           marker.setIcon(selectedIcon);
@@ -657,9 +675,10 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
 
           var color = "#7f7f7f";
           const marker = new L.Marker([parseFloat(pin.geoLatitude), parseFloat(pin.geoLongitude)])
-          var icon = this.pinService.getMarkerIcon(color, pin.restaurantType, pin.label);
+          var icon = this.pinService.getMarkerIcon(color, pin.restaurantType, pin.label, '');
 
           if (pin.pinId == this.selectedTopicGroup?.pinId) {
+            selectedIcon = this.pinService.getMarkerIcon(color, pin.restaurantType, pin.label, 'pinHighlight');
             this.lastIcon = icon;
             this.lastMarker = marker;
             marker.setIcon(selectedIcon);
@@ -676,6 +695,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
               this.lastMarker.setZIndexOffset(0);
             }
 
+            selectedIcon = this.pinService.getMarkerIcon(color, pin.restaurantType, pin.label, 'pinHighlight');
             this.lastIcon = icon;
             this.lastMarker = marker;
             marker.setIcon(selectedIcon);
