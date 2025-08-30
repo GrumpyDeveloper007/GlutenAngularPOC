@@ -599,7 +599,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
         if (pin == undefined) return;
         this.totalPins++;
         if (!this.isGroupSelected(pin)) return;
-        if (this.selectedPins >= 400) return;
+        if (this.selectedPins >= 400 && !(pin.pinId == this.selectedTopicGroup?.pinId)) return;
         if (!this._showChains && !!pin.isC) return;
         if (!this._showTemporarilyClosed && !!pin.isTC) return;
 
