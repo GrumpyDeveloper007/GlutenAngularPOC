@@ -109,7 +109,7 @@ export interface PinTopicDetailDTO {
     isTC: boolean;
     languages: { [id: string]: string; };
     oh: string;
-    rc: string;
+    rc: number;
 }
 
 

@@ -34,3 +34,7 @@ body {
 .pinHighlight {
   filter: drop-shadow(0 0 5px rgba(0, 0, 255, 1)) drop-shadow(0 0 20px rgba(0, 0, 0, 0.9));
 }
+
+.pinLowlight {
+  opacity: 0.4;
+}

@@ -4,7 +4,7 @@ import { NgIf, NgClass, NgFor } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { firstValueFrom, forkJoin, Observable, tap } from 'rxjs';
-import { GMapsPin, TopicGroup, GroupData, PinHighlight } from "../_model/model";
+import { GMapsPin, TopicGroup, GroupData, PinHighlight, PinTopicDetailDTO } from "../_model/model";
 import { Restaurant } from "../_model/restaurant";
 import { restaurantTypes } from "../_model/staticData";
 import { ModalService, GlutenApiService, LocationService, MapDataService, PinService, DiagnosticService, AnalyticsService } from '../_services';
@@ -63,26 +63,6 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   firstShown = true;
   pinDetailsLoading = false;
   pinListLoading = false;
-  stadiaTiles = L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png', {
-    noWrap: true,
-    minNativeZoom: 3,
-    maxNativeZoom: 14,
-    minZoom: 3,
-    maxZoom: 18,
-    attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  });
-  openTiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    noWrap: true,
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-  });
-  mapTilerTiles = L.tileLayer(`https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=4XNqZU5WGeN8rGGyXkiP`, { //style URL
-    noWrap: true,
-    tileSize: 512,
-    zoomOffset: -1,
-    minZoom: 1,
-    attribution: "\u003ca href=\"https://www.maptiler.com/copyright/\" target=\"_blank\"\u003e\u0026copy; MapTiler\u003c/a\u003e \u003ca href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\"\u003e\u0026copy; OpenStreetMap contributors\u003c/a\u003e",
-    crossOrigin: true
-  });
 
   markerGroup: L.LayerGroup = new L.LayerGroup();
 
@@ -138,13 +118,11 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Input() set selectedMap(value: string) {
     if (this._selectedMap != value) {
-      if (this._selectedMap == "Stadia" && this.map != undefined) this.map.removeLayer(this.stadiaTiles);
-      if (this._selectedMap == "Open" && this.map != undefined) this.map.removeLayer(this.openTiles);
+      if (this._selectedMap == "Stadia" && this.map != undefined) this.map.removeLayer(this.mapDataService.stadiaTiles);
+      if (this._selectedMap == "Open" && this.map != undefined) this.map.removeLayer(this.mapDataService.openTiles);
       this._selectedMap = value;
-      if (this._selectedMap == "Stadia" && this.map != undefined) this.map.addLayer(this.stadiaTiles);
-      if (this._selectedMap == "Open" && this.map != undefined) this.map.addLayer(this.openTiles);
-      // Update map tiles
-      console.log('tile', this._selectedMap);
+      if (this._selectedMap == "Stadia" && this.map != undefined) this.map.addLayer(this.mapDataService.stadiaTiles);
+      if (this._selectedMap == "Open" && this.map != undefined) this.map.addLayer(this.mapDataService.openTiles);
     }
   }
 
@@ -201,8 +179,6 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     this.gaService.trackEvent("Group selected:", groupId, "Map");
   }
 
-
-
   closeModal(): void {
     this.searchText = "";
     this.modalService.close();
@@ -213,6 +189,26 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     this.map?.flyTo({ lat: t.geoLatitude, lng: t.geoLongitude }, 15);
     this.pinSelected(pin);
     this.modalService.close();
+  }
+
+  copyDtoToTopicGroup(pin: TopicGroup, dto: PinTopicDetailDTO, selectedLanguage: string) {
+    if (pin.languages == undefined) pin.languages = {};
+    pin.languages[this._selectedLanguage] = dto.description;
+    if (this._selectedLanguage == "English") {
+      pin.description = dto.description;
+    }
+    pin.mapsLink = dto.mapsLink;
+    pin.restaurantType = dto.restaurantType;
+    pin.price = dto.price;
+    pin.stars = dto.stars;
+    pin.isGF = dto.isGF;
+    pin.isC = dto.isC;
+    pin.isTC = dto.isTC;
+    pin.topics = dto.topics;
+    pin.rc = dto.rc;
+    for (const pinGroup of pin.topics) {
+      pinGroup.selected = true;
+    }
   }
 
   loadPinDetails(pinId: number) {
@@ -226,22 +222,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
         // Use `key` and `value`
         value.forEach(pin => {
           if (pin.pinId == data[0].pinId) {
-            if (pin.languages == undefined) pin.languages = {};
-            pin.languages[this._selectedLanguage] = data[0].description;
-            if (this._selectedLanguage == "English") {
-              pin.description = data[0].description;
-            }
-            pin.mapsLink = data[0].mapsLink;
-            pin.restaurantType = data[0].restaurantType;
-            pin.price = data[0].price;
-            pin.stars = data[0].stars;
-            pin.isGF = data[0].isGF;
-            pin.isC = data[0].isC;
-            pin.isTC = data[0].isTC;
-            pin.topics = data[0].topics;
-            for (const pinGroup of pin.topics) {
-              pinGroup.selected = true;
-            }
+            this.copyDtoToTopicGroup(pin, data[0], this._selectedLanguage);
 
             if (pin.pinId != this.selectedTopicGroup?.pinId) {
               this.userMovedMap = 2;
@@ -255,76 +236,36 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+
   pinSelected(pin: (TopicGroup | GMapsPin)): void {
-    /*
-    var selectedIcon = L.icon({
-      iconUrl: "/Empty.png",
-      iconSize: [30, 40],
-      iconAnchor: [15, 40],
-    });
-
-    this.markerGroup.eachLayer((layer: any) => {
-      if (layer instanceof L.Marker && layer.options.title === pin.pinId.toString()) {
-        console.log("setting marker");
-        if (this.lastMarker != null && this.lastIcon != null) {
-          this.lastMarker.setIcon(this.lastIcon);
-          this.lastMarker.setZIndexOffset(0);
-        }
-
-        this.lastIcon = layer.getIcon();
-        this.lastMarker = layer;
-        layer.setIcon(selectedIcon);
-        layer.setZIndexOffset(100);
-      }
-    });*/
-
     this.selectedTopicGroup = pin as TopicGroup;
     this.selectedTopicGroupChange.emit(this.selectedTopicGroup);
     this.gaService.trackEvent("Pin click", this.selectedTopicGroup.label, "Map");
     this.gaService.trackEvent("Pin selected:" + this.selectedTopicGroup.label, this.selectedTopicGroup.label, "Map");
     if (pin.pinId == undefined) return;
     window.history.replaceState({}, '', `/places/${pin.pinId}`);
-    //if (this.selectedTopicGroup.topics == null) return;//GM Pin
-
     if (pin.description != undefined && pin.description?.length > 0 && this._selectedLanguage == "English") return;
-    //if (this._selectedLanguage != "English" && (this.selectedTopicGroup.languages == undefined || this.selectedTopicGroup.languages[this._selectedLanguage] == undefined)) return;
     this.isGroupSelected(this.selectedTopicGroup)
     this.loadPinDetails(pin.pinId);
     return;
   }
 
   SetMapToUserLocation(alwaysFly: boolean) {
-    //console.log('home loc');
-    this.locationService.getUserLocation()
-      .then((loc) => {
-        var location = loc;
-        //console.log('fly to loc');
+    this.locationService.setMapToUserLocation()
+      .then((location) => {
         if ((this.userMovedMap < 2 || alwaysFly)) {
-          this.map?.setView([location.latitude, location.longitude], 14);
           if ((this.map === undefined)) return;
-          L.circle([location.latitude, location.longitude], {
-            radius: 10,
-            color: 'blue',
-            fillColor: '#30f',
-            fillOpacity: 0.8
-          }).addTo(this.map);
+          this.map.setView([location.latitude, location.longitude], 14);
         }
-      })
-      .catch((err) => {
-        console.debug(err);
       });
   }
 
   ngOnInit() {
     var location = { latitude: 35.6844, longitude: 139.753 };
-    //http://leaflet-extras.github.io/leaflet-providers/preview/
     this.map = L.map('map').setView([location.latitude, location.longitude], 8).setMinZoom(3).setMaxZoom(18);
-    /*L.tileLayer('https://tile.thunderforest.com/atlas/{z}/{x}/{y}.png?apikey=1b4b20af6bf5459b82658bc0d86c5b5a', {
-      noWrap: true, attribution: '',
-    }).addTo(this.map);*/
-    this.openTiles.addTo(this.map);
+    this.mapDataService.openTiles.addTo(this.map);
     this.map.addLayer(this.markerGroup);
-    //L.control.locate().addTo(this.map);
+    this.map.addLayer(this.locationService.locationLayer);
   }
   ngOnDestroy() {
   }
@@ -355,6 +296,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     catch { }
 
     this.SetMapToUserLocation(false);
+    this.locationService.startLocationWatching();
 
     const initialState = { lng: location.longitude, lat: location.latitude, zoom: 14 };
     this.map.setView([initialState.lat, initialState.lng], initialState.zoom);
@@ -616,6 +558,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
         const selectedPinHighlight = this.pinHightlight.find(u => u.pinId === pin.pinId);
 
         let effectClass = '';
+        if (pin.isC) effectClass = 'pinLowlight';
         if (selectedPinHighlight) {
           effectClass = `pinHighlight${selectedPinHighlight.highlightEffect}`;
           if (this.selectedTopicGroup === null && selectedPinHighlight.autoSelect) {
@@ -751,24 +694,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
           for (let newData of data) {
             for (let pin of countryPinList) {
               if (pin.pinId == newData.pinId) {
-                if (pin.languages == undefined) pin.languages = {};
-                pin.languages[this._selectedLanguage] = newData.description;
-                //TODO: Support other languages in list view
-                //if (this._selectedLanguage == "English") {
-                pin.description = newData.description;
-                //}
-                pin.mapsLink = newData.mapsLink;
-                pin.restaurantType = newData.restaurantType;
-                pin.price = newData.price;
-                pin.stars = newData.stars;
-                pin.isGF = newData.isGF;
-                pin.isC = newData.isC;
-                pin.isTC = newData.isTC;
-                pin.topics = newData.topics;
-                for (const pinGroup of pin.topics) {
-                  pinGroup.selected = true;
-                };
-
+                this.copyDtoToTopicGroup(pin, newData, "English");
                 break;
               }
             };
