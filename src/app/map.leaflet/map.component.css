@@ -300,7 +300,6 @@ span {
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 /* Group count styling */
@@ -313,7 +312,6 @@ span {
   font-size: 0.8em;
   font-weight: 600;
   margin-left: auto;
-  white-space: nowrap;
   flex-shrink: 0;
 }
 
@@ -322,6 +320,18 @@ span {
   .group-grid-container {
     gap: 8px;
     padding: 6px;
+  }
+
+  .search-input {
+    width: 100px;
+  }
+
+  .grid-container {
+    grid-template-columns: minmax(80px, 1fr) 5fr;
+  }
+
+  .group-grid-container .group-name {
+    max-width: 120px;
   }
 
   .group-grid-container .grid-description {

@@ -218,21 +218,19 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
 
       if (!(data[0].country in this.pinCache)) {
         // key does not exist
-        console.log('loading country', data[0].country);
         this.pendingCountries.push(data[0].country);
         this.loadingData = true;
-        this.apiService.getPins(data[0].country).subscribe(
-          pinsData => {
-            this.pinCache[data[0].country] = pinsData;
-            const index = this.pendingCountries.indexOf(data[0].country, 0);
-            if (index > -1) {
-              this.pendingCountries.splice(index, 1);
-            }
-            this.flyToPin(data[0]);
-          });
+        this.apiService.getPins(data[0].country).subscribe(pinsData => {
+          this.loadingData = false;
+          this.pinCache[data[0].country] = pinsData;
+          const index = this.pendingCountries.indexOf(data[0].country, 0);
+          if (index > -1) {
+            this.pendingCountries.splice(index, 1);
+          }
+          this.flyToPin(data[0]);
+        });
       }
       else {
-        console.log('fly to');
         this.flyToPin(data[0]);
       }
     });

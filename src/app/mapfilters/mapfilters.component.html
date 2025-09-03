@@ -7,9 +7,9 @@
     <jw-modal id="modal-1">
         <div class="modal-header">
             <div class="left-group">
-                <h1>Types -</h1>
-                <button (click)="selectNone()">Select None</button>
-                <button (click)="selectAll()">Select All</button>
+                <h1>Types</h1>
+                <button (click)="selectNone()">None</button>
+                <button (click)="selectAll()">All</button>
             </div>
             <button (click)="selectCompleteRestaurantTypes()">Close</button>
         </div>
@@ -60,7 +60,7 @@
             <!-- Add language selector -->
             <select [(ngModel)]="selectedLanguage" (change)="onLanguageChange()">
                 <option value="English">English</option>
-    <!--             <option value="Spanish">Spanish</option> -->
+                <!--             <option value="Spanish">Spanish</option> -->
             </select>
         </div>
     </jw-modal>
