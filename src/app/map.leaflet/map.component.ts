@@ -216,24 +216,46 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     if (Number.isNaN(pinId)) return;
     this.apiService.getPinDetails(pinId, this._selectedLanguage).subscribe(data => {
 
-      for (let key in this.pinCache) {
-        let value = this.pinCache[key];
-        this.pinDetailsLoading = false;
-        // Use `key` and `value`
-        value.forEach(pin => {
-          if (pin.pinId == data[0].pinId) {
-            this.copyDtoToTopicGroup(pin, data[0], this._selectedLanguage);
-
-            if (pin.pinId != this.selectedTopicGroup?.pinId) {
-              this.userMovedMap = 2;
-              this.selectedTopicGroup = pin;
-              this.selectedTopicGroupChange.emit(this.selectedTopicGroup);
-              this.map?.flyTo({ lat: pin.geoLatitude, lng: pin.geoLongitude }, 12, { animate: false });
+      if (!(data[0].country in this.pinCache)) {
+        // key does not exist
+        console.log('loading country', data[0].country);
+        this.pendingCountries.push(data[0].country);
+        this.loadingData = true;
+        this.apiService.getPins(data[0].country).subscribe(
+          pinsData => {
+            this.pinCache[data[0].country] = pinsData;
+            const index = this.pendingCountries.indexOf(data[0].country, 0);
+            if (index > -1) {
+              this.pendingCountries.splice(index, 1);
             }
-          }
-        });
+            this.flyToPin(data[0]);
+          });
+      }
+      else {
+        console.log('fly to');
+        this.flyToPin(data[0]);
       }
     });
+  }
+
+  flyToPin(data: PinTopicDetailDTO) {
+    for (let key in this.pinCache) {
+      let value = this.pinCache[key];
+      this.pinDetailsLoading = false;
+      // Use `key` and `value`
+      value.forEach(pin => {
+        if (pin.pinId == data.pinId) {
+          this.copyDtoToTopicGroup(pin, data, this._selectedLanguage);
+
+          if (pin.pinId != this.selectedTopicGroup?.pinId) {
+            this.userMovedMap = 2;
+            this.selectedTopicGroup = pin;
+            this.selectedTopicGroupChange.emit(this.selectedTopicGroup);
+            this.map?.flyTo({ lat: pin.geoLatitude, lng: pin.geoLongitude }, 12, { animate: false });
+          }
+        }
+      });
+    }
   }
 
 

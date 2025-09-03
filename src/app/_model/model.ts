@@ -99,6 +99,7 @@ export interface PinLanguage {
 export interface PinTopicDetailDTO {
     pinId: number;
     description: string;
+    country: string;
     topics: Topic[];
     mapsLink: string;
     restaurantType: string;
