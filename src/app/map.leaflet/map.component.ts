@@ -333,13 +333,13 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
     this.loadMapPins();
+    this.loadDetailsForAllPinsInCountry();
   }
 
   selectNoGroups(): void {
     this.allGroups.forEach(group => {
       group.selected = false;
     });
-    this.showPinListView();
     this.loadMapPins();
   }
 
@@ -347,13 +347,10 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     this.allGroups.forEach(group => {
       group.selected = true;
     });
-    this.showPinListView();
     this.loadMapPins();
   }
 
   groupSelected() {
-    // Make sure we load all the pins
-    this.showPinListView();
     this.loadMapPins();
   }
 
@@ -689,28 +686,21 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  showPinListView(): void {
+  // Triggered by map filters through app.component
+  loadDetailsForAllPinsInCountry(): void {
     if (!(this.map === undefined)) {
       var countryNames = this.getCountriesInViewWithCentreCountryFirst(false);
 
       for (let index in countryNames) {
         let countryName = countryNames[index];
-        let countryPinList = this.pinCache[countryName];
-        if (countryPinList == undefined) {
-          console.log("countryPinList is undefined", countryName);
-          continue
-        }
-        if (countryPinList.length == 0) continue;
-        var isPinsWithoutDetails = false;
-        for (let pin of countryPinList) {
-          if ((pin.description == undefined || pin.description?.length == 0)) isPinsWithoutDetails = true;
-        }
 
-        if (!isPinsWithoutDetails) continue;
+        if (this.shouldLoadPinDetailsFor(countryName)) continue;
+
         this.pinListLoading = true;
         this.apiService.getPinDetailsCountry(countryName).subscribe(data => {
 
           this.pinListLoading = false;
+          let countryPinList = this.pinCache[countryName];
           for (let newData of data) {
             for (let pin of countryPinList) {
               if (pin.pinId == newData.pinId) {
@@ -719,13 +709,25 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
               }
             };
           };
-
-          this.showMapPins(countryNames);
         });
 
       }
 
     }
+  }
+
+  shouldLoadPinDetailsFor(countryName: string): boolean {
+    let countryPinList = this.pinCache[countryName];
+    if (countryPinList == undefined) {
+      console.log("countryPinList is undefined", countryName);
+      return false;
+    }
+    if (countryPinList.length == 0) return false;
+    var isPinsWithoutDetails = false;
+    for (let pin of countryPinList) {
+      if ((pin.description == undefined || pin.description?.length == 0)) isPinsWithoutDetails = true;
+    }
+    return !isPinsWithoutDetails;
   }
 
   onImgError(event: Event) {

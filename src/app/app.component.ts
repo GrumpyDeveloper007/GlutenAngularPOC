@@ -33,8 +33,12 @@ export class AppComponent {
     private metaService: Meta
   ) { }
 
-  receiveMessage() {
-    this.child.showPinListView();
+  showListView() {
+    this.child.loadDetailsForAllPinsInCountry();
+  }
+
+  showGroupsView() {
+    this.child.loadMapPins();
   }
 
   setSEOData(title: string, description: string) {

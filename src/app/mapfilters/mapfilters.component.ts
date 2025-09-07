@@ -25,6 +25,7 @@ export class MapfiltersComponent {
   @Output() optionsChange = new EventEmitter<FilterOptions>();
   @Output() restaurantChange = new EventEmitter<Restaurant[]>();
   @Output() listViewOpenChange = new EventEmitter<number>();
+  @Output() groupViewOpenChange = new EventEmitter<number>();
   @Output() languageChange = new EventEmitter<string>();
   @Output() mapChange = new EventEmitter<string>();
   private _options: FilterOptions = new FilterOptions(true, true, true, false, false, true, false, "English", "Open");
@@ -132,7 +133,7 @@ export class MapfiltersComponent {
     this.gaService.trackEvent("Pin List", "Open", "MapFilters");
   }
   showGroupListView(): void {
-    this.listViewOpenChange.emit(1);
+    this.groupViewOpenChange.emit(1);
     this.modalService.open('modal-groups')
     this.gaService.trackEvent("Group List", "Open", "MapFilters");
   }
