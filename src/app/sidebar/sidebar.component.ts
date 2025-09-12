@@ -20,8 +20,12 @@ export class SidebarComponent {
   _selectedLanguage: string = "English";
   _pinCache: PinSummary[] = [];
   _loadingSummary: boolean = false;
+  _country: string | undefined;
   facebookLink = 'about:blank';
 
+  @Input() set selectedCountry(value: string | undefined) {
+    this._country = value;
+  }
 
   @Input() set selectedLanguage(value: string | null) {
     if (value == null) return;

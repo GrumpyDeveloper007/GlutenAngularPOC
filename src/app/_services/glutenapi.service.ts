@@ -87,6 +87,19 @@ export class GlutenApiService {
             .pipe(catchError(this.handleErrorServerLog<PinTopicDetailDTO[]>(`getPinDetails id=${country}`)));
     }
 
+    tryGetPinDetailsCountryFromCache(country: string): Promise<PinTopicDetailDTO[]> {
+        return fetch(this.baseUrl + "/api/PinDetail?country=" + country, {
+            cache: 'only-if-cached',
+            mode: 'same-origin'
+        })
+            .then(response => {
+                if (!response.ok) {
+                }
+                return response.json() as Promise<PinTopicDetailDTO[]>;
+            })
+    }
+
+
     // Use IP address to center the map
     getLocation(country: string): Observable<IpAddressData> {
         return this.http.get<IpAddressData>(this.baseUrl + "/api/GetLocation", this.httpOptions)

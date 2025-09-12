@@ -17,11 +17,12 @@ import { Title, Meta } from '@angular/platform-browser';
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-  title = 'FB Gluten free Group Indexer Map';
+  title = 'FB Gluten free Map';
   description = "Provides the indexing of gluten free FB group posts. A helpful site for coeliacs and people looking for gluten free places to eat or stay.";
   selectedTopicGroup: TopicGroup | null = null;
   showOptions: FilterOptions = new FilterOptions(true, true, true, false, false, true, false, "English", "");
   restaurants: Restaurant[] = [];
+  country: string | undefined;
   private renderer = inject(Renderer2)
   private rendererFactory = inject(RendererFactory2)
   @ViewChild(MapLeafletComponent, { static: false }) child!: MapLeafletComponent;
@@ -41,12 +42,16 @@ export class AppComponent {
     this.child.loadMapPins();
   }
 
+  countryChanged(country: string) {
+    this.country = country;
+  }
+
   setSEOData(title: string, description: string) {
     //https://gist.github.com/whitingx/3840905
     this.titleService.setTitle(title);
     this.metaService.updateTag({ name: 'description', content: description });
 
-    this.metaService.addTag({ name: 'keywords', content: 'Gluten, Coeliac, Restaurant, Map, GF, gluten free near me, gluten free restaurants near me, gluten free bakery, gluten free food near me' });
+    this.metaService.addTag({ name: 'keywords', content: 'Gluten, Coeliac, Coliac, 無麩質, Célique, Zöliakie, Celaquia, Cöliakie, Çölyak, keliakia, Cøliaki, Célique, Celíaco, Sen gluten, Bez glutena, Gluténmentes, Glutensiz, gluteenia, Glutenfri, Glutenvrij, Sans gluten, Senza glutine, Restaurant, Map, GF, gluten free near me, gluten free restaurants near me, gluten free bakery, gluten free food near me' });
 
     // Open Graph Meta Tags
     this.metaService.addTag({ property: 'og:title', content: title });

@@ -30,6 +30,8 @@ import { ModalComponent } from '../_components';
   ],
 })
 export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
+  @Output() selectedCountryChange = new EventEmitter<string>();
+  centreCountry: string | undefined;
   @Output() selectedTopicGroupChange = new EventEmitter<TopicGroup>();
   @ViewChild('map') mapContainer!: ElementRef<HTMLElement>;
   @ViewChild('searchInput') searchInput!: ElementRef;
@@ -483,6 +485,11 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
         });
       }
       countryNames = countryNames.filter(item => item != "United States")
+    }
+
+    if (this.centreCountry != countryNames[0]) {
+      this.centreCountry = countryNames[0];
+      this.selectedCountryChange.emit(this.centreCountry);
     }
 
     return countryNames;
