@@ -258,6 +258,16 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  flyToCountry(country: string) {
+    const position = this.mapDataService.getCentrePointOfCountry(country);
+    if (position != null) {
+      this.map?.flyTo(position, 6, { animate: false });
+    }
+    else {
+      window.history.replaceState({}, '', `/`);
+    }
+  }
+
 
   pinSelected(pin: (TopicGroup | GMapsPin)): void {
     this.selectedTopicGroup = pin as TopicGroup;
@@ -443,9 +453,18 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
         this.map.invalidateSize();
         // Get pin ID from URL
         const path = window.location.pathname;
-        const pinId = path.split('/places/')[1];
-        if (!Number.isNaN(pinId)) {
-          this.loadPinDetails(Number.parseInt(pinId));
+        const pathParts = path.split('/');
+        console.log("path", path.split('/'));
+        if (pathParts.length == 3) {
+          const pinId = pathParts[2];
+          if (!Number.isNaN(pinId)) {
+            this.loadPinDetails(Number.parseInt(pinId));
+          }
+        }
+        if (pathParts.length > 1) {
+          const country = decodeURIComponent(pathParts[1]);
+          console.log("country", country);
+          this.flyToCountry(country);
         }
       }
 
@@ -708,6 +727,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
 
           this.pinListLoading = false;
           let countryPinList = this.pinCache[countryName];
+          if (countryPinList == undefined) return;
           for (let newData of data) {
             for (let pin of countryPinList) {
               if (pin.pinId == newData.pinId) {

@@ -12,6 +12,13 @@
       "allowedRoles": [
         "anonymous"
       ]
+    },
+    {
+      "route": "/*",
+      "rewrite": "/index.html",
+      "allowedRoles": [
+        "anonymous"
+      ]
     }
   ]
 }

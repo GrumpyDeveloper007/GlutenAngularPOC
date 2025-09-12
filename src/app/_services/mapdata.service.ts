@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as maplibre from 'maplibre-gl';
 import * as turf from "@turf/turf";
-import { MultiPolygon, Polygon } from 'geojson';
+import { MultiPolygon, Polygon, Position } from 'geojson';
 import * as L from 'leaflet';
 
 //import countriesGeoJSON2 from '../staticdata/countries.geo.json';
@@ -33,6 +33,18 @@ export class MapDataService {
         attribution: "\u003ca href=\"https://www.maptiler.com/copyright/\" target=\"_blank\"\u003e\u0026copy; MapTiler\u003c/a\u003e \u003ca href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\"\u003e\u0026copy; OpenStreetMap contributors\u003c/a\u003e",
         crossOrigin: true
     });
+
+    getCentrePointOfCountry(country: string): L.LatLngExpression | null {
+        const countryFeature = countriesGeoJSON2.features.find(feature => feature.properties.Country === country);
+        if (countryFeature) {
+            const polygon = countryFeature.geometry as MultiPolygon;
+            const centre = turf.centroid(polygon);
+            const coords = centre.geometry.coordinates; // [lng, lat]
+            const latlng: L.LatLngExpression = [coords[1], coords[0]];
+            return latlng;
+        }
+        return null;
+    }
 
     getCountriesInView(bounds: maplibre.LngLatBounds | any): string[] {
         const southwest = bounds.getSouthWest();

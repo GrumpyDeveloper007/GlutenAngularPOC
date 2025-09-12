@@ -49,7 +49,6 @@ export class LocationService {
                 )
                 .catch((err) => {
                     console.debug(err);
-                    reject(new Error('Geolocation is not supported by this browser.'));
                 });
         });
     }

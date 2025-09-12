@@ -3,5 +3,6 @@ import { AppComponent } from './app.component';
 
 export const routes: Routes = [
     { path: '', component: AppComponent },
-    { path: 'places/:id', component: AppComponent }
+    { path: 'places/:id', component: AppComponent },
+    { path: ':country', component: AppComponent }
 ];
