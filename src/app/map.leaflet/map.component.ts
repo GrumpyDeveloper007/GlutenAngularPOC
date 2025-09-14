@@ -715,7 +715,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   // Triggered by map filters through app.component
   loadDetailsForAllPinsInCountry(): void {
     if (!(this.map === undefined)) {
-      var countryNames = this.getCountriesInViewWithCentreCountryFirst(false);
+      var countryNames = this.getCountriesInViewWithCentreCountryFirst(true);
 
       for (let index in countryNames) {
         let countryName = countryNames[index];
