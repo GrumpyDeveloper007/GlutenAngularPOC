@@ -69,3 +69,9 @@
         <a target=" _blank" href="https://www.celiachia.it/">Associazlone Italiana Celiachia</a>
     </h4>
 </div>
+<div *ngIf="!selectedTopicGroup && _selectedCountryMeta && _selectedCountryMeta.SpokenLanguages.length>0">
+    <h4>Coeliac Gluten Free Restaurant Card -</h4>
+    <div *ngFor="let item of _selectedCountryMeta?.SpokenLanguages; let i=index; ">
+        <a target=" _blank" href="https://www.celiactravel.com/cards/{{item}}/">{{item}}</a>
+    </div>
+</div>

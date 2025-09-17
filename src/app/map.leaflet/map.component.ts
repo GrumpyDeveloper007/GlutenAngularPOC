@@ -344,6 +344,22 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
         this.mapBounds = this.map.getBounds();
       });
 
+    // Add this after the map is initialized
+    if (this.firstShown) {
+      // Get pin ID from URL
+      const path = window.location.pathname;
+      const pathParts = path.split('/');
+      if (pathParts.length == 3 && pathParts[1] == 'c') {
+        {
+          this.firstShown = false;
+          const country = decodeURI(pathParts[2]);
+          console.log("fly to country", country);
+          this.flyToCountry(country);
+          this.map.invalidateSize();
+        }
+      }
+    }
+
     this.loadMapPins();
     this.loadDetailsForAllPinsInCountry();
   }
@@ -456,15 +472,11 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
         const pathParts = path.split('/');
         console.log("path", path.split('/'));
         if (pathParts.length == 3) {
+          // places/
           const pinId = pathParts[2];
-          if (!Number.isNaN(pinId)) {
+          if (Number.isInteger(pinId)) {
             this.loadPinDetails(Number.parseInt(pinId));
           }
-        }
-        if (pathParts.length > 1) {
-          const country = decodeURIComponent(pathParts[1]);
-          console.log("country", country);
-          this.flyToCountry(country);
         }
       }
 
@@ -720,7 +732,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
       for (let index in countryNames) {
         let countryName = countryNames[index];
 
-        if (this.shouldLoadPinDetailsFor(countryName)) continue;
+        if (!this.shouldLoadPinDetailsFor(countryName)) continue;
 
         this.pinListLoading = true;
         this.apiService.getPinDetailsCountry(countryName).subscribe(data => {
@@ -728,11 +740,14 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
           this.pinListLoading = false;
           let countryPinList = this.pinCache[countryName];
           if (countryPinList == undefined) return;
+
+          // TODO:Optimise
+          //const pinMap = new Map(countryPinList.map(pin => [pin.pinId, pin]));
+          //const pin = pinMap.get(newData.pinId);
           for (let newData of data) {
             for (let pin of countryPinList) {
               if (pin.pinId == newData.pinId) {
                 this.copyDtoToTopicGroup(pin, newData, "English");
-                break;
               }
             };
           };
@@ -747,14 +762,16 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     let countryPinList = this.pinCache[countryName];
     if (countryPinList == undefined) {
       console.log("countryPinList is undefined", countryName);
-      return false;
+      return true;
     }
-    if (countryPinList.length == 0) return false;
+    if (countryPinList.length == 0) return true;
     var isPinsWithoutDetails = false;
     for (let pin of countryPinList) {
-      if ((pin.description == undefined || pin.description?.length == 0)) isPinsWithoutDetails = true;
+      if ((pin.description == undefined || pin.description?.length == 0)) {
+        isPinsWithoutDetails = true;
+      }
     }
-    return !isPinsWithoutDetails;
+    return isPinsWithoutDetails;
   }
 
   onImgError(event: Event) {

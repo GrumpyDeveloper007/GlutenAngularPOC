@@ -1,4 +1,5 @@
 ﻿export * from './glutenapi.service';
+export * from './siteapi.service';
 export * from './location.service';
 export * from './mapdata.service';
 export * from './modal.service';

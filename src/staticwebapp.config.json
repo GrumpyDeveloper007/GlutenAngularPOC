@@ -14,7 +14,7 @@
       ]
     },
     {
-      "route": "/*",
+      "route": "/c/*",
       "rewrite": "/index.html",
       "allowedRoles": [
         "anonymous"

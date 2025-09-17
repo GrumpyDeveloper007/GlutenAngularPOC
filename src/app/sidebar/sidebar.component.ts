@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
 import { NgIf, NgFor } from '@angular/common';
-import { TopicGroup, PinSummary, Topic } from "../_model/model";
+import { TopicGroup, PinSummary, Topic, CountryMeta } from "../_model/model";
 import { Input } from '@angular/core';
 import { HighlightPipe } from '../highlight.pipe';
-import { AnalyticsService, GlutenApiService } from '../_services';
+import { AnalyticsService, SiteApiService } from '../_services';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-
-import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-sidebar',
@@ -22,9 +20,12 @@ export class SidebarComponent {
   _loadingSummary: boolean = false;
   _country: string | undefined;
   facebookLink = 'about:blank';
+  _countryMeta: CountryMeta[] = [];
+  _selectedCountryMeta: CountryMeta | undefined;
 
   @Input() set selectedCountry(value: string | undefined) {
     this._country = value;
+    this._selectedCountryMeta = this._countryMeta.find(o => o.Country == this._country);
   }
 
   @Input() set selectedLanguage(value: string | null) {
@@ -44,8 +45,16 @@ export class SidebarComponent {
 
   constructor(
     private gaService: AnalyticsService,
-    private apiService: GlutenApiService
+    private siteApiService: SiteApiService,
+
   ) { }
+
+  ngOnInit() {
+    this.siteApiService.getCountryMeta().subscribe(data => {
+      this._countryMeta = data ?? [];
+    });
+  }
+
 
   linkClick(url: string) {
     this.gaService.trackEvent("FB Link Click:", url, "Map");

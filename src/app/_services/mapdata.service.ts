@@ -4,7 +4,6 @@ import * as turf from "@turf/turf";
 import { MultiPolygon, Polygon, Position } from 'geojson';
 import * as L from 'leaflet';
 
-//import countriesGeoJSON2 from '../staticdata/countries.geo.json';
 import countriesGeoJSON2 from '../staticdata/World-EEZ.geo.json';
 import statesGeoJSON2 from '../staticdata/statesSimplified.geo.json';
 

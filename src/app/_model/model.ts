@@ -121,3 +121,12 @@ export interface PinSummary {
     country: string;
     language: string;
 }
+
+////////////////////////////////////////
+
+export interface CountryMeta {
+    Country: string;
+    GlutenFree: string;
+    Coeliac: string;
+    SpokenLanguages: string[];
+}
