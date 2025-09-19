@@ -1,8 +1,9 @@
 <div id="map" class="map">
     <div class="pincount">
-        <span *ngIf="selectedPins<400" [ngClass]="{'redtext': selectedPins==400}"> Pin count :
+        <span *ngIf="selectedPins<MaxPinsOnScreen" [ngClass]="{'redtext': selectedPins==MaxPinsOnScreen}"> Pin count :
             {{selectedPins}}</span>
-        <span *ngIf="selectedPins>=400" [ngClass]="{'flash': selectedPins>=400}"> Some pins hidden, zoom in</span>
+        <span *ngIf="selectedPins>=MaxPinsOnScreen" [ngClass]="{'flash': selectedPins>=MaxPinsOnScreen}"> Some pins
+            hidden, zoom in</span>
     </div>
 
     <div *ngIf="loadingData" class="smallloading">

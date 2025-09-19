@@ -65,6 +65,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   firstShown = true;
   pinDetailsLoading = false;
   pinListLoading = false;
+  readonly MaxPinsOnScreen = 300;
 
   markerGroup: L.LayerGroup = new L.LayerGroup();
 
@@ -596,7 +597,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
         if (pin == undefined) return;
         this.totalPins++;
         if (!this.isGroupSelected(pin)) return;
-        if (this.selectedPins >= 400 && !(pin.pinId == this.selectedTopicGroup?.pinId)) return;
+        if (this.selectedPins >= this.MaxPinsOnScreen && !(pin.pinId == this.selectedTopicGroup?.pinId)) return;
         if (!this._showChains && !!pin.isC) return;
         if (!this._showTemporarilyClosed && !!pin.isTC) return;
 
@@ -665,7 +666,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
         try {
           if (pin == undefined) return;
           this.totalPins++;
-          if (this.selectedPins >= 400) return;
+          if (this.selectedPins >= this.MaxPinsOnScreen) return;
           if (!this.pinService.isInBoundsLeaflet(parseFloat(pin.geoLatitude), parseFloat(pin.geoLongitude), bounds)) return;
           if (!this.isRestaurantSelected(pin.restaurantType)) return;
 
@@ -742,14 +743,15 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
           if (countryPinList == undefined) return;
 
           // TODO:Optimise
-          //const pinMap = new Map(countryPinList.map(pin => [pin.pinId, pin]));
-          //const pin = pinMap.get(newData.pinId);
+          const pinMap = new Map(countryPinList.map(pin => [pin.pinId, pin]));
+
           for (let newData of data) {
-            for (let pin of countryPinList) {
-              if (pin.pinId == newData.pinId) {
-                this.copyDtoToTopicGroup(pin, newData, "English");
-              }
-            };
+            const pin = pinMap.get(newData.pinId);
+            if (pin == undefined) {
+              console.error("Pin not found", newData.pinId);
+              continue;
+            }
+            this.copyDtoToTopicGroup(pin, newData, "English");
           };
         });
 
@@ -767,7 +769,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     if (countryPinList.length == 0) return true;
     var isPinsWithoutDetails = false;
     for (let pin of countryPinList) {
-      if ((pin.description == undefined || pin.description?.length == 0)) {
+      if ((pin.topics == undefined || pin.topics.length == 0)) {
         isPinsWithoutDetails = true;
       }
     }
