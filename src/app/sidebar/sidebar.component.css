@@ -10,6 +10,12 @@ p {
     margin: 5px;
 }
 
+@media (max-width: 1024px) {
+    p {
+        font-size: smaller;
+    }
+}
+
 a {
     /* color: #4CAF50; */
     text-decoration: none;

@@ -65,13 +65,13 @@ export class GlutenApiService {
 
     // Returns only info needed for the map
     getPins(country: string): Observable<TopicGroup[]> {
-        return this.http.get<TopicGroup[]>(this.baseUrl + "/api/Pin?country=" + country, this.httpOptions)
+        return this.http.get<TopicGroup[]>(this.baseUrl + "/api/Pin?country=" + encodeURIComponent(country), this.httpOptions)
             .pipe(catchError(this.handleErrorServerLog<TopicGroup[]>(`getPin id=${country}`)));
     }
 
     // Returns interesting pins
     getPinHightlight(country: string): Observable<PinHighlight[]> {
-        return this.http.get<PinHighlight[]>(this.baseUrl + "/api/PinHighlight?country=" + country, this.httpOptions)
+        return this.http.get<PinHighlight[]>(this.baseUrl + "/api/PinHighlight?country=" + encodeURIComponent(country), this.httpOptions)
             .pipe(catchError(this.handleErrorServerLog<PinHighlight[]>(`getPinHightlight id=${country}`)));
     }
 
@@ -83,12 +83,12 @@ export class GlutenApiService {
 
     // Returns details needed for the list view
     getPinDetailsCountry(country: string): Observable<PinTopicDetailDTO[]> {
-        return this.http.get<PinTopicDetailDTO[]>(this.baseUrl + "/api/PinDetail?country=" + country, this.httpOptions)
+        return this.http.get<PinTopicDetailDTO[]>(this.baseUrl + "/api/PinDetail?country=" + encodeURIComponent(country), this.httpOptions)
             .pipe(catchError(this.handleErrorServerLog<PinTopicDetailDTO[]>(`getPinDetails id=${country}`)));
     }
 
     tryGetPinDetailsCountryFromCache(country: string): Promise<PinTopicDetailDTO[]> {
-        return fetch(this.baseUrl + "/api/PinDetail?country=" + country, {
+        return fetch(this.baseUrl + "/api/PinDetail?country=" + encodeURIComponent(country), {
             cache: 'only-if-cached',
             mode: 'same-origin'
         })
@@ -108,7 +108,7 @@ export class GlutenApiService {
 
     // Get pins sourced from GM
     getGMPin(country: string): Observable<GMapsPin[]> {
-        return this.http.get<GMapsPin[]>(this.baseUrl + "/api/GMapsPin?country=" + country, this.httpOptions)
+        return this.http.get<GMapsPin[]>(this.baseUrl + "/api/GMapsPin?country=" + encodeURIComponent(country), this.httpOptions)
             .pipe(catchError(this.handleErrorServerLog<GMapsPin[]>(`getGMPin id=${country}`)));
     }
 

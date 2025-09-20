@@ -153,6 +153,9 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     if (pinTopicGroup.topics == undefined) {
       return true;
     }
+    if (this.groups.length == 0) {
+      return true;
+    }
 
     for (const group of this.groups) {
       let match = false;
@@ -398,7 +401,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     const mapCenter = this.map.getCenter();
     var countryNames = this.getCountriesInViewWithCentreCountryFirst(false);
     var centerCountryNames = this.getCountriesInViewWithCentreCountryFirst(true);
-    console.debug("Countries in view: " + countryNames);
+    //console.debug("Countries in view: " + countryNames);
     console.debug("Center Countries in view: " + centerCountryNames);
     const requests: Observable<any>[] = [];
     this.groups = [];
@@ -458,9 +461,9 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
 
     forkJoin(requests).subscribe(_ => {
       // all observables have been completed
-      console.debug("Loading data join :", howLong.ms);
+      //console.debug("Loading data join :", howLong.ms);
       if (this.pendingCountries.length == 0) {
-        console.debug("Loading data complete :", howLong.ms);
+        //console.debug("Loading data complete :", howLong.ms);
         this.loadingData = false;
       }
       // Add this after the map is initialized
@@ -471,8 +474,8 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
         // Get pin ID from URL
         const path = window.location.pathname;
         const pathParts = path.split('/');
-        console.log("path", path.split('/'));
-        if (pathParts.length == 3) {
+        //console.log("path", path.split('/'));
+        if (pathParts.length == 3 && pathParts[1] == 'places') {
           // places/
           const pinId = pathParts[2];
           if (Number.isInteger(pinId)) {
@@ -600,7 +603,6 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
         if (this.selectedPins >= this.MaxPinsOnScreen && !(pin.pinId == this.selectedTopicGroup?.pinId)) return;
         if (!this._showChains && !!pin.isC) return;
         if (!this._showTemporarilyClosed && !!pin.isTC) return;
-
         if (!this.pinService.isInBoundsLeaflet(pin.geoLatitude, pin.geoLongitude, bounds)) return;
         if (!this.isRestaurantSelected(pin.restaurantType)) return;
         pinsToExport.push(pin);
@@ -628,7 +630,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
           this.lastIcon = icon;
           this.lastMarker = marker;
           marker.setIcon(selectedIcon);
-          marker.setZIndexOffset(100);
+          marker.setZIndexOffset(1000);
         }
         else {
           marker.setIcon(icon);
@@ -644,18 +646,12 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
           this.lastIcon = icon;
           this.lastMarker = marker;
           marker.setIcon(selectedIcon);
-          marker.setZIndexOffset(100);
+          marker.setZIndexOffset(1000);
           this.pinSelected(pin);
         })
-        if (icon.options.iconUrl == "Red.png"
-          || icon.options.iconUrl == "Blue.png"
-          || icon.options.iconUrl == "Green.png"
-          || icon.options.iconUrl == "Cyan.png"
-          || liveMode) {
-          marker.addTo(this.markerGroup);
-          this.selectedPins++;
-        }
 
+        marker.addTo(this.markerGroup);
+        this.selectedPins++;
       } catch (e) {
         console.error("Error adding pin to map", e);
       }
@@ -763,7 +759,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   shouldLoadPinDetailsFor(countryName: string): boolean {
     let countryPinList = this.pinCache[countryName];
     if (countryPinList == undefined) {
-      console.log("countryPinList is undefined", countryName);
+      //console.log("countryPinList is undefined", countryName);
       return true;
     }
     if (countryPinList.length == 0) return true;

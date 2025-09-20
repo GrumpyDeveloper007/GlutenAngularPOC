@@ -37,17 +37,14 @@
 
 </div>
 <div *ngIf="!selectedTopicGroup">
-    <h2>Welcome</h2>
-    <p>Please join my facebook group for more tips and info.</p>
-    <a href="https://www.facebook.com/groups/769136475365475">FB group for the App</a>
+    <p>Welcome, please join my facebook group for more tips and info here-> <a
+            href="https://www.facebook.com/groups/769136475365475">FB
+            group for the App</a></p>
+
     <p>Remember this information may not be 100% accurate and up to date, <strong>always confirm the details with
             restaurant staff.</strong></p>
-    <p>Please scroll the map and select a pin.</p>
-    <p>There will also be links to google maps and Facebook groups.</p>
-    <p>Some groups are private so please join the group and share useful information for others.</p>
-    <p>If you find this information useful, please post your own reviews in your favorite Gluten Free/Coeliac review
+    <p>If you find this information useful, please post your own reviews in your favorite Gluten Free/Coeliac Facebook
         group</p>
-    <a href="privacypolicy.html">Privacy Policy</a>
 </div>
 <div *ngIf="!selectedTopicGroup && _country=='Germany'">
     <h4>Useful links -
@@ -80,4 +77,8 @@
     <div *ngFor="let item of _selectedCountryMeta?.SpokenLanguages; let i=index; ">
         <a target=" _blank" href="https://www.celiactravel.com/cards/{{item}}/">{{item}}</a>
     </div>
+</div>
+<div *ngIf="!selectedTopicGroup" style="text-align: left;margin: 10px;">
+    <br>
+    <a style="font-size: smaller; " href="privacypolicy.html">Privacy Policy</a>
 </div>
