@@ -78,7 +78,9 @@
         <a target=" _blank" href="https://www.celiactravel.com/cards/{{item}}/">{{item}}</a>
     </div>
 </div>
-<div *ngIf="!selectedTopicGroup" style="text-align: left;margin: 10px;">
+<div *ngIf="!selectedTopicGroup" style="text-align: left;margin: 10px;font-size: smaller;">
     <br>
-    <a style="font-size: smaller; " href="privacypolicy.html">Privacy Policy</a>
+    <div>Dales Gluten Free Map - {{_country}} - {{_selectedCountryMeta?.GlutenFree}} /
+        {{_selectedCountryMeta?.Coeliac}}</div>
+    <a style="" href="privacypolicy.html">Privacy Policy</a>
 </div>

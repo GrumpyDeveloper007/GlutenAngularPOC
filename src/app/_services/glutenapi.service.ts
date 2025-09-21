@@ -112,11 +112,6 @@ export class GlutenApiService {
             .pipe(catchError(this.handleErrorServerLog<GMapsPin[]>(`getGMPin id=${country}`)));
     }
 
-    postMapHome(geoLatitude: number, geoLongitude: number): Observable<any> {
-        return this.http.post(this.baseUrl + "/api/MapHome", JSON.stringify({ geoLatitude, geoLongitude }), this.httpOptionsPost)
-            .pipe(catchError(this.handleErrorServerLog(`getGMPin geoLatitude=${geoLatitude},geoLongitude=${geoLongitude}`)));
-    }
-
     // Log errors to the database
     postLog(message: any): Observable<any> {
         return this.http.post(this.baseUrl + "/api/Log", JSON.stringify({ message }), this.httpOptionsPost);
