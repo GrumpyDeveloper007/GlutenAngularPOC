@@ -149,7 +149,9 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   isGroupSelected(pinTopicGroup: TopicGroup): boolean {
-    var result = false;
+    // Default to true, only hide if the group is unticked, 
+    // this allows for pins to work correctly when the group is not shown (e.g. group has <5 pins)
+    var result = true;
     if (pinTopicGroup.topics == undefined) {
       return true;
     }
