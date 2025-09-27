@@ -72,6 +72,21 @@
         <a target=" _blank" href="https://www.celiachia.it/">Associazlone Italiana Celiachia</a>
     </h4>
 </div>
+<div *ngIf="!selectedTopicGroup && _country=='Canada'">
+    <h4>Useful links -
+        <p></p>
+        <a target=" _blank" href="https://theceliacscene.com/location/canada/british-columbia/port-alberni/">The Celiac
+            Scene - Port Alberni</a>
+    </h4>
+</div>
+<div *ngIf="!selectedTopicGroup && _country=='United States48'">
+    <h4>Useful links -
+        <p></p>
+        <a target=" _blank" href="https://maps.app.goo.gl/nkzbyM5YgaNeRCZYA?g_st=ac">Ophelia GF Map
+        </a>
+    </h4>
+</div>
+
 <div *ngIf="!selectedTopicGroup && _selectedCountryMeta && _selectedCountryMeta.SpokenLanguages.length>0">
     <h4>Coeliac Gluten Free Restaurant Card -</h4>
     <div *ngFor="let item of _selectedCountryMeta?.SpokenLanguages; let i=index; ">

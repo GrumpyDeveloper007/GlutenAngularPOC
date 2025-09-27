@@ -46,6 +46,7 @@ export interface GroupData {
     totalPins: number;
     selected: boolean;
     localPins: number;
+    outsideGeo: boolean;
 }
 
 ////////////////////////////////////////

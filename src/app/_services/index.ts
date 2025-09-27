@@ -4,5 +4,6 @@ export * from './location.service';
 export * from './mapdata.service';
 export * from './modal.service';
 export * from './pin.service';
+export * from './group.service';
 export * from './diagnostic.service';
 export * from './analytics.service';
