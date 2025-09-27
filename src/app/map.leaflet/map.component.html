@@ -56,11 +56,12 @@
     </div>
     <div class="modal-content">
         <div class="group-grid-container">
-            <ng-container *ngFor="let item of getActiveGroups(); let i=index;">
-                <div *ngIf="item.localPins>0" class="grid-description">
+            <ng-container *ngFor="let item of sortedGroups; let i=index;">
+                <div *ngIf="!item.selected || item.localPins!=0" class="grid-description">
                     <input [(ngModel)]="item.selected" type="checkbox" (change)="groupSelected()" />
                     <a [href]="generateFBUrl(item.groupId)" (click)="groupClick(item.groupId)" target="_blank"
-                        class="smallText" [attr.data-count]="'(' + item.localPins + '/' + item.totalPins + ')'">
+                        class="smallText"
+                        [attr.data-count]="'(' + (item.localPins === -1 ? '?' : item.localPins) + '/' + item.totalPins + ')'">
                         <img class="groupimg" src="Groups\{{item.groupId}}.jpg" alt="FB" (error)="onImgError($event)" />
                         <span class="group-name">{{item.name}}</span>
                     </a>
