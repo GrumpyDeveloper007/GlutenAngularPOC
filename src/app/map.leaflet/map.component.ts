@@ -184,7 +184,6 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     pin.restaurantType = dto.restaurantType;
     pin.price = dto.price;
     pin.stars = dto.stars;
-    pin.isGF = dto.isGF;
     pin.isC = dto.isC;
     pin.isTC = dto.isTC;
     pin.topics = dto.topics;

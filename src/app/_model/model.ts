@@ -71,7 +71,6 @@ export interface TopicGroup {
     restaurantType: string;
     price: string;
     stars: string;
-    isGF: boolean;
     isC: boolean;
     isTC: boolean;
     languages: { [id: string]: string; };
@@ -106,7 +105,6 @@ export interface PinTopicDetailDTO {
     restaurantType: string;
     price: string;
     stars: string;
-    isGF: boolean;
     isC: boolean;
     isTC: boolean;
     languages: { [id: string]: string; };

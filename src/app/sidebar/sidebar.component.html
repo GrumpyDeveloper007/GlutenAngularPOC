@@ -1,6 +1,5 @@
 <div *ngIf="selectedTopicGroup">
-    <h2><img hidden *ngIf="!selectedTopicGroup.isGF" class="xgfimage" src="GFQ.png" alt="" />
-        <img hidden *ngIf="selectedTopicGroup.isGF" class="xgfimage" src="GFT.png" alt="" />
+    <h2>
         {{selectedTopicGroup.label}}<span class="tc" *ngIf="selectedTopicGroup.isTC">(TC)</span>
     </h2>
     <p>{{selectedTopicGroup.restaurantType}} {{removeStars(selectedTopicGroup)}}<img src="star.png"
@@ -101,6 +100,13 @@
         <a target=" _blank"
             href="https://www.google.com/maps/d/viewer?ll=34.70711950815463%2C135.50298605033615&z=12&mid=1iwutbbadlGniNmCDVuBz_2E5BVlyb5s">Gluten
             free · Spenser
+        </a>
+    </h4>
+</div>
+<div *ngIf="!selectedTopicGroup && _country=='Australia'">
+    <h4>Useful links (maps created by others) -
+        <p></p>
+        <a target=" _blank" href="https://bit.ly/gfaus">Gluten-free map, credit Ben Cossalter.
         </a>
     </h4>
 </div>
