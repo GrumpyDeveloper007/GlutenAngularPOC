@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { TopicGroup, GMapsPin, IpAddressData, PinSummary, PinTopicDetailDTO, GroupData, PinHighlight } from "../_model/model";
 import { catchError } from 'rxjs';
 import { Observable, of } from 'rxjs';
-import { environment } from '../../environment';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class GlutenApiService {
