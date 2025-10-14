@@ -44,3 +44,6 @@ Thumbs.db
 .env
 /src/environments/environment.preview.ts
 /src/environments/environment.development.ts
+/public/Groups
+/public/sitemap.txt
+/public/FB.png
