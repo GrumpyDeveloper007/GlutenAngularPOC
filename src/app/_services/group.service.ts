@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { GroupData, TopicGroup } from '../_model/model';
-import { Others } from "../_model/staticData";
 import L from "leaflet";
 
 

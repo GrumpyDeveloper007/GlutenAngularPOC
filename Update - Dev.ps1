@@ -1,4 +1,4 @@
-ng build
+ng build --production --configuration=preview --build-optimizer=true
 swa deploy ./dist/gluten-angular-map/browser --env production --app-name PreviewClientApp 
 # Production - swa deploy ./dist/gluten-angular-map/browser --app-name glutendev 
 #swa deploy ./dist/gluten-angular-map/browser --env production --app-name glutendev 

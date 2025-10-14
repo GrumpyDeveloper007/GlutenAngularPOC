@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { TopicGroup, GMapsPin, IpAddressData, PinSummary, PinTopicDetailDTO, GroupData, PinHighlight } from "../_model/model";
 import { catchError } from 'rxjs';
 import { Observable, of } from 'rxjs';
+import { environment } from '../../environment';
 
 @Injectable({ providedIn: 'root' })
 export class GlutenApiService {
@@ -54,9 +55,10 @@ export class GlutenApiService {
     }
 
     // Dev
+    baseUrl = environment.apiUrl;
     //baseUrl = "https://thedevshire.azurewebsites.net";
     // Prod
-    baseUrl = "https://thegfshire.azurewebsites.net";
+    //baseUrl = "https://thegfshire.azurewebsites.net";
     // Local
     //baseUrl = "http://localhost:7121";
     // Mordor
