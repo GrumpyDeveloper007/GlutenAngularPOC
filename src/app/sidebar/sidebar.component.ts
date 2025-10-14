@@ -64,6 +64,10 @@ export class SidebarComponent {
     this.gaService.trackEvent("Map Link Click:", url, "Map");
   }
 
+  askChatGPTClick(url: string) {
+    this.gaService.trackEvent("Ask ChatGPT Click:", url, "Map");
+  }
+
   buildFbUrl(item: Topic) {
     return `https://www.facebook.com/groups/${item.gId}/permalink/${item.lId}`;
   }
@@ -89,6 +93,10 @@ export class SidebarComponent {
 
       return 'AI Generated : ' + this.selectedTopicGroup.languages[this._selectedLanguage];
     }
+  }
+
+  encodeURI(label: string): string {
+    return encodeURIComponent(label);
   }
 
   onImgError(event: Event) {

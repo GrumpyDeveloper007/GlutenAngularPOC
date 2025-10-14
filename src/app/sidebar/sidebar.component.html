@@ -15,25 +15,25 @@
     </div>
     <a *ngIf="selectedTopicGroup.mapsLink" [href]="selectedTopicGroup.mapsLink"
         (click)="mapLinkClick(selectedTopicGroup.mapsLink)" target="_blank">Google Maps</a>
+    <p><a (click)="askChatGPTClick(selectedTopicGroup.label)" target="_blank"
+            href="https://chat.openai.com/?prompt=Can+you+provide+1+paragraph+containing+a+gluten-free+information+summary+for+{{encodeURI(selectedTopicGroup.label)}}+at+lat+{{selectedTopicGroup.geoLatitude}}+and+lon+{{selectedTopicGroup.geoLongitude}}">
+            Ask ChatGPT
+        </a></p>
     <p><b>Conversations related to this pin (click) -</b></p>
     <div *ngFor="let item of selectedTopicGroup.topics; let i=index; " class="fb-container">
         <div *ngIf="item.selected" class="grid-container">
-            <a *ngIf="!!item.shortTitle && item.shortTitle.length>0" [href]="buildFbUrl(item)"
-                (click)="linkClick(buildFbUrl(item))" target="_blank" class="smallText fb-link">
+            <a [href]="buildFbUrl(item)" (click)="linkClick(buildFbUrl(item))" target="_blank"
+                class="smallText fb-link">
                 <img src="Groups\{{item.gId}}.jpg" alt="FB" (error)="onImgError($event)" />
                 <div>
                     <div>{{item.shortTitle}}</div>
                     <div>{{dateOnly(item.postCreated)}}</div>
                 </div>
             </a>
-            <a *ngIf="!item.shortTitle" [href]="buildFbUrl(item)" (click)="linkClick(buildFbUrl(item))" target="_blank"
-                class="smallText">
-                <img src="Groups\{{item.gId}}.jpg" alt="FB" (error)="onImgError($event)" />Facebook</a>
         </div>
     </div>
     <p *ngIf="hasSummary()" md-highlight-text="summary()" [innerHtml]="summary() | highlight: selectedTopicGroup.label">
     </p>
-
 </div>
 <div *ngIf="!selectedTopicGroup">
     <p>Welcome, please join my facebook group for more tips and info here-> <a
