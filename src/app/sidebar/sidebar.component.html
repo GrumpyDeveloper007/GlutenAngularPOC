@@ -4,7 +4,7 @@
         {{selectedTopicGroup.label}}<span class="tc" *ngIf="selectedTopicGroup.isTC">(TC)</span>
     </h2>
     <p>{{selectedTopicGroup.restaurantType}} {{removeStars(selectedTopicGroup)}}<img src="star.png"
-            alt="" />{{selectedTopicGroup.price}}</p>
+            alt="" />{{selectedTopicGroup.price}}({{selectedTopicGroup.rc}})</p>
     <div class="spinner-container" *ngIf="!hasSummary()">
         <mat-spinner [diameter]="30"></mat-spinner>
         <p></p>
@@ -18,17 +18,19 @@
         (click)="mapLinkClick(selectedTopicGroup.mapsLink)" target="_blank">Google Maps</a>
     <p><b>Conversations related to this pin (click) -</b></p>
     <div *ngFor="let item of selectedTopicGroup.topics; let i=index; " class="fb-container">
-        <a *ngIf="!!item.shortTitle && item.shortTitle.length>0 && item.selected" [href]="buildFbUrl(item)"
-            (click)="linkClick(buildFbUrl(item))" target="_blank" class="smallText fb-link">
-            <img src="Groups\{{item.gId}}.jpg" alt="FB" (error)="onImgError($event)" />
-            <div>
-                <div>{{item.shortTitle}}</div>
-                <div>{{dateOnly(item.postCreated)}}</div>
-            </div>
-        </a>
-        <a *ngIf="!item.shortTitle" [href]="buildFbUrl(item)" (click)="linkClick(buildFbUrl(item))" target="_blank"
-            class="smallText">
-            <img src="Groups\{{item.gId}}.jpg" alt="FB" (error)="onImgError($event)" />Facebook</a>
+        <div class="grid-container">
+            <a *ngIf="!!item.shortTitle && item.shortTitle.length>0 && item.selected" [href]="buildFbUrl(item)"
+                (click)="linkClick(buildFbUrl(item))" target="_blank" class="smallText fb-link">
+                <img src="Groups\{{item.gId}}.jpg" alt="FB" (error)="onImgError($event)" />
+                <div>
+                    <div>{{item.shortTitle}}</div>
+                    <div>{{dateOnly(item.postCreated)}}</div>
+                </div>
+            </a>
+            <a *ngIf="!item.shortTitle" [href]="buildFbUrl(item)" (click)="linkClick(buildFbUrl(item))" target="_blank"
+                class="smallText">
+                <img src="Groups\{{item.gId}}.jpg" alt="FB" (error)="onImgError($event)" />Facebook</a>
+        </div>
     </div>
     <p *ngIf="hasSummary()" md-highlight-text="summary()" [innerHtml]="summary() | highlight: selectedTopicGroup.label">
     </p>

@@ -518,7 +518,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
           countryNames.push("United States" + key);
         });
       }
-
+      countryNames = countryNames.filter(item => item != "United States")
     }
 
     return countryNames;

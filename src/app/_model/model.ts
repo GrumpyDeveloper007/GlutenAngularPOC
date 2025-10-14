@@ -62,7 +62,8 @@ export interface TopicGroup {
     isC: boolean;
     isTC: boolean;
     languages: { [id: string]: string; };
-    Oh: string;
+    oh: string;
+    rc: number;
 
 }
 

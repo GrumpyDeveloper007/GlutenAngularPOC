@@ -46,7 +46,7 @@ export class GlutenApiService {
 
             // TODO: send the error to remote logging infrastructure
             console.error(error); // log to console instead
-            this.postLog(error).subscribe();
+            this.postLog({ operation: operation, error: error }).subscribe();
 
             // Let the app keep running by returning an empty result.
             return of(result as T);
@@ -56,9 +56,9 @@ export class GlutenApiService {
     // Dev
     //baseUrl = "https://thedevshire.azurewebsites.net";
     // Prod
-    //baseUrl = "https://thegfshire.azurewebsites.net";
+    baseUrl = "https://thegfshire.azurewebsites.net";
     // Local
-    baseUrl = "http://localhost:7121";
+    //baseUrl = "http://localhost:7121";
     // Mordor
     //baseUrl = "https://localhost:7125";
 
@@ -72,7 +72,7 @@ export class GlutenApiService {
     // Returns details needed for the side bar
     getPinDetails(pinId: number, language: string): Observable<PinTopicDetailDTO[]> {
         return this.http.get<PinTopicDetailDTO[]>(this.baseUrl + "/api/PinDetail?pinid=" + pinId + "&language=" + language, this.httpOptions)
-            .pipe(catchError(this.handleErrorServerLog<PinTopicDetailDTO[]>(`getPinDetails pinId=${pinId}`)));
+            .pipe(catchError(this.handleErrorServerLog<PinTopicDetailDTO[]>(`getPinDetails pinId=${pinId},language=${language}`)));
     }
 
     // Returns details needed for the list view
@@ -95,18 +95,17 @@ export class GlutenApiService {
 
     postMapHome(geoLatitude: number, geoLongitude: number): Observable<any> {
         return this.http.post(this.baseUrl + "/api/MapHome", JSON.stringify({ geoLatitude, geoLongitude }), this.httpOptionsPost)
-            .pipe(catchError(this.handleErrorServerLog()));
+            .pipe(catchError(this.handleErrorServerLog(`getGMPin geoLatitude=${geoLatitude},geoLongitude=${geoLongitude}`)));
     }
 
     // Log errors to the database
     postLog(message: any): Observable<any> {
-        return this.http.post(this.baseUrl + "/api/Log", JSON.stringify({ message }), this.httpOptionsPost)
-            .pipe(catchError(this.handleError()));
+        return this.http.post(this.baseUrl + "/api/Log", JSON.stringify({ message }), this.httpOptionsPost);
     }
 
     getGroups(): Observable<GroupData[]> {
         return this.http.get<GroupData[]>(this.baseUrl + "/api/Groups", this.httpOptions)
-            .pipe(catchError(this.handleErrorServerLog<GroupData[]>(`getPinDetails`)));
+            .pipe(catchError(this.handleErrorServerLog<GroupData[]>(`getGroups`)));
     }
 
 

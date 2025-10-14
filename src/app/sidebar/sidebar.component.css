@@ -90,6 +90,16 @@ a:hover {
     color: #666;
 }
 
+.grid-container {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+}
+
+.fb-container {
+    padding: 1px 5px 1px 5px;
+}
+
 /* Style for the fallback Facebook link (when no shortTitle) */
 .fb-container a:not(.fb-link) {
     display: flex;

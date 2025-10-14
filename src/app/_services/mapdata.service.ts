@@ -50,7 +50,7 @@ export class MapDataService {
         });
 
         // Trigger api calls
-        return statesInView.map(feature => feature.properties.STATE);
+        return statesInView.map(feature => feature.properties.STATE as string);
     }
     getStatesInViewPoint(bounds: L.LatLng): string[] {
 
@@ -60,7 +60,7 @@ export class MapDataService {
         });
 
         // Trigger api calls
-        return statesInView.map(feature => feature.properties.STATE);
+        return statesInView.map(feature => feature.properties.STATE as string);
     }
 
 }
