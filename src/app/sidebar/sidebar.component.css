@@ -35,3 +35,27 @@ a:hover {
     font-size: 0.9em;
     /* color: #555; */
 }
+
+/* Add styles for the Facebook link container */
+.fb-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 5px auto;
+    width: fit-content;
+}
+
+.fb-link img {
+    width: 20px;
+    height: 20px;
+}
+
+/* Add style for the container div */
+.fb-container {
+    text-align: center;
+
+    color: black;
+    /*border-style: solid;*/
+    border-radius: 4px;
+    margin: 5px;
+}
