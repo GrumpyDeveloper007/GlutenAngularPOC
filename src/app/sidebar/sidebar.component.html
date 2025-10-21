@@ -111,6 +111,16 @@
     </h4>
 </div>
 
+<div *ngIf="!selectedTopicGroup && _country=='United Kingdom'">
+    <h4>Useful links (maps created by others) -
+        <p></p>
+        <a target=" _blank"
+            href="https://docs.google.com/spreadsheets/d/15BMwSKpssYdTRg39QZo9x8q1Xe7S9gQcDuN6OIMSL84/edit?usp=sharing">Jen's
+            Bristol coeliac guide
+            spreadsheet
+        </a>
+    </h4>
+</div>
 
 <div *ngIf="!selectedTopicGroup && _selectedCountryMeta && _selectedCountryMeta.SpokenLanguages.length>0">
     <h4>Coeliac Gluten Free Restaurant Card -</h4>

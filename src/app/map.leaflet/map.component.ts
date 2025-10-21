@@ -373,6 +373,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     var centerCountryNames = this.getCountriesInViewWithCentreCountryFirst(true);
     //console.debug("Countries in view: " + countryNames);
     console.debug("Center Countries in view: " + centerCountryNames);
+    this.gaService.trackEvent("Show Map:", centerCountryNames.toString(), "Map");
     const requests: Observable<any>[] = [];
     this.groupService.resetActiveGroupList();
     for (let key in centerCountryNames) {
@@ -388,7 +389,6 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
           requests.push(this.apiService.getPins(value).pipe(
             tap(data => {
               this.pinCache[value] = data;
-              this.gaService.trackEvent("Map Loaded:", value, "Map");
               const index = this.pendingCountries.indexOf(value, 0);
               if (index > -1) {
                 this.pendingCountries.splice(index, 1);
@@ -498,7 +498,6 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   showMapPins(countryNames: string[]) {
-    this.gaService.trackEvent("Show Map:", countryNames.toString(), "Map");
     var pinTopics = this.getPinsInCountries(countryNames);
     var gmPins = this.getGMPinsInCountries(countryNames);
     const liveMode = true; // this makes it easier to see generic pins
