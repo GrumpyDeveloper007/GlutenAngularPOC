@@ -87,10 +87,11 @@ export class SidebarComponent {
     if (this.selectedTopicGroup == null) return "";
     if (this.selectedTopicGroup.topics == null) return 'Pin generated from Google maps :' + this.selectedTopicGroup.description;
     if (this._selectedLanguage == "English") {
+      if (this.selectedTopicGroup.description.length == 0) return '';
       return 'AI Generated : ' + this.selectedTopicGroup.description;
     }
     else {
-
+      if (this.selectedTopicGroup.languages[this._selectedLanguage].length == 0) return '';
       return 'AI Generated : ' + this.selectedTopicGroup.languages[this._selectedLanguage];
     }
   }
