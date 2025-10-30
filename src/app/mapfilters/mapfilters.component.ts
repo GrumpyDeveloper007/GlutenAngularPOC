@@ -162,7 +162,6 @@ export class MapfiltersComponent {
 
   onLanguageChange() {
     this.languageChange.emit(this.selectedLanguage);
-    this.gaService.trackEvent("Language Changed", this.selectedLanguage, "MapFilters");
   }
 
   onMapChange() {

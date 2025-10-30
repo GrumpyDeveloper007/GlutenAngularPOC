@@ -252,7 +252,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   pinSelected(pin: (TopicGroup | GMapsPin)): void {
     this.selectedTopicGroup = pin as TopicGroup;
     this.selectedTopicGroupChange.emit(this.selectedTopicGroup);
-    this.gaService.trackEvent("Pin click", this.selectedTopicGroup.label, "Map");
+    this.gaService.trackEvent("Pin click", this.centreCountry ?? "", "Map");
     if (pin.pinId == undefined) return;
     window.history.replaceState({}, '', `/places/${pin.pinId}`);
     this.groupService.selectTopicsForCurrentlySelectedGroups(this.selectedTopicGroup)

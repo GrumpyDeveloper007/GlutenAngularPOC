@@ -68,6 +68,11 @@ export class SidebarComponent {
     this.gaService.trackEvent("Ask ChatGPT Click:", url, "Map");
   }
 
+  usefulClick(url: string) {
+    this.gaService.trackEvent("Useful Click:", url, "Map");
+  }
+
+
   buildFbUrl(item: Topic) {
     return `https://www.facebook.com/groups/${item.gId}/permalink/${item.lId}`;
   }

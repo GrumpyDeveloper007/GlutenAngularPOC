@@ -36,7 +36,7 @@
     </p>
 </div>
 <div *ngIf="!selectedTopicGroup">
-    <p>Welcome, please join my facebook group for more tips and info here-> <a
+    <p>Welcome, please join my facebook group for more tips and info here-> <a (click)="usefulClick('769136475365475')"
             href="https://www.facebook.com/groups/769136475365475">FB
             group for the App</a></p>
 
@@ -48,7 +48,8 @@
 <div *ngIf="!selectedTopicGroup && _country=='Germany'">
     <h4>Useful links -
         <p></p>
-        <a target="_blank" href="https://www.zoeliakie-austausch.de/">Zöliakie Austausch - die Community für alle die
+        <a (click)="usefulClick('zoeliakie-austausch')" target="_blank"
+            href="https://www.zoeliakie-austausch.de/">Zöliakie Austausch - die Community für alle die
             sicher glutenfrei
             Leben.</a>
     </h4>
@@ -56,48 +57,56 @@
 <div *ngIf="!selectedTopicGroup && _country=='Singapore'">
     <h4>Useful links -
         <p></p>
-        <a target=" _blank" href="https://internationalglutenfree.com/">Gluten-Free Resources for Singapore</a>
+        <a (click)="usefulClick('Resources Singapore')" target=" _blank"
+            href="https://internationalglutenfree.com/">Gluten-Free Resources for Singapore</a>
     </h4>
 </div>
 <div *ngIf="!selectedTopicGroup && _country=='Slovakia'">
     <h4>Useful links -
         <p></p>
-        <a target=" _blank" href="https://www.celiakia.sk/kde-sa-najete">celiakia</a>
+        <a (click)="usefulClick('celiakia')" target=" _blank" href="https://www.celiakia.sk/kde-sa-najete">celiakia</a>
     </h4>
 </div>
 <div *ngIf="!selectedTopicGroup && _country=='Italy'">
     <h4>Useful links -
         <p></p>
-        <a target=" _blank" href="https://www.celiachia.it/">Associazlone Italiana Celiachia</a>
+        <a (click)="usefulClick('Associazlone Italiana Celiachia')" target=" _blank"
+            href="https://www.celiachia.it/">Associazlone Italiana Celiachia</a>
     </h4>
 </div>
 <div *ngIf="!selectedTopicGroup && _country=='Canada'">
     <h4>Useful links -
         <p></p>
-        <a target=" _blank" href="https://theceliacscene.com/location/canada/british-columbia/port-alberni/">The Celiac
+        <a (click)="usefulClick('The Celiac Scene')" target=" _blank"
+            href="https://theceliacscene.com/location/canada/british-columbia/port-alberni/">The Celiac
             Scene - Port Alberni</a>
     </h4>
 </div>
 <div *ngIf="!selectedTopicGroup && _country=='United States48'">
     <h4>Useful links -
         <p></p>
-        <a target=" _blank" href="https://maps.app.goo.gl/nkzbyM5YgaNeRCZYA?g_st=ac">Ophelia GF Map
+        <a (click)="usefulClick('Ophelia')" target=" _blank"
+            href="https://maps.app.goo.gl/nkzbyM5YgaNeRCZYA?g_st=ac">Ophelia GF Map
         </a>
     </h4>
 </div>
 <div *ngIf="!selectedTopicGroup && _country=='Japan'">
     <h4>Useful links (maps created by others) -
         <p></p>
-        <a target=" _blank" href="https://maps.app.goo.gl/rox6H8VQcajZNXXn7?g_st=i">Japan GF · Ainu C.G.
+        <a (click)="usefulClick('Ainu')" target=" _blank" href="https://maps.app.goo.gl/rox6H8VQcajZNXXn7?g_st=i">Japan
+            GF · Ainu C.G.
         </a>
-        <a target=" _blank" href="https://maps.app.goo.gl/dSG2mwQ7gRnF1Lcw6?g_st=i">Japan GF 2024 · Fabrizio Cioni
+        <a (click)="usefulClick('Fabrizio')" target=" _blank"
+            href="https://maps.app.goo.gl/dSG2mwQ7gRnF1Lcw6?g_st=i">Japan GF 2024 · Fabrizio Cioni
         </a>
-        <a target=" _blank" href="https://maps.app.goo.gl/t5uvKyG3bzMbGf1w9?g_st=i">Japan Gluten Free Eats · Cynthia
+        <a (click)="usefulClick('Cynthia')" target=" _blank"
+            href="https://maps.app.goo.gl/t5uvKyG3bzMbGf1w9?g_st=i">Japan Gluten Free Eats · Cynthia
             DeLuca
         </a>
-        <a target=" _blank" href="https://maps.app.goo.gl/oaSTwyDqDYuxUamJ9?g_st=i">Gluten free · Anna
+        <a (click)="usefulClick('Anna')" target=" _blank" href="https://maps.app.goo.gl/oaSTwyDqDYuxUamJ9?g_st=i">Gluten
+            free · Anna
         </a>
-        <a target=" _blank"
+        <a (click)="usefulClick('Spenser')" target=" _blank"
             href="https://www.google.com/maps/d/viewer?ll=34.70711950815463%2C135.50298605033615&z=12&mid=1iwutbbadlGniNmCDVuBz_2E5BVlyb5s">Gluten
             free · Spenser
         </a>
@@ -106,7 +115,10 @@
 <div *ngIf="!selectedTopicGroup && _country=='Australia'">
     <h4>Useful links (maps created by others) -
         <p></p>
-        <a target=" _blank" href="https://bit.ly/gfaus">Gluten-free map, credit Ben Cossalter.
+        <a (click)="usefulClick('Bristol coeliac guide')" target=" _blank"
+            href="https://www.google.com/maps/d/viewer?mid=1xthyNFNzpPdH6ENCkm1TH7rcP3Isz482&usp=sharing">Gluten-free
+            map,
+            credit Ben Cossalter.
         </a>
     </h4>
 </div>
@@ -114,7 +126,7 @@
 <div *ngIf="!selectedTopicGroup && _country=='United Kingdom'">
     <h4>Useful links (maps created by others) -
         <p></p>
-        <a target=" _blank"
+        <a (click)="usefulClick('Bristol coeliac guide')" target=" _blank"
             href="https://docs.google.com/spreadsheets/d/15BMwSKpssYdTRg39QZo9x8q1Xe7S9gQcDuN6OIMSL84/edit?usp=sharing">Jen's
             Bristol coeliac guide
             spreadsheet
@@ -125,7 +137,7 @@
 <div *ngIf="!selectedTopicGroup && _selectedCountryMeta && _selectedCountryMeta.SpokenLanguages.length>0">
     <h4>Coeliac Gluten Free Restaurant Card -</h4>
     <div *ngFor="let item of _selectedCountryMeta?.SpokenLanguages; let i=index; ">
-        <a target=" _blank" href="https://www.celiactravel.com/cards/{{item}}/">{{item}}</a>
+        <a (click)="usefulClick(item)" target=" _blank" href="https://www.celiactravel.com/cards/{{item}}/">{{item}}</a>
     </div>
 </div>
 <div *ngIf="!selectedTopicGroup" style="text-align: left;margin: 10px;font-size: smaller;">
