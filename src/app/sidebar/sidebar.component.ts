@@ -57,15 +57,16 @@ export class SidebarComponent {
 
 
   linkClick(url: string) {
+    this.gaService.trackEvent("FB Link Click Count:", this._country ?? "", "Map");
     this.gaService.trackEvent("FB Link Click:", url, "Map");
   }
 
   mapLinkClick(url: string) {
-    this.gaService.trackEvent("Map Link Click:", url, "Map");
+    this.gaService.trackEvent("Map Link Click:", this._country ?? "", "Map");
   }
 
   askChatGPTClick(url: string) {
-    this.gaService.trackEvent("Ask ChatGPT Click:", url, "Map");
+    this.gaService.trackEvent("Ask ChatGPT Count:", this._country ?? "", "Map");
   }
 
   usefulClick(url: string) {
