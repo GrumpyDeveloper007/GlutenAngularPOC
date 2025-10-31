@@ -30,11 +30,17 @@ export class MapfiltersComponent {
   @Output() mapChange = new EventEmitter<string>();
   private _options: FilterOptions = new FilterOptions(true, true, true, false, false, true, false, "English", "Open");
   restaurants: Restaurant[] = [];
+  _country: string | undefined;
+
 
 
   constructor(
     protected modalService: ModalService,
     private gaService: AnalyticsService) { }
+
+  @Input() set selectedCountry(value: string | undefined) {
+    this._country = value;
+  }
 
   @Input() set selectedLanguage(value: string) {
     if (this._options.SelectedLanguage != value) {
@@ -120,7 +126,7 @@ export class MapfiltersComponent {
 
   showRestaurantList(): void {
     this.modalService.open('modal-1')
-    this.gaService.trackEvent("Restaurant List", "Open", "MapFilters");
+    this.gaService.trackEvent("Restaurant List", this._country ?? "", "MapFilters");
   }
 
   showMapFilters(): void {
@@ -130,12 +136,12 @@ export class MapfiltersComponent {
   showPinListView(): void {
     this.listViewOpenChange.emit(1);
     this.modalService.open('modal-listView')
-    this.gaService.trackEvent("Pin List", "Open", "MapFilters");
+    this.gaService.trackEvent("Pin List", this._country ?? "", "MapFilters");
   }
   showGroupListView(): void {
     this.groupViewOpenChange.emit(1);
     this.modalService.open('modal-groups')
-    this.gaService.trackEvent("Group List", "Open", "MapFilters");
+    this.gaService.trackEvent("Group List", this._country ?? "", "MapFilters");
   }
 
   selectNone(): void {
