@@ -58,7 +58,6 @@ export class SidebarComponent {
 
   linkClick(url: string) {
     this.gaService.trackEvent("FB Link Click Count:", this._country ?? "", "Map");
-    this.gaService.trackEvent("FB Link Click:", url, "Map");
   }
 
   mapLinkClick(url: string) {
