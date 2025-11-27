@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CountryMeta } from "../_model/model";
-import { catchError } from 'rxjs';
+import { catchError, tap } from 'rxjs';
 import { Observable, of } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class SiteApiService {
+    _countryMeta: CountryMeta[] = [];
+    _selectedCountryMeta: CountryMeta | undefined;
+
 
     httpOptions = {
         headers: new HttpHeaders({})//'Content-Type': 'application/json'
@@ -41,8 +44,28 @@ export class SiteApiService {
         };
     }
 
-    getCountryMeta(): Observable<CountryMeta[]> {
+    setSelectedCountry(country: string) {
+        this._selectedCountryMeta = this._countryMeta.find(o => o.Country == country);
+    }
+
+    getCountryMeta(): CountryMeta | undefined {
+        return this._selectedCountryMeta;
+    }
+
+    loadCountryMeta(): Observable<CountryMeta[]> {
         return this.http.get<CountryMeta[]>("/countryMeta.json", this.httpOptions)
-            .pipe(catchError(this.handleError<CountryMeta[]>(`getCountryMeta `)));
+            .pipe(
+                tap(data => this._countryMeta = data ?? []),
+                catchError(this.handleError<CountryMeta[]>(`loadCountryMeta`)),
+            );
+    }
+
+    getUrlCountry(): string | undefined {
+        const path = window.location.pathname;
+        const pathParts = path.split('/');
+        if (pathParts.length == 3 && pathParts[1] == 'c') {
+            return decodeURI(pathParts[2]);
+        }
+        else return undefined;
     }
 }

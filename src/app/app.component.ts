@@ -1,13 +1,14 @@
 import { Component, inject, Input, Renderer2, RendererFactory2, ViewChild } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from "./navbar/navbar.component";
 import { MapLeafletComponent } from "./map.leaflet/map.component";
 import { MapfiltersComponent } from "./mapfilters/mapfilters.component";
 import { SidebarComponent } from "./sidebar/sidebar.component";
-import { TopicGroup } from "./_model/model";
+import { TopicGroup, CountryMeta } from "./_model/model";
 import { Restaurant } from "./_model/restaurant";
 import { FilterOptions } from "./_model/filterOptions";
 import { Title, Meta } from '@angular/platform-browser';
+import { SiteApiService } from './_services';
+
 
 @Component({
   selector: 'app-root',
@@ -26,12 +27,12 @@ export class AppComponent {
   private renderer = inject(Renderer2)
   private rendererFactory = inject(RendererFactory2)
   @ViewChild(MapLeafletComponent, { static: false }) child!: MapLeafletComponent;
-
   @Input('id') productId = '';
 
 
   constructor(private titleService: Title,
-    private metaService: Meta
+    private metaService: Meta,
+    private siteApiService: SiteApiService
   ) { }
 
   showListView() {
@@ -46,38 +47,52 @@ export class AppComponent {
     this.country = country;
   }
 
-  setSEOData(title: string, description: string) {
-    //https://gist.github.com/whitingx/3840905
+  ngOnInit() {
+    this.siteApiService.loadCountryMeta().subscribe(data => {
+      let country = this.siteApiService.getUrlCountry();
+      let description = this.description;
+      if (country != undefined) {
+        console.log('country set', country);
+        this.siteApiService.setSelectedCountry(country);
+        let selectedCountryMeta = this.siteApiService.getCountryMeta();
+        let title = `${this.title} - ${country}`;
+        let gf = selectedCountryMeta?.GlutenFree;
+        let coeliac = selectedCountryMeta?.Coeliac;
+        if (!gf) gf = 'Gluten Free';
+        if (!coeliac) coeliac = 'Coeliac';//Coliac?
+        description = `A map of ${gf} (${coeliac}) restaurants/hotels in ${country}`;
+        this.setSEOData(title, description, gf, coeliac);
+        this.addStructuredData(title, description);
+      }
+      else {
+        this.setSEOData(this.title, description, 'Gluten Free', 'Coeliac')
+        this.addStructuredData(this.title, description);
+      }
+    });
+  }
+
+  setSEOData(title: string, description: string, gf: string, coeliac: string) {
     this.titleService.setTitle(title);
     this.metaService.updateTag({ name: 'description', content: description });
-
-    this.metaService.addTag({ name: 'keywords', content: 'Gluten, Coeliac, Coliac, 無麩質, Célique, Zöliakie, Celaquia, Cöliakie, Çölyak, keliakia, Cøliaki, Célique, Celíaco, Sen gluten, Bez glutena, Gluténmentes, Glutensiz, gluteenia, Glutenfri, Glutenvrij, Sans gluten, Senza glutine, Restaurant, Map, GF, gluten free near me, gluten free restaurants near me, gluten free bakery, gluten free food near me' });
+    this.metaService.updateTag({ name: 'keywords', content: `${gf}, ${coeliac}, ${gf} Restaurant, ${gf} Map, ${gf} near me, ${gf} restaurants near me, ${gf} food near me` });
 
     // Open Graph Meta Tags
-    this.metaService.addTag({ property: 'og:title', content: title });
-    this.metaService.addTag({ property: 'og:description', content: description });
-    //this.metaService.addTag({ property: 'og:image', content: 'path/to/your/image.png' });
+    this.metaService.updateTag({ property: 'keywords', content: `${gf}, ${coeliac}, ${gf} Restaurant, ${gf} Map, ${gf} near me, ${gf} restaurants near me, ${gf} food near me` });
+    this.metaService.updateTag({ property: 'og:title', content: title });
+    this.metaService.updateTag({ property: 'og:description', content: description });
   }
 
-  ngOnInit() {
-    if (this.productId) {
-      //this.productDetailService.setSelectedProductId(Number(this.id));
-    }
-    this.setSEOData(this.title, this.description)
-    this.addStructuredData();
-  }
-
-  addStructuredData() {
+  addStructuredData(title: string, description: string) {
     const script = this.renderer.createElement('script');
     script.type = 'application/ld+json';
     script.text = `
     {
       "@context": "http://schema.org",
       "@type": "Organization",
-      "name": "${this.title}",
+      "name": "${title}",
       "url": "https://www.dalesgfmap.com/",
       "logo": "https://www.dalesgfmap.com/favicon.ico",
-      "description": "${this.description}"
+      "description": "${description}"
     }`;
     this.renderer.appendChild(document.head, script);
   }

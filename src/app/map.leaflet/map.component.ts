@@ -427,7 +427,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
         if (pathParts.length == 3 && pathParts[1] == 'places') {
           // places/
           const pinId = pathParts[2];
-          if (Number.isInteger(pinId)) {
+          if (Number.isInteger(Number(pinId))) {
             this.loadPinDetails(Number.parseInt(pinId));
           }
         }

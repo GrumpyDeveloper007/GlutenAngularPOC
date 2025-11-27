@@ -20,12 +20,11 @@ export class SidebarComponent {
   _loadingSummary: boolean = false;
   _country: string | undefined;
   facebookLink = 'about:blank';
-  _countryMeta: CountryMeta[] = [];
   _selectedCountryMeta: CountryMeta | undefined;
 
   @Input() set selectedCountry(value: string | undefined) {
     this._country = value;
-    this._selectedCountryMeta = this._countryMeta.find(o => o.Country == this._country);
+    this._selectedCountryMeta = this.siteApiService.getCountryMeta();
   }
 
   @Input() set selectedLanguage(value: string | null) {
@@ -50,9 +49,6 @@ export class SidebarComponent {
   ) { }
 
   ngOnInit() {
-    this.siteApiService.getCountryMeta().subscribe(data => {
-      this._countryMeta = data ?? [];
-    });
   }
 
 
