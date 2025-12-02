@@ -26,6 +26,13 @@ The intent is not to provide a fully featured application, it is to provide a se
 
 - Pin summary (when publicly available). A brief summary of the pin.
 
+## Experimental features
+
+- Highlight specific pins, an extra glow and z-order that makes certain pins stand out.
+
+- Auto select, when scrolling the map when a specific pin come in to view it is automatically selected, automatically showing the pin summary to the user.
+
+
 ## Design notes
 
 To maximise UI responsiveness and efficiency, data is loaded for a large region (generally based around countries). This increases initial load times, with the 
