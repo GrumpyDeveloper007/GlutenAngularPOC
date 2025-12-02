@@ -2,7 +2,7 @@
 
 This application presents a map based view of Gluten-free restaurants/hotels and other interesting locations. It provides an efficient way to research relevant 
 posts about places close to a specific area. 
-The intent is not to provide a fully featured application, it is to provide a search function that provides summary and links to sources (the Google(search) for GF people).
+The intent is not to provide a fully featured application, it is to provide a search function that includes summary and links to sources (the Google(search) for GF people).
 
 ## Features
 
