@@ -19,7 +19,7 @@ import { SiteApiService } from './_services';
 })
 export class AppComponent {
   title = 'FB Gluten free Map';
-  description = "Provides the indexing of gluten free FB group posts. A helpful site for coeliacs and people looking for gluten free places to eat or stay.";
+  description = "Provides the indexing of gluten free FB group posts. A helpful site for coeliacs and people looking for gluten free places to eat/restaurants or hotels.";
   selectedTopicGroup: TopicGroup | null = null;
   showOptions: FilterOptions = new FilterOptions(true, true, true, false, false, true, false, "English", "");
   restaurants: Restaurant[] = [];
@@ -60,7 +60,7 @@ export class AppComponent {
         let coeliac = selectedCountryMeta?.Coeliac;
         if (!gf) gf = 'Gluten Free';
         if (!coeliac) coeliac = 'Coeliac';//Coliac?
-        description = `A map of ${gf} (${coeliac}) restaurants/hotels in ${country}`;
+        description = `A map of ${gf} (${coeliac} friendly) restaurants/hotels in ${country}`;
         this.setSEOData(title, description, gf, coeliac);
         this.addStructuredData(title, description);
       }
