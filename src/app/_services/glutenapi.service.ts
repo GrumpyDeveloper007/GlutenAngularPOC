@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { TopicGroup, GMapsPin } from "../_model/model";
+import { TopicGroup, GMapsPin, IpAddressData } from "../_model/model";
 import { catchError } from 'rxjs';
 import { Observable, of } from 'rxjs';
 
@@ -33,19 +33,33 @@ export class GlutenApiService {
         };
     }
 
+    // Dev
+    baseUrl = "https://thedevshire.azurewebsites.net";
+    // Prod
+    //baseUrl = "https://thegfshire.azurewebsites.net";
+    // Local
+    //baseUrl = "http://localhost:7121";
+    // Mordor
+    //baseUrl = "https://localhost:7125";
+
+
     getPinTopic(country: string): Observable<TopicGroup[]> {
-        return this.http.get<TopicGroup[]>("https://thegfshire.azurewebsites.net/api/PinTopic?country=" + country, this.httpOptions)
+        return this.http.get<TopicGroup[]>(this.baseUrl + "/api/PinTopic?country=" + country, this.httpOptions)
             .pipe(catchError(this.handleError<TopicGroup[]>(`getPinTopic id=${country}`)));
     }
 
     getGMPin(country: string): Observable<GMapsPin[]> {
-        return this.http.get<GMapsPin[]>("https://thegfshire.azurewebsites.net/api/GMapsPin?country=" + country, this.httpOptions)
+        return this.http.get<GMapsPin[]>(this.baseUrl + "/api/GMapsPin?country=" + country, this.httpOptions)
             .pipe(catchError(this.handleError<GMapsPin[]>(`getGMPin id=${country}`)));
     }
 
+    getLocation(country: string): Observable<IpAddressData> {
+        return this.http.get<IpAddressData>(this.baseUrl + "/api/GetLocation", this.httpOptions)
+            .pipe(catchError(this.handleError<IpAddressData>(`getLocation id=${country}`)));
+    }
+
     postMapHome(geoLatitude: number, geoLongitude: number): Observable<any> {
-        console.debug("postMapHome: " + geoLatitude + " " + geoLongitude);
-        return this.http.post("https://thegfshire.azurewebsites.net/api/MapHome", JSON.stringify({ geoLatitude, geoLongitude }), this.httpOptionsPost)
+        return this.http.post(this.baseUrl + "/api/MapHome", JSON.stringify({ geoLatitude, geoLongitude }), this.httpOptionsPost)
             .pipe(catchError(this.handleError()));
 
     }

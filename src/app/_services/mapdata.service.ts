@@ -14,13 +14,14 @@ export class MapDataService {
 
     ) { }
 
-    getCountriesInView(bounds: maplibre.LngLatBounds): string[] {
+    getCountriesInView(bounds: maplibre.LngLatBounds | any): string[] {
         const southwest = bounds.getSouthWest();
         const northeast = bounds.getNorthEast();
 
         // Load or fetch your GeoJSON data (e.g., countriesGeoJSON)
         const countriesInView = countriesGeoJSON2.features.filter(feature => {
-            return turf.booleanIntersects(feature.geometry as MultiPolygon, turf.bboxPolygon([southwest.lng, southwest.lat, northeast.lng, northeast.lat]));
+            return turf.booleanIntersects(feature.geometry as MultiPolygon,
+                turf.bboxPolygon([southwest.lng, southwest.lat, northeast.lng, northeast.lat]));
         });
 
         // Trigger api calls

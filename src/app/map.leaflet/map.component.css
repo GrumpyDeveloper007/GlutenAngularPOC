@@ -1,0 +1,152 @@
+.map {
+  flex: 1;
+  width: 100%;
+}
+
+.downloadFile {
+  font-size: 1.5em;
+  display: block;
+  position: absolute;
+  z-index: 1000;
+  padding: 0px 10px;
+  left: 0;
+  bottom: 0;
+}
+
+.pincount {
+  font-size: 1.5em;
+  display: block;
+  position: absolute;
+  z-index: 1000;
+  padding: 0px 10px;
+  right: 0;
+}
+
+.smallloading {
+  width: 30px;
+  height: 30px;
+  font-size: 1.5em;
+  display: block;
+  position: absolute;
+  z-index: 1000;
+  padding: 10px;
+  bottom: 0;
+  right: 0;
+}
+
+.redtext {
+  background-color: red;
+  background: red;
+}
+
+/* Add these styles for the loading overlay */
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.loading-content p {
+  margin: 0;
+  color: #333;
+  font-size: 0.9em;
+}
+
+jw-modal {
+  display: none;
+  /* Initially hidden */
+  position: fixed;
+  width: 400px;
+  max-width: 90%;
+  background: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+jw-modal.active {
+  display: block;
+}
+
+jw-modal h1 {
+  margin: 0 0 15px;
+  font-size: 1.2em;
+  color: #333;
+}
+
+jw-modal div {
+  margin: 5px 0;
+}
+
+/* Checkbox and Labels */
+jw-modal input[type="checkbox"] {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+jw-modal label {
+  font-size: 0.9em;
+  color: #555;
+}
+
+button {
+  margin: 4px;
+  padding: 6px 12px;
+  background-color: #4CAF50;
+  color: black;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.8em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+input {
+  accent-color: #4CAF50;
+}
+
+span {
+  font-size: 0.8em;
+}
+
+/* Desktop styles */
+@media (min-width: 1024px) {
+  button {
+    margin: 8px;
+    padding: 8px 16px;
+    font-size: 0.9em;
+  }
+
+  span {
+    font-size: 1em;
+  }
+
+  jw-modal h1 {
+    margin: 0 0 20px;
+    font-size: 1.5em;
+  }
+
+  jw-modal label {
+    font-size: 1em;
+  }
+}
