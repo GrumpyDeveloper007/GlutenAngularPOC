@@ -1,0 +1,24 @@
+{
+  "globalHeaders": {
+    "Referrer-Policy": "strict-origin-when-cross-origin"
+  },
+  "navigationFallback": {
+    "rewrite": "/index.html"
+  },
+  "routes": [
+    {
+      "route": "/places/*",
+      "rewrite": "/index.html",
+      "allowedRoles": [
+        "anonymous"
+      ]
+    },
+    {
+      "route": "/c/*",
+      "rewrite": "/index.html",
+      "allowedRoles": [
+        "anonymous"
+      ]
+    }
+  ]
+}

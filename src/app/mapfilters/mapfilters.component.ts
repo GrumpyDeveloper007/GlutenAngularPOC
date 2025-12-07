@@ -2,12 +2,11 @@ import { NgFor } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { ModalService } from '../_services';
+import { ModalService, AnalyticsService } from '../_services';
 import { ModalComponent } from '../_components';
 import { Restaurant } from "../_model/restaurant";
 import { restaurantTypes } from "../_model/staticData";
 import { FilterOptions } from "../_model/filterOptions";
-
 
 @Component({
   selector: 'app-mapfilters',
@@ -25,17 +24,49 @@ import { FilterOptions } from "../_model/filterOptions";
 export class MapfiltersComponent {
   @Output() optionsChange = new EventEmitter<FilterOptions>();
   @Output() restaurantChange = new EventEmitter<Restaurant[]>();
-  private _options: FilterOptions = new FilterOptions(true, true, true, true, false, true);
+  @Output() listViewOpenChange = new EventEmitter<number>();
+  @Output() groupViewOpenChange = new EventEmitter<number>();
+  @Output() languageChange = new EventEmitter<string>();
+  @Output() mapChange = new EventEmitter<string>();
+  private _options: FilterOptions = new FilterOptions(true, true, true, false, false, true, false, "English", "Open");
   restaurants: Restaurant[] = [];
+  _country: string | undefined;
+
+
 
   constructor(
-    protected modalService: ModalService, private cd: ChangeDetectorRef) { }
+    protected modalService: ModalService,
+    private gaService: AnalyticsService) { }
+
+  @Input() set selectedCountry(value: string | undefined) {
+    this._country = value;
+  }
+
+  @Input() set selectedLanguage(value: string) {
+    if (this._options.SelectedLanguage != value) {
+      this._options.SelectedLanguage = value;
+      this.optionsChange.emit(this._options);
+    }
+  }
+  get selectedLanguage(): string {
+    return this._options.SelectedLanguage;
+  }
+
+  @Input() set selectedMap(value: string) {
+    if (this._options.SelectedMap != value) {
+      this._options.SelectedMap = value;
+      this.optionsChange.emit(this._options);
+    }
+  }
+  get selectedMap(): string {
+    return this._options.SelectedMap;
+  }
 
   @Input() set showHotels(value: boolean) {
     if (this._options.ShowHotels != value) {
       this._options.ShowHotels = value;
       console.debug("Filter Hotels click :");
-      var options: FilterOptions = new FilterOptions(this._options.ShowHotels, this._options.ShowStores, this._options.ShowOthers, this._options.ShowGMPins, this._options.ShowChainPins, this._options.ShowNonGFGroupPins)
+      var options: FilterOptions = new FilterOptions(this._options.ShowHotels, this._options.ShowStores, this._options.ShowOthers, this._options.ShowGMPins, this._options.ShowChainPins, this._options.ShowNonGFGroupPins, this._options.ShowTemporarilyClosed, this._options.SelectedLanguage, this._options.SelectedMap)
       this.optionsChange.emit(options);
     }
   }
@@ -47,7 +78,6 @@ export class MapfiltersComponent {
     if (this._options.ShowStores != value) {
       this._options.ShowStores = value;
       this.optionsChange.emit(this._options);
-      console.debug("Filter Stores click :");
     }
   }
   get showStores(): boolean {
@@ -58,7 +88,6 @@ export class MapfiltersComponent {
     if (this._options.ShowOthers != value) {
       this._options.ShowOthers = value;
       this.optionsChange.emit(this._options);
-      console.debug("Filter Others click :");
     }
   }
   get showOthers(): boolean {
@@ -71,6 +100,9 @@ export class MapfiltersComponent {
       this.optionsChange.emit(this._options);
     }
   }
+  get showGMPins(): boolean {
+    return this._options.ShowGMPins;
+  }
   get showChains(): boolean {
     return this._options.ShowChainPins;
   }
@@ -81,11 +113,36 @@ export class MapfiltersComponent {
       this.optionsChange.emit(this._options);
     }
   }
-  get showGMPins(): boolean {
-    return this._options.ShowGMPins;
+  get showTemporarilyClosed(): boolean {
+    return this._options.ShowTemporarilyClosed;
   }
 
+  @Input() set showTemporarilyClosed(value: boolean) {
+    if (this._options.ShowTemporarilyClosed != value) {
+      this._options.ShowTemporarilyClosed = value;
+      this.optionsChange.emit(this._options);
+    }
+  }
 
+  showRestaurantList(): void {
+    this.modalService.open('modal-1')
+    this.gaService.trackEvent("Restaurant List", this._country ?? "", "MapFilters");
+  }
+
+  showMapFilters(): void {
+    this.modalService.open('modal-mapFilters')
+  }
+
+  showPinListView(): void {
+    this.listViewOpenChange.emit(1);
+    this.modalService.open('modal-listView')
+    this.gaService.trackEvent("Pin List", this._country ?? "", "MapFilters");
+  }
+  showGroupListView(): void {
+    this.groupViewOpenChange.emit(1);
+    this.modalService.open('modal-groups')
+    this.gaService.trackEvent("Group List", this._country ?? "", "MapFilters");
+  }
 
   selectNone(): void {
     this.restaurants.forEach(restaurant => {
@@ -99,12 +156,25 @@ export class MapfiltersComponent {
     });
   }
 
-  selectComplete(): void {
+  selectCompleteRestaurantTypes(): void {
     this.modalService.close();
-    //this.cd.detectChanges();
-    console.log("Select Complete");
     this.restaurantChange.emit([...this.restaurants]);
   }
+
+  selectComplete(): void {
+    this.modalService.close();
+  }
+
+
+  onLanguageChange() {
+    this.languageChange.emit(this.selectedLanguage);
+  }
+
+  onMapChange() {
+    this.mapChange.emit(this.selectedMap);
+    this.gaService.trackEvent("MapProvider Changed", this.selectedMap, "MapFilters");
+  }
+
 
   ngOnInit() {
     restaurantTypes.forEach(restaurant => {
