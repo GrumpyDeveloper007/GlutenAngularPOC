@@ -1,3 +1,63 @@
 .App {
-    text-align: center;
+  text-align: center;
+}
+
+/* Layout */
+
+.master {
+  height: calc(75vh - 77px);
+  flex: 3;
+  padding: 15px;
+  background: white;
+  margin-right: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.detail {
+  width: 100%;
+  flex: 1;
+  padding: 15px;
+  background: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+@media (min-width:1024px) {
+  .window {
+    display: -webkit-flex;
+    /* Safari */
+    display: flex;
   }
+
+  .master {
+    width: 75%;
+    height: calc(100vh - 40px);
+  }
+
+  .detail {
+    width: 25%;
+  }
+}
+
+/* Spacing */
+.window,
+.master,
+.detail {
+  padding: 0px;
+}
+
+.detail {
+  margin-left: 0px;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+  line-height: 1.2;
+}
+
+.empty-div {
+  height: 5px;
+  margin: 5px 0;
+}
