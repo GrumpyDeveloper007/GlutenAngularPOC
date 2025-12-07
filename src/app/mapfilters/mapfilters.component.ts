@@ -25,7 +25,7 @@ import { FilterOptions } from "../_model/filterOptions";
 export class MapfiltersComponent {
   @Output() optionsChange = new EventEmitter<FilterOptions>();
   @Output() restaurantChange = new EventEmitter<Restaurant[]>();
-  private _options: FilterOptions = new FilterOptions(true, true, true, true, true, true);
+  private _options: FilterOptions = new FilterOptions(true, true, true, true, false, true);
   restaurants: Restaurant[] = [];
 
   constructor(
