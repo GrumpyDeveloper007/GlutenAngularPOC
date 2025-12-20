@@ -7,7 +7,7 @@ declare var gtag: any;
 export class AnalyticsService {
 
     trackEvent(eventName: string, eventDetails: string, eventCategory: string) {
-        if (!environment.preview) {
+        if (!environment.preview && typeof gtag !== 'undefined') {
             gtag('event', eventName, {
                 // event Type - example: 'SCROLL_TO_TOP_CLICKED'
                 'event_category': eventCategory,

@@ -25,7 +25,6 @@ export class AppComponent {
   restaurants: Restaurant[] = [];
   country: string | undefined;
   private renderer = inject(Renderer2)
-  private rendererFactory = inject(RendererFactory2)
   @ViewChild(MapLeafletComponent, { static: false }) child!: MapLeafletComponent;
   @Input('id') productId = '';
 
@@ -53,6 +52,7 @@ export class AppComponent {
       let description = this.description;
       if (country != undefined) {
         console.log('country set', country);
+        this.country = country;
         this.siteApiService.setSelectedCountry(country);
         let selectedCountryMeta = this.siteApiService.getCountryMeta();
         let title = `${this.title} - ${country}`;
@@ -77,7 +77,6 @@ export class AppComponent {
     this.metaService.updateTag({ name: 'keywords', content: `${gf}, ${coeliac}, ${gf} Restaurant, ${gf} Map, ${gf} near me, ${gf} restaurants near me, ${gf} food near me` });
 
     // Open Graph Meta Tags
-    this.metaService.updateTag({ property: 'keywords', content: `${gf}, ${coeliac}, ${gf} Restaurant, ${gf} Map, ${gf} near me, ${gf} restaurants near me, ${gf} food near me` });
     this.metaService.updateTag({ property: 'og:title', content: title });
     this.metaService.updateTag({ property: 'og:description', content: description });
   }
@@ -85,15 +84,15 @@ export class AppComponent {
   addStructuredData(title: string, description: string) {
     const script = this.renderer.createElement('script');
     script.type = 'application/ld+json';
-    script.text = `
-    {
+
+    script.text = JSON.stringify({
       "@context": "http://schema.org",
       "@type": "Organization",
-      "name": "${title}",
-      "url": "https://www.dalesgfmap.com/",
-      "logo": "https://www.dalesgfmap.com/favicon.ico",
-      "description": "${description}"
-    }`;
+      name: title,
+      url: "https://www.dalesgfmap.com/",
+      logo: "https://www.dalesgfmap.com/favicon.ico",
+      description: description
+    });
     this.renderer.appendChild(document.head, script);
   }
 }
