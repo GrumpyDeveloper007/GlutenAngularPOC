@@ -73,7 +73,6 @@ export interface TopicGroup {
     stars: string;
     isC: boolean;
     isTC: boolean;
-    languages: { [id: string]: string; };
     oh: string;
     rc: number;
 
@@ -91,11 +90,6 @@ export interface Topic {
 
 ////////////////////////////////////////
 
-export interface PinLanguage {
-    description: string;
-    language: string;
-}
-
 export interface PinTopicDetailDTO {
     pinId: number;
     description: string;
@@ -107,7 +101,6 @@ export interface PinTopicDetailDTO {
     stars: string;
     isC: boolean;
     isTC: boolean;
-    languages: { [id: string]: string; };
     oh: string;
     rc: number;
 }

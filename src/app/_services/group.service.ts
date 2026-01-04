@@ -27,6 +27,15 @@ export class GroupService {
         this.groups = [];
     }
 
+
+    setGroupsBasedOnLocation(centerCountryNames: string[], mapCenter: L.LatLng) {
+        this.resetActiveGroupList();
+        for (let key in centerCountryNames) {
+            let value = centerCountryNames[key];
+            this.addGroupsBasedOnLocation(value, mapCenter);
+        }
+    }
+
     addGroupsBasedOnLocation(country: string, mapCenter: L.LatLng) {
         this.allGroups.forEach(g => {
             if (g.country == country) {

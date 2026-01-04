@@ -7,7 +7,7 @@ import { firstValueFrom, forkJoin, Observable, tap } from 'rxjs';
 import { GMapsPin, TopicGroup, GroupData, PinHighlight, PinTopicDetailDTO } from "../_model/model";
 import { Restaurant } from "../_model/restaurant";
 import { restaurantTypes } from "../_model/staticData";
-import { ModalService, GlutenApiService, LocationService, MapDataService, PinService, DiagnosticService, AnalyticsService, GroupService } from '../_services';
+import { ModalService, GlutenApiService, LocationService, SiteApiService, MapDataService, PinService, DiagnosticService, AnalyticsService, GroupService } from '../_services';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import "leaflet.locatecontrol"; // Import plugin
 import "leaflet.locatecontrol/dist/L.Control.Locate.min.css"; // Import styles
@@ -44,6 +44,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   selectedPins = 0;
   pinsToExport: (TopicGroup | GMapsPin)[] = [];
   pinHightlight: PinHighlight[] = [];
+  viewReady = false;
   totalPins = 0;
   _showHotels: boolean = true;
   _showStores: boolean = true;
@@ -51,7 +52,6 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   _showGMPins: boolean = true;
   _showChains: boolean = false;
   _showTemporarilyClosed: boolean = true;
-  _selectedLanguage: string = "English";
   _selectedMap: string = "Open";
   searchText: string = "";
   userMovedMap: number = 0;
@@ -69,7 +69,6 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
 
   markerGroup: L.LayerGroup = new L.LayerGroup();
 
-  language: string = "English";
 
   constructor(public sanitizer: DomSanitizer,
     protected modalService: ModalService, private http: HttpClient,
@@ -79,45 +78,37 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     public pinService: PinService,
     public groupService: GroupService,
     private diagService: DiagnosticService,
+    private siteApiService: SiteApiService,
     private gaService: AnalyticsService) { }
 
   @Input() set showHotels(value: boolean) {
     this._showHotels = value;
-    this.loadMapPins();
+    if (this.viewReady) this.loadMapPins();
   }
   @Input() set showStores(value: boolean) {
     this._showStores = value;
-    this.loadMapPins();
+    if (this.viewReady) this.loadMapPins();
   }
   @Input() set showOthers(value: boolean) {
     this._showOthers = value;
-    this.loadMapPins();
+    if (this.viewReady) this.loadMapPins();
   }
   @Input() set showGMPins(value: boolean) {
     this._showGMPins = value;
-    this.loadMapPins();
+    if (this.viewReady) this.loadMapPins();
   }
   @Input() set showChains(value: boolean) {
     this._showChains = value;
-    this.loadMapPins();
+    if (this.viewReady) this.loadMapPins();
   }
   @Input() set showTemporarilyClosed(value: boolean) {
     this._showTemporarilyClosed = value;
-    this.loadMapPins();
+    if (this.viewReady) this.loadMapPins();
   }
 
   @Input() set updateRestaurants(value: Restaurant[]) {
     this.restaurants = value;
-    this.loadMapPins();
-  }
-
-  @Input() set selectedLanguage(value: string) {
-    this._selectedLanguage = value;
-    if (this.selectedTopicGroup == null) return;
-    if (this._selectedLanguage != this.language) {
-      this.language = this._selectedLanguage;
-    }
-    this.pinSelected(this.selectedTopicGroup as TopicGroup);
+    if (this.viewReady) this.loadMapPins();
   }
 
   @Input() set selectedMap(value: string) {
@@ -174,12 +165,8 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     this.modalService.close();
   }
 
-  copyDtoToTopicGroup(pin: TopicGroup, dto: PinTopicDetailDTO, selectedLanguage: string) {
-    if (pin.languages == undefined) pin.languages = {};
-    pin.languages[this._selectedLanguage] = dto.description;
-    if (this._selectedLanguage == "English") {
-      pin.description = dto.description;
-    }
+  copyDtoToTopicGroup(pin: TopicGroup, dto: PinTopicDetailDTO) {
+    pin.description = dto.description;
     pin.mapsLink = dto.mapsLink;
     pin.restaurantType = dto.restaurantType;
     pin.price = dto.price;
@@ -196,7 +183,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   loadPinDetails(pinId: number) {
     this.pinDetailsLoading = true;
     if (Number.isNaN(pinId)) return;
-    this.apiService.getPinDetails(pinId, this._selectedLanguage).subscribe(data => {
+    this.apiService.getPinDetails(pinId, "English").subscribe(data => {
 
       if (!(data[0].country in this.pinCache)) {
         // key does not exist
@@ -225,7 +212,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
       // Use `key` and `value`
       value.forEach(pin => {
         if (pin.pinId == data.pinId) {
-          this.copyDtoToTopicGroup(pin, data, this._selectedLanguage);
+          this.copyDtoToTopicGroup(pin, data);
 
           if (pin.pinId != this.selectedTopicGroup?.pinId) {
             this.userMovedMap = 2;
@@ -238,17 +225,6 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  flyToCountry(country: string) {
-    const position = this.mapDataService.getCentrePointOfCountry(country);
-    if (position != null) {
-      this.map?.flyTo(position, 6, { animate: false });
-    }
-    else {
-      window.history.replaceState({}, '', `/`);
-    }
-  }
-
-
   pinSelected(pin: (TopicGroup | GMapsPin)): void {
     this.selectedTopicGroup = pin as TopicGroup;
     this.selectedTopicGroupChange.emit(this.selectedTopicGroup);
@@ -257,7 +233,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     window.history.replaceState({}, '', `/places/${pin.pinId}`);
     this.groupService.selectTopicsForCurrentlySelectedGroups(this.selectedTopicGroup)
     // Check that the full pin details has been loaded
-    if (pin.description != undefined && pin.description?.length > 0 && this._selectedLanguage == "English") return;
+    if (pin.description != undefined && pin.description?.length > 0) return;
     this.loadPinDetails(pin.pinId);
   }
 
@@ -272,74 +248,58 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
-    var location = { latitude: 35.6844, longitude: 139.753 };
-    this.map = L.map('map').setView([location.latitude, location.longitude], 8).setMinZoom(3).setMaxZoom(18);
-    this.mapDataService.openTiles.addTo(this.map);
-    this.map.addLayer(this.markerGroup);
-    this.map.addLayer(this.locationService.locationLayer);
   }
   ngOnDestroy() {
   }
   async ngAfterViewInit() {
-    if ((this.map === undefined)) return;
     restaurantTypes.forEach(restaurant => {
       var a = new Restaurant(true, restaurant);
       this.restaurants.push(a);
-    });
-
-    this.apiService.getGroups().subscribe(data => {
-      this.groupService.setAllGroups(data);
     });
 
     this.apiService.getPinHightlight('').subscribe(data => {
       this.pinHightlight = data ?? [];
     });
 
-    var location = { latitude: 35.6844, longitude: 139.753 };
-    try {
-      var ipLocation = await firstValueFrom(this.apiService.getLocation(""))
-      if (ipLocation != null && ipLocation.loc != null && ipLocation.loc != null) {
-        var latlng = ipLocation.loc.split(',');
-        location = { latitude: parseFloat(latlng[0]), longitude: parseFloat(latlng[1]) }
+    let location = undefined;
+    let defaultZoom = 8;
+
+    let country = this.siteApiService.getUrlCountry();
+    if (country != undefined) {
+      const position = this.mapDataService.getCentrePointOfCountry(country);
+      if (position != null) {
+        console.log("fly to country", position);
+        location = position;
+        defaultZoom = 6;
       }
     }
-    catch { }
 
-    this.SetMapToUserLocation(false);
-    this.locationService.startLocationWatching();
-
-    const initialState = { lng: location.longitude, lat: location.latitude, zoom: 14 };
-    this.map.setView([initialState.lat, initialState.lng], initialState.zoom);
-    this.mapBounds = this.map.getBounds();
-
-    this.map
-      .on('moveend', (e: L.LeafletEvent) => {
-        if ((this.map === undefined)) return;
-        var newBounds = this.map.getBounds();
-        if (newBounds.getNorthEast().lat == this.mapBounds.getNorthEast().lat &&
-          newBounds.getNorthEast().lng == this.mapBounds.getNorthEast().lng) return;
-        this.mapMoved(e);
-        this.mapBounds = this.map.getBounds();
-      });
-
-    // Add this after the map is initialized
-    if (this.firstShown) {
-      // Get pin ID from URL
-      const path = window.location.pathname;
-      const pathParts = path.split('/');
-      if (pathParts.length == 3 && pathParts[1] == 'c') {
-        {
-          this.firstShown = false;
-          const country = decodeURI(pathParts[2]);
-          console.log("fly to country", country);
-          this.flyToCountry(country);
-          this.map.invalidateSize();
+    if (location == undefined) {
+      location = new L.LatLng(35.6844, 139.753);
+      try {
+        var ipLocation = await firstValueFrom(this.apiService.getLocation(""))
+        if (ipLocation != null && ipLocation.loc != null && ipLocation.loc != null) {
+          var latlng = ipLocation.loc.split(',');
+          location = new L.LatLng(parseFloat(latlng[0]), parseFloat(latlng[1]))
         }
       }
+      catch { }
+      this.SetMapToUserLocation(false);
+      this.locationService.startLocationWatching();
     }
+
+    this.map = L.map('map').setView(location, defaultZoom).setMinZoom(3).setMaxZoom(18);
+    this.mapDataService.openTiles.addTo(this.map);
+    this.map.addLayer(this.markerGroup);
+    this.map.addLayer(this.locationService.locationLayer);
+
+    this.mapBounds = this.map.getBounds();
+    this.map.on('moveend', (e: L.LeafletEvent) => this.mapMoved(e));
+    this.map.invalidateSize();
 
     this.loadMapPins();
     this.loadDetailsForAllPinsInCountry();
+    this.viewReady = true;
   }
 
   selectNoGroups(): void {
@@ -358,34 +318,26 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
 
   mapMoved(e: L.LeafletEvent) {
     if ((this.map === undefined)) return;
+    var newBounds = this.map.getBounds();
+    if (newBounds.getNorthEast().lat == this.mapBounds.getNorthEast().lat &&
+      newBounds.getNorthEast().lng == this.mapBounds.getNorthEast().lng) return;
+    this.mapBounds = this.map.getBounds();
     this.userMovedMap++;
+    console.log('event', e);
+    console.log('loadMapPins - mapMoved');
     this.loadMapPins();
   }
 
-  loadMapPins() {
-    const howLong = this.diagService.timer();
-    if ((this.map === undefined)) return;
-
-    // Trigger api calls
-    var waitForDataLoad = false;
-    const mapCenter = this.map.getCenter();
-    var countryNames = this.getCountriesInViewWithCentreCountryFirst(false);
-    var centerCountryNames = this.getCountriesInViewWithCentreCountryFirst(true);
-    //console.debug("Countries in view: " + countryNames);
-    console.debug("Center Countries in view: " + centerCountryNames);
-    this.gaService.trackEvent("Show Map:", centerCountryNames.toString(), "Map");
+  queueApiCalls(centerCountryNames: string[]): Observable<any>[] {
     const requests: Observable<any>[] = [];
-    this.groupService.resetActiveGroupList();
     for (let key in centerCountryNames) {
       let value = centerCountryNames[key];
-      this.groupService.addGroupsBasedOnLocation(value, mapCenter);
 
       if (!(this.pendingCountries.includes(value))) {
         if (!(value in this.pinCache)) {
           // key does not exist
           this.pendingCountries.push(value);
           this.loadingData = true;
-          waitForDataLoad = true;
           requests.push(this.apiService.getPins(value).pipe(
             tap(data => {
               this.pinCache[value] = data;
@@ -399,7 +351,6 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
         if (!(value in this.gmPinCache)) {
           // key does not exist
           this.loadingData = true;
-          waitForDataLoad = true;
           requests.push(this.apiService.getGMPin(value).pipe(
             tap(data => {
               this.gmPinCache[value] = data ?? [];
@@ -407,14 +358,27 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
     }
+    return requests;
+  }
+
+  loadMapPins() {
+    if ((this.map === undefined)) return;
+
+    // Trigger api calls
+    var waitForDataLoad = false;
+    const mapCenter = this.map.getCenter();
+    var centerCountryNames = this.getCountriesInViewWithCentreCountryFirst(true);
+    console.debug("Center Countries in view: " + centerCountryNames);
+    this.gaService.trackEvent("Show Map:", centerCountryNames.toString(), "Map");
+    this.groupService.setGroupsBasedOnLocation(centerCountryNames, mapCenter);
+
+    const requests = this.queueApiCalls(centerCountryNames);
+    waitForDataLoad = requests.length > 0;
 
     forkJoin(requests).subscribe(_ => {
       // all observables have been completed
-      //console.debug("Loading data join :", howLong.ms);
-      if (this.pendingCountries.length == 0) {
-        //console.debug("Loading data complete :", howLong.ms);
-        this.loadingData = false;
-      }
+      this.loadingData = false;
+
       // Add this after the map is initialized
       if (this.firstShown) {
         this.firstShown = false;
@@ -434,11 +398,12 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
       }
 
       // Refresh country names to ensure we have the latest 
-      countryNames = this.getCountriesInViewWithCentreCountryFirst(false);
+      let countryNames = this.getCountriesInViewWithCentreCountryFirst(false);
       this.showMapPins(countryNames);
     });
 
     if (!waitForDataLoad) {
+      let countryNames = this.getCountriesInViewWithCentreCountryFirst(false);
       this.showMapPins(countryNames);
     }
   }
@@ -509,9 +474,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     var pinsToExport: (TopicGroup | GMapsPin)[] = [];
     this.selectedPins = 0;
     this.totalPins = 0;
-    var iconClassName = '';
 
-    //console.debug("Updating pins :" + pinTopics.length);
     const bounds = map.getBounds();
     var selectedIcon = L.icon({
       iconUrl: "/Empty.png",
@@ -523,7 +486,6 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     this.markerGroup.clearLayers();
 
     if (this.selectedTopicGroup != null && this.selectedTopicGroup.pinId == this.selectedTopicGroup?.pinId && !this.pinService.isInBoundsLeaflet(this.selectedTopicGroup.geoLatitude, this.selectedTopicGroup.geoLongitude, bounds)) {
-      //console.log("Pin moved out of view, deselecting");
       window.history.replaceState({}, '', `/`);
       this.selectedTopicGroup = null;
       this.selectedTopicGroupChange.emit(undefined);
@@ -684,7 +646,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
               console.error("Pin not found", newData.pinId);
               continue;
             }
-            this.copyDtoToTopicGroup(pin, newData, "English");
+            this.copyDtoToTopicGroup(pin, newData);
           };
         });
 

@@ -53,14 +53,9 @@
                 Temporarily Closed
             </label>
             <p></p>
-            <select [(ngModel)]="selectedMap" (change)="onLanguageChange()">
+            <select [(ngModel)]="selectedMap" (change)="onMapChange()">
                 <option value="Stadia">Stadia Map</option>
                 <option value="Open">Open Map</option>
-            </select>
-            <!-- Add language selector -->
-            <select [(ngModel)]="selectedLanguage" (change)="onLanguageChange()">
-                <option value="English">English</option>
-                <!--             <option value="Spanish">Spanish</option> -->
             </select>
         </div>
     </jw-modal>

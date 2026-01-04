@@ -15,7 +15,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 })
 export class SidebarComponent {
   _selectedTopicGroup: TopicGroup | null = null;
-  _selectedLanguage: string = "English";
   _pinCache: PinSummary[] = [];
   _loadingSummary: boolean = false;
   _country: string | undefined;
@@ -27,10 +26,6 @@ export class SidebarComponent {
     this._selectedCountryMeta = this.siteApiService.getCountryMeta();
   }
 
-  @Input() set selectedLanguage(value: string | null) {
-    if (value == null) return;
-    this._selectedLanguage = value;
-  }
   @Input() set selectedTopicGroup(value: TopicGroup | null) {
 
     this._selectedTopicGroup = value;
@@ -75,26 +70,16 @@ export class SidebarComponent {
   hasSummary() {
     if (this.selectedTopicGroup == null) return false;
     if (this.selectedTopicGroup.pinId == undefined) return true;//GM Pin
-    if (this._selectedLanguage == "English") {
-      return this.selectedTopicGroup.description != undefined;
-    }
-    if (this.selectedTopicGroup.languages != undefined) {
-      return this.selectedTopicGroup.languages[this._selectedLanguage] != undefined;
-    }
+    return this.selectedTopicGroup.description != undefined;
+
     return false;
   }
 
   summary() {
     if (this.selectedTopicGroup == null) return "";
     if (this.selectedTopicGroup.topics == null) return 'Pin generated from Google maps :' + this.selectedTopicGroup.description;
-    if (this._selectedLanguage == "English") {
-      if (this.selectedTopicGroup.description.length == 0) return '';
-      return 'AI Generated : ' + this.selectedTopicGroup.description;
-    }
-    else {
-      if (this.selectedTopicGroup.languages[this._selectedLanguage].length == 0) return '';
-      return 'AI Generated : ' + this.selectedTopicGroup.languages[this._selectedLanguage];
-    }
+    if (this.selectedTopicGroup.description.length == 0) return '';
+    return 'AI Generated : ' + this.selectedTopicGroup.description;
   }
 
   encodeURI(label: string): string {

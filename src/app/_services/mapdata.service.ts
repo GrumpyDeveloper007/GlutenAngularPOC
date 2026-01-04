@@ -33,13 +33,13 @@ export class MapDataService {
         crossOrigin: true
     });
 
-    getCentrePointOfCountry(country: string): L.LatLngExpression | null {
+    getCentrePointOfCountry(country: string): L.LatLng | null {
         const countryFeature = countriesGeoJSON2.features.find(feature => feature.properties.Country === country);
         if (countryFeature) {
             const polygon = countryFeature.geometry as MultiPolygon;
             const centre = turf.centroid(polygon);
             const coords = centre.geometry.coordinates; // [lng, lat]
-            const latlng: L.LatLngExpression = [coords[1], coords[0]];
+            const latlng = new L.LatLng(coords[1], coords[0]);
             return latlng;
         }
         return null;

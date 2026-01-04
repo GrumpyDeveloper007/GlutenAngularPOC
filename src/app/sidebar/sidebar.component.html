@@ -93,33 +93,53 @@
 <div *ngIf="!selectedTopicGroup && _country=='Japan'">
     <h4>Useful links (maps created by others) -
         <p></p>
-        <a (click)="usefulClick('Ainu')" target=" _blank" href="https://maps.app.goo.gl/rox6H8VQcajZNXXn7?g_st=i">Japan
-            GF · Ainu C.G.
-        </a>
-        <a (click)="usefulClick('Fabrizio')" target=" _blank"
-            href="https://maps.app.goo.gl/dSG2mwQ7gRnF1Lcw6?g_st=i">Japan GF 2024 · Fabrizio Cioni
-        </a>
-        <a (click)="usefulClick('Cynthia')" target=" _blank"
-            href="https://maps.app.goo.gl/t5uvKyG3bzMbGf1w9?g_st=i">Japan Gluten Free Eats · Cynthia
-            DeLuca
-        </a>
-        <a (click)="usefulClick('Anna')" target=" _blank" href="https://maps.app.goo.gl/oaSTwyDqDYuxUamJ9?g_st=i">Gluten
-            free · Anna
-        </a>
-        <a (click)="usefulClick('Spenser')" target=" _blank"
-            href="https://www.google.com/maps/d/viewer?ll=34.70711950815463%2C135.50298605033615&z=12&mid=1iwutbbadlGniNmCDVuBz_2E5BVlyb5s">Gluten
-            free · Spenser
-        </a>
+        <div>
+            <a (click)="usefulClick('Ainu')" target=" _blank"
+                href="https://maps.app.goo.gl/rox6H8VQcajZNXXn7?g_st=i">Japan
+                GF · Ainu C.G.
+            </a>
+        </div>
+        <br>
+        <div>
+            <a (click)="usefulClick('Fabrizio')" target=" _blank"
+                href="https://maps.app.goo.gl/dSG2mwQ7gRnF1Lcw6?g_st=i">Japan GF 2024 · Fabrizio Cioni
+            </a>
+        </div>
+        <br>
+        <div>
+            <a (click)="usefulClick('Cynthia')" target=" _blank"
+                href="https://maps.app.goo.gl/t5uvKyG3bzMbGf1w9?g_st=i">Japan Gluten Free Eats · Cynthia
+                DeLuca
+            </a>
+        </div>
+        <br>
+        <div>
+            <a (click)="usefulClick('Anna')" target=" _blank"
+                href="https://maps.app.goo.gl/oaSTwyDqDYuxUamJ9?g_st=i">Gluten
+                free · Anna
+            </a>
+        </div>
+        <br>
+        <div>
+            <a (click)="usefulClick('Spenser')" target=" _blank"
+                href="https://www.google.com/maps/d/viewer?ll=34.70711950815463%2C135.50298605033615&z=12&mid=1iwutbbadlGniNmCDVuBz_2E5BVlyb5s">Gluten
+                free · Spenser
+            </a>
+        </div>
     </h4>
 </div>
 <div *ngIf="!selectedTopicGroup && _country=='Australia'">
     <h4>Useful links (maps created by others) -
         <p></p>
-        <a (click)="usefulClick('Bristol coeliac guide')" target=" _blank"
+        <a (click)="usefulClick('Ben Cossalter Map')" target=" _blank"
             href="https://www.google.com/maps/d/viewer?mid=1xthyNFNzpPdH6ENCkm1TH7rcP3Isz482&usp=sharing">Gluten-free
-            map,
-            credit Ben Cossalter.
+            map, credit Ben Cossalter.
         </a>
+        <div>
+            <br>
+            <p></p>
+            <a (click)="usefulClick('GluteGuard')" href="https://amzn.to/4s7zRAD">GluteGuard</a>
+        </div>
     </h4>
 </div>
 
@@ -136,7 +156,7 @@
 
 <div *ngIf="!selectedTopicGroup && _selectedCountryMeta && _selectedCountryMeta.SpokenLanguages.length>0">
     <h4>Coeliac Gluten Free Restaurant Card -</h4>
-    <div *ngFor="let item of _selectedCountryMeta?.SpokenLanguages; let i=index; ">
+    <div *ngFor="let item of _selectedCountryMeta.SpokenLanguages; let i=index; ">
         <a (click)="usefulClick(item)" target=" _blank" href="https://www.celiactravel.com/cards/{{item}}/">{{item}}</a>
     </div>
 </div>

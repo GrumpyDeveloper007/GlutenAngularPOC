@@ -6,8 +6,8 @@ import { Observable, of } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class SiteApiService {
-    _countryMeta: CountryMeta[] = [];
-    _selectedCountryMeta: CountryMeta | undefined;
+    countryMeta: CountryMeta[] = [];
+    selectedCountryMeta: CountryMeta | undefined;
 
 
     httpOptions = {
@@ -45,17 +45,17 @@ export class SiteApiService {
     }
 
     setSelectedCountry(country: string) {
-        this._selectedCountryMeta = this._countryMeta.find(o => o.Country == country);
+        this.selectedCountryMeta = this.countryMeta.find(o => o.Country == country);
     }
 
     getCountryMeta(): CountryMeta | undefined {
-        return this._selectedCountryMeta;
+        return this.selectedCountryMeta;
     }
 
     loadCountryMeta(): Observable<CountryMeta[]> {
         return this.http.get<CountryMeta[]>("/countryMeta.json", this.httpOptions)
             .pipe(
-                tap(data => this._countryMeta = data ?? []),
+                tap(data => this.countryMeta = data ?? []),
                 catchError(this.handleError<CountryMeta[]>(`loadCountryMeta`)),
             );
     }
