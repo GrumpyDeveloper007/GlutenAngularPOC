@@ -1,26 +1,11 @@
-export interface TopicGroup {
-    geoLongitude: number;
-    geoLatitude: number;
-    label: string;
-    placeName: string;
-    description: string;
-    topics: Topic[];
-    mapsLink: string;
-    restaurantType: string;
-    price: string;
-    stars: string;
-    isGF: boolean;
-    isC: boolean;
-    isGFG: boolean;
-}
 
 export interface GMapsPin {
-    placeName: string;
+    pinId: number;
     label: string;
     address: string | null;
     geoLatitude: string;
     geoLongitude: string;
-    mapsUrl: string | null;
+    mapsLink: string | null;
     restaurantType: string;
     price: string | null;
     stars: string | null;
@@ -28,31 +13,11 @@ export interface GMapsPin {
     description: string | null;
 }
 
-
 export class Restaurant {
     constructor(
         public show: boolean,
         public name: string,
     ) { }
-}
-export class TopicGroupClass {
-    constructor(
-        public geoLongitude: number,
-        public geoLatitude: number,
-        public label: string,
-        public description: string,
-        public topics: Topic[],
-        public mapsLink: string,
-        public restaurantType: string,
-        public price: string,
-        public stars: string,
-    ) { }
-}
-
-export interface Topic {
-    facebookUrl: string
-    shortTitle: string
-    postCreated: Date
 }
 
 
@@ -66,4 +31,94 @@ export interface IpAddressData {
     org: string;
     postal: string;
     timezone: string;
+}
+
+////////////////////////////////////////
+
+export interface GroupData {
+    name: string;
+    groupId: string;
+    country: string;
+    geoLatitudeMin: number;
+    geoLongitudeMin: number;
+    geoLatitudeMax: number;
+    geoLongitudeMax: number;
+    totalPins: number;
+    selected: boolean;
+    localPins: number;
+    outsideGeo: boolean;
+}
+
+////////////////////////////////////////
+
+export interface PinHighlight {
+    pinId: number;
+    autoSelect: boolean;
+    highlightEffect: number;
+    country: string;
+}
+
+
+////////////////////////////////////////
+export interface TopicGroup {
+    pinId: number;
+    geoLongitude: number;
+    geoLatitude: number;
+    label: string;
+    description: string;
+    topics: Topic[];
+    mapsLink: string;
+    restaurantType: string;
+    price: string;
+    stars: string;
+    isC: boolean;
+    isTC: boolean;
+    oh: string;
+    rc: number;
+
+}
+
+
+export interface Topic {
+    gId: string
+    lId: string
+    facebookUrl: string
+    shortTitle: string
+    postCreated: Date
+    selected: boolean
+}
+
+////////////////////////////////////////
+
+export interface PinTopicDetailDTO {
+    pinId: number;
+    description: string;
+    country: string;
+    topics: Topic[];
+    mapsLink: string;
+    restaurantType: string;
+    price: string;
+    stars: string;
+    isC: boolean;
+    isTC: boolean;
+    oh: string;
+    rc: number;
+}
+
+
+
+export interface PinSummary {
+    pinId: number;
+    summary: string;
+    country: string;
+    language: string;
+}
+
+////////////////////////////////////////
+
+export interface CountryMeta {
+    Country: string;
+    GlutenFree: string;
+    Coeliac: string;
+    SpokenLanguages: string[];
 }
