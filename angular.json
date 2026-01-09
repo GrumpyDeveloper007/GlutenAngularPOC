@@ -22,6 +22,7 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/privacypolicy.html",
+              "src/countries.html",
               "src/staticwebapp.config.json",
               {
                 "glob": "**/*",
@@ -44,6 +45,9 @@
             "preview": {
               "index": "src/app.preview/index.html",
               "assets": [
+                "src/privacypolicy.html",
+                "src/countries.html",
+                "src/staticwebapp.config.json",
                 {
                   "glob": "**/*",
                   "input": "public",
