@@ -7,7 +7,7 @@ import { TopicGroup, CountryMeta } from "./_model/model";
 import { Restaurant } from "./_model/restaurant";
 import { FilterOptions } from "./_model/filterOptions";
 import { Title, Meta } from '@angular/platform-browser';
-import { SiteApiService, GlutenApiService, GroupService } from './_services';
+import { SiteApiService, GlutenApiService, GroupService, PinSelectionService } from './_services';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +20,7 @@ export class AppComponent {
   title = 'FB Gluten free Map';
   description = "Provides the indexing of gluten free FB group posts. A helpful site for coeliacs and people looking for gluten free places to eat/restaurants or hotels.";
   selectedTopicGroup: TopicGroup | null = null;
-  showOptions: FilterOptions = new FilterOptions(true, true, true, false, false, true, false, "");
+  showOptions: FilterOptions = new FilterOptions(true, true, true, false, false, true, false, "", false);
   restaurants: Restaurant[] = [];
   country: string | undefined;
   private renderer = inject(Renderer2)
@@ -32,6 +32,7 @@ export class AppComponent {
     private metaService: Meta,
     private apiService: GlutenApiService,
     public groupService: GroupService,
+    private pinSelectionService: PinSelectionService,
     private siteApiService: SiteApiService
   ) { }
 
@@ -70,6 +71,8 @@ export class AppComponent {
         this.addStructuredData(this.title, description);
       }
     });
+
+    this.pinSelectionService.loadData();
 
     this.apiService.getGroups().subscribe(data => {
       this.groupService.setAllGroups(data);

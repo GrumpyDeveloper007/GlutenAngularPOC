@@ -7,3 +7,4 @@ export * from './pin.service';
 export * from './group.service';
 export * from './diagnostic.service';
 export * from './analytics.service';
+export * from './pinSelection.service';

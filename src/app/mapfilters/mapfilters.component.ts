@@ -27,7 +27,7 @@ export class MapfiltersComponent {
   @Output() listViewOpenChange = new EventEmitter<number>();
   @Output() groupViewOpenChange = new EventEmitter<number>();
   @Output() mapChange = new EventEmitter<string>();
-  private options: FilterOptions = new FilterOptions(true, true, true, false, false, true, false, "Open");
+  private options: FilterOptions = new FilterOptions(true, true, true, false, false, true, false, "Open", false);
   restaurants: Restaurant[] = [];
   country: string | undefined;
 
@@ -54,9 +54,7 @@ export class MapfiltersComponent {
   @Input() set showHotels(value: boolean) {
     if (this.options.ShowHotels != value) {
       this.options.ShowHotels = value;
-      console.debug("Filter Hotels click :");
-      var options: FilterOptions = new FilterOptions(this.options.ShowHotels, this.options.ShowStores, this.options.ShowOthers, this.options.ShowGMPins, this.options.ShowChainPins, this.options.ShowNonGFGroupPins, this.options.ShowTemporarilyClosed, this.options.SelectedMap)
-      this.optionsChange.emit(options);
+      this.optionsChange.emit(this.options);
     }
   }
   get showHotels(): boolean {
@@ -102,6 +100,17 @@ export class MapfiltersComponent {
       this.optionsChange.emit(this.options);
     }
   }
+
+  get showOpenNow(): boolean {
+    return this.options.ShowOpenNow;
+  }
+  @Input() set showOpenNow(value: boolean) {
+    if (this.options.ShowOpenNow != value) {
+      this.options.ShowOpenNow = value;
+      this.optionsChange.emit(this.options);
+    }
+  }
+
   get showTemporarilyClosed(): boolean {
     return this.options.ShowTemporarilyClosed;
   }

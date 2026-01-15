@@ -75,7 +75,8 @@ export interface TopicGroup {
     isTC: boolean;
     oh: string;
     rc: number;
-
+    fb: string;
+    oId: number;
 }
 
 
@@ -103,6 +104,7 @@ export interface PinTopicDetailDTO {
     isTC: boolean;
     oh: string;
     rc: number;
+    fb: string;
 }
 
 
@@ -121,4 +123,38 @@ export interface CountryMeta {
     GlutenFree: string;
     Coeliac: string;
     SpokenLanguages: string[];
+}
+
+////////////////////////////////////////
+
+export interface DayOpeningTimesDTO {
+    id: number;
+    bo: number | null;
+    bc: number | null;
+    lo: number | null;
+    lc: number | null;
+    do: number | null;
+    dc: number | null;
+}
+
+export interface PinOpeningTimesDTO {
+    id: number;
+    m: number;
+    t: number;
+    w: number;
+    th: number;
+    f: number;
+    s: number;
+    su: number;
+}
+
+export interface PinExtraDTO {
+    do: DayOpeningTimesDTO[];
+    po: PinOpeningTimesDTO[];
+}
+
+export enum IsOpen {
+    Yes,
+    No,
+    Unknown
 }

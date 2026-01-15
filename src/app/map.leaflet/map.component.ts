@@ -4,10 +4,10 @@ import { NgIf, NgClass, NgFor } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { firstValueFrom, forkJoin, Observable, tap } from 'rxjs';
-import { GMapsPin, TopicGroup, GroupData, PinHighlight, PinTopicDetailDTO } from "../_model/model";
+import { GMapsPin, TopicGroup, GroupData, PinHighlight, PinTopicDetailDTO, IsOpen } from "../_model/model";
 import { Restaurant } from "../_model/restaurant";
 import { restaurantTypes } from "../_model/staticData";
-import { ModalService, GlutenApiService, LocationService, SiteApiService, MapDataService, PinService, DiagnosticService, AnalyticsService, GroupService } from '../_services';
+import { ModalService, GlutenApiService, LocationService, SiteApiService, MapDataService, PinService, DiagnosticService, AnalyticsService, GroupService, PinSelectionService } from '../_services';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import "leaflet.locatecontrol"; // Import plugin
 import "leaflet.locatecontrol/dist/L.Control.Locate.min.css"; // Import styles
@@ -51,6 +51,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   _showOthers: boolean = true;
   _showGMPins: boolean = true;
   _showChains: boolean = false;
+  _showOpenNow: boolean = false;
   _showTemporarilyClosed: boolean = true;
   _selectedMap: string = "Open";
   searchText: string = "";
@@ -76,6 +77,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     private locationService: LocationService,
     private mapDataService: MapDataService,
     public pinService: PinService,
+    private pinSelectionService: PinSelectionService,
     public groupService: GroupService,
     private diagService: DiagnosticService,
     private siteApiService: SiteApiService,
@@ -101,6 +103,11 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     this._showChains = value;
     if (this.viewReady) this.loadMapPins();
   }
+  @Input() set showOpenNow(value: boolean) {
+    this._showOpenNow = value;
+    if (this.viewReady) this.loadMapPins();
+  }
+
   @Input() set showTemporarilyClosed(value: boolean) {
     this._showTemporarilyClosed = value;
     if (this.viewReady) this.loadMapPins();
@@ -175,6 +182,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     pin.isTC = dto.isTC;
     pin.topics = dto.topics;
     pin.rc = dto.rc;
+    pin.fb = dto.fb;
     for (const pinGroup of pin.topics) {
       pinGroup.selected = true;
     }
@@ -493,6 +501,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
 
     pinTopics.forEach(pin => {
       try {
+        let isOpen: IsOpen = IsOpen.Yes;
         if (pin == undefined) return;
         this.totalPins++;
         if (!this.groupService.isGroupSelected(pin)) return;
@@ -501,6 +510,10 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
         if (!this._showTemporarilyClosed && !!pin.isTC) return;
         if (!this.pinService.isInBoundsLeaflet(pin.geoLatitude, pin.geoLongitude, bounds)) return;
         if (!this.isRestaurantSelected(pin.restaurantType)) return;
+        if (this._showOpenNow) {
+          isOpen = this.pinSelectionService.isPinOpenNow(pin)
+          if (isOpen === IsOpen.No) return;
+        }
         pinsToExport.push(pin);
         this.groupService.updateGroupLocalPinCount(pin);
 
@@ -514,6 +527,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
 
         let effectClass = '';
         if (pin.isC) effectClass = 'pinLowlight';
+        if (this._showOpenNow && isOpen == IsOpen.Unknown) effectClass = 'pinLowlight';
         if (selectedPinHighlight) {
           effectClass = `pinHighlight${selectedPinHighlight.highlightEffect}`;
           if (this.selectedTopicGroup === null && selectedPinHighlight.autoSelect) {
