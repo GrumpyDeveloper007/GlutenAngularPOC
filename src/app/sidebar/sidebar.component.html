@@ -13,23 +13,31 @@
         <p></p>
 
     </div>
-    <a *ngIf="selectedTopicGroup.mapsLink" [href]="selectedTopicGroup.mapsLink"
-        (click)="mapLinkClick(selectedTopicGroup.mapsLink)" target="_blank">Google Maps</a>
-    <p><a (click)="askChatGPTClick(selectedTopicGroup.label)" target="_blank"
-            href="https://chat.openai.com/?prompt=Can+you+provide+1+paragraph+containing+a+gluten-free+information+summary+for+{{encodeURI(selectedTopicGroup.label)}}+at+lat+{{selectedTopicGroup.geoLatitude}}+and+lon+{{selectedTopicGroup.geoLongitude}}">
-            Ask ChatGPT
-        </a></p>
-    <p><b>Conversations related to this pin (click) -</b></p>
-    <div *ngFor="let item of selectedTopicGroup.topics; let i=index; " class="fb-container">
-        <div *ngIf="item.selected" class="grid-container">
-            <a [href]="buildFbUrl(item)" (click)="linkClick(buildFbUrl(item))" target="_blank"
-                class="smallText fb-link">
-                <img src="Groups\{{item.gId}}.jpg" alt="FB" (error)="onImgError($event)" />
-                <div>
-                    <div>{{item.shortTitle}}</div>
-                    <div>{{dateOnly(item.postCreated)}}</div>
-                </div>
+    <div *ngIf="hasSummary()">
+        <div style="display: flex; gap: 25px; align-items: center; justify-content: center;">
+            <a *ngIf="selectedTopicGroup.mapsLink" [href]="selectedTopicGroup.mapsLink"
+                (click)="mapLinkClick(selectedTopicGroup.mapsLink)" target="_blank"><img src="GoogleMapsIcon.png"
+                    alt="Google Maps" /></a>
+            <a (click)="askChatGPTClick(selectedTopicGroup.label)" target="_blank"
+                href="https://chat.openai.com/?prompt=Can+you+provide+1+paragraph+containing+a+gluten-free+information+summary+for+{{encodeURI(selectedTopicGroup.label)}}+at+lat+{{selectedTopicGroup.geoLatitude}}+and+lon+{{selectedTopicGroup.geoLongitude}}">
+                <img src="ChatGptIcon.png" alt="Ask ChatGPT" />
             </a>
+            <a *ngIf="selectedTopicGroup.fb" [href]="selectedTopicGroup.fb"
+                (click)="homePageClick(selectedTopicGroup.fb)" target="_blank"><img src="FBHomepage.png"
+                    alt="Home Page" /></a>
+        </div>
+        <p><b>Conversations related to this pin (click) -</b></p>
+        <div *ngFor="let item of selectedTopicGroup.topics; let i=index; " class="fb-container">
+            <div *ngIf="item.selected" class="grid-container">
+                <a [href]="buildFbUrl(item)" (click)="linkClick(buildFbUrl(item))" target="_blank"
+                    class="smallText fb-link">
+                    <img src="Groups\{{item.gId}}.jpg" alt="FB" (error)="onImgError($event)" />
+                    <div>
+                        <div>{{item.shortTitle}}</div>
+                        <div>{{dateOnly(item.postCreated)}}</div>
+                    </div>
+                </a>
+            </div>
         </div>
     </div>
     <p *ngIf="hasSummary()" md-highlight-text="summary()" [innerHtml]="summary() | highlight: selectedTopicGroup.label">

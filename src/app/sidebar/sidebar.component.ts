@@ -59,6 +59,10 @@ export class SidebarComponent {
     this.gaService.trackEvent("Ask ChatGPT Count:", this._country ?? "", "Map");
   }
 
+  homePageClick(url: string) {
+    this.gaService.trackEvent("Home Page Click:", this._country ?? "", "Map");
+  }
+
   usefulClick(url: string) {
     this.gaService.trackEvent("Useful Click:", url, "Map");
   }
