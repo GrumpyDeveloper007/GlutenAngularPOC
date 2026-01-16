@@ -81,6 +81,15 @@ export class AppComponent {
 
   setSEOData(title: string, description: string, gf: string, coeliac: string) {
     this.titleService.setTitle(title);
+
+    const path = window.location.pathname;
+    const pathParts = path.split('/');
+    //console.log("path", path.split('/'));
+    if (pathParts.length == 3 && pathParts[1] == 'places') {
+      // places/
+      this.metaService.addTag({ name: 'robots', content: 'noindex' });
+    }
+
     this.metaService.updateTag({ name: 'description', content: description });
     this.metaService.updateTag({ name: 'keywords', content: `${gf}, ${coeliac}, ${gf} Restaurant, ${gf} Map, ${gf} near me, ${gf} restaurants near me, ${gf} food near me` });
 

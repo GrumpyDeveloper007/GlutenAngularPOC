@@ -331,8 +331,8 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
       newBounds.getNorthEast().lng == this.mapBounds.getNorthEast().lng) return;
     this.mapBounds = this.map.getBounds();
     this.userMovedMap++;
-    console.log('event', e);
-    console.log('loadMapPins - mapMoved');
+    //console.log('event', e);
+    //console.log('loadMapPins - mapMoved');
     this.loadMapPins();
   }
 
@@ -376,7 +376,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     var waitForDataLoad = false;
     const mapCenter = this.map.getCenter();
     var centerCountryNames = this.getCountriesInViewWithCentreCountryFirst(true);
-    console.debug("Center Countries in view: " + centerCountryNames);
+    //console.debug("Center Countries in view: " + centerCountryNames);
     this.gaService.trackEvent("Show Map:", centerCountryNames.toString(), "Map");
     this.groupService.setGroupsBasedOnLocation(centerCountryNames, mapCenter);
 
