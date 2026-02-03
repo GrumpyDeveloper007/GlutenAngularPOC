@@ -12,7 +12,7 @@ class MyErrorHandler implements ErrorHandler {
 
   constructor() { }
   handleError(error: any) {
-    this.http.post('https://thedevshire.azurewebsites.net/api/log', { message: error }).subscribe(
+    this.http.post('https://thegfshire.azurewebsites.net/api/log', { message: error }).subscribe(
       response => {
         console.log(response);
       },

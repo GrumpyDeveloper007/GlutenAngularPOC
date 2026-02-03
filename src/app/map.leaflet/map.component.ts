@@ -204,16 +204,16 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
           if (index > -1) {
             this.pendingCountries.splice(index, 1);
           }
-          this.flyToPin(data[0]);
+          this.updatePinWithDetailedInfo(data[0]);
         });
       }
       else {
-        this.flyToPin(data[0]);
+        this.updatePinWithDetailedInfo(data[0]);
       }
     });
   }
 
-  flyToPin(data: PinTopicDetailDTO) {
+  updatePinWithDetailedInfo(data: PinTopicDetailDTO) {
     for (let key in this.pinCache) {
       let value = this.pinCache[key];
       this.pinDetailsLoading = false;
@@ -226,7 +226,10 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
             this.userMovedMap = 2;
             this.selectedTopicGroup = pin;
             this.selectedTopicGroupChange.emit(this.selectedTopicGroup);
-            this.map?.flyTo({ lat: pin.geoLatitude, lng: pin.geoLongitude }, 12, { animate: false });
+            if (this.firstShown) {
+              this.firstShown = false;
+              this.map?.flyTo({ lat: pin.geoLatitude, lng: pin.geoLongitude }, 12, { animate: false });
+            }
           }
         }
       });
@@ -275,6 +278,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     let country = this.siteApiService.getUrlCountry();
     if (country != undefined) {
       const position = this.mapDataService.getCentrePointOfCountry(country);
+      console.log("map country", country, position);
       if (position != null) {
         console.log("fly to country", position);
         location = position;
@@ -389,7 +393,6 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
 
       // Add this after the map is initialized
       if (this.firstShown) {
-        this.firstShown = false;
         if ((this.map === undefined)) return;
         this.map.invalidateSize();
         // Get pin ID from URL
