@@ -381,7 +381,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     const mapCenter = this.map.getCenter();
     var centerCountryNames = this.getCountriesInViewWithCentreCountryFirst(true);
     //console.debug("Center Countries in view: " + centerCountryNames);
-    this.gaService.trackEvent("Show Map:", centerCountryNames.toString(), "Map");
+    //this.gaService.trackEvent("Show Map:", centerCountryNames.toString(), "Map");
     this.groupService.setGroupsBasedOnLocation(centerCountryNames, mapCenter);
 
     const requests = this.queueApiCalls(centerCountryNames);
