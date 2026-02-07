@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Gluten Free Map - Countries</title>
+  <meta property="og:title" content="FB Gluten free Map">
+  <meta property="og:image" content="https://www.dalesgfmap.com/favicon.ico">
+  <meta property="og:description" content="Find Gluten-free restuarants by Countries">
+  <meta property="keywords" content="Gluten Free Map, Coeliac Map, Coliac Map, GF Map">
+  <meta name="description" content="Find Gluten-free restuarants by Countries">
+  <meta name="keywords" content="Gluten Free Map, Coeliac Map, Coliac Map, GF Map">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+      line-height: 1.2;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    .App {
+      text-align: center;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+
+    .pageHeader {
+      display: block;
+      background-color: #4CAF50;
+      color: white;
+      text-align: center;
+      padding: 5px;
+      font-size: 1.0em;
+      margin: 0;
+    }
+
+
+    .window {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+    }
+
+    .master {
+      height: 100%;
+      min-height: 320px;
+      flex: 1;
+      background: white;
+      margin-bottom: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 15px;
+      overflow-y: auto;
+    }
+
+    .window {
+      flex-direction: row;
+      overflow: hidden;
+      padding: 10px;
+    }
+
+    .master {
+      width: 100%;
+      margin-bottom: 0;
+      margin-right: 0;
+      max-height: 100%;
+    }
+
+
+    h1 {
+      margin: 0 0 20px 0;
+      color: #333;
+      font-size: 28px;
+      font-weight: 500;
+      text-align: left;
+    }
+
+    .links-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      text-align: left;
+    }
+
+    .links-list li {
+      padding: 10px 0;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .links-list li:last-child {
+      border-bottom: none;
+    }
+
+    .links-list a {
+      color: #1976d2;
+      text-decoration: none;
+      font-size: 16px;
+      transition: color 0.2s ease;
+    }
+
+    .links-list a:hover {
+      color: #1565c0;
+      text-decoration: underline;
+    }
+
+    .links-list a:visited {
+      color: #7b1fa2;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="App">
+    <p class="pageHeader">Dales Gluten-free Map (FB Group Indexer) - Countries</p>
+    <div class="window">
+      <div class="master">
+        <h1>Fly to -</h1>
+        <ul class="links-list">
+          <li><a href="/c/Afghanistan">Afghanistan</a></li>
+          <li><a href="/c/Albania">Albania</a></li>
+          <li><a href="/c/Algeria">Algeria</a></li>
+          <li><a href="/c/American Samoa">American Samoa</a></li>
+          <li><a href="/c/Andorra">Andorra</a></li>
+          <li><a href="/c/Angola">Angola</a></li>
+          <li><a href="/c/Anguilla">Anguilla</a></li>
+          <li><a href="/c/Antarctica">Antarctica</a></li>
+          <li><a href="/c/Antigua & Barbuda">Antigua & Barbuda</a></li>
+          <li><a href="/c/Argentina">Argentina</a></li>
+          <li><a href="/c/Armenia">Armenia</a></li>
+          <li><a href="/c/Aruba">Aruba</a></li>
+          <li><a href="/c/Australia">Australia</a></li>
+          <li><a href="/c/Austria">Austria</a></li>
+          <li><a href="/c/Azerbaijan">Azerbaijan</a></li>
+          <li><a href="/c/The Bahamas">The Bahamas</a></li>
+          <li><a href="/c/Bahrain">Bahrain</a></li>
+          <li><a href="/c/Bangladesh">Bangladesh</a></li>
+          <li><a href="/c/Barbados">Barbados</a></li>
+          <li><a href="/c/Belarus">Belarus</a></li>
+          <li><a href="/c/Belgium">Belgium</a></li>
+          <li><a href="/c/Belize">Belize</a></li>
+          <li><a href="/c/Benin">Benin</a></li>
+          <li><a href="/c/Bermuda">Bermuda</a></li>
+          <li><a href="/c/Bhutan">Bhutan</a></li>
+          <li><a href="/c/Bolivia">Bolivia</a></li>
+          <li><a href="/c/Bonaire, Saint Eustatius and Saba">Bonaire, Saint Eustatius and Saba</a></li>
+          <li><a href="/c/Bonaire, Sint-Eustasius, Saba">Bonaire, Sint-Eustasius, Saba</a></li>
+          <li><a href="/c/Bosnia & Herzegovina">Bosnia & Herzegovina</a></li>
+          <li><a href="/c/Botswana">Botswana</a></li>
+          <li><a href="/c/Bouvet I.">Bouvet I.</a></li>
+          <li><a href="/c/Brazil">Brazil</a></li>
+          <li><a href="/c/British Indian Ocean Territory">British Indian Ocean Territory</a></li>
+          <li><a href="/c/Brunei">Brunei</a></li>
+          <li><a href="/c/Bulgaria">Bulgaria</a></li>
+          <li><a href="/c/Burkina Faso">Burkina Faso</a></li>
+          <li><a href="/c/Burundi">Burundi</a></li>
+          <li><a href="/c/Cambodia">Cambodia</a></li>
+          <li><a href="/c/Cameroon">Cameroon</a></li>
+          <li><a href="/c/Canada">Canada</a></li>
+          <li><a href="/c/Cape Verde">Cape Verde</a></li>
+          <li><a href="/c/Cayman Is.">Cayman Is.</a></li>
+          <li><a href="/c/Central African Republic">Central African Republic</a></li>
+          <li><a href="/c/Chad">Chad</a></li>
+          <li><a href="/c/Chile">Chile</a></li>
+          <li><a href="/c/China">China</a></li>
+          <li><a href="/c/Christmas I.">Christmas I.</a></li>
+          <li><a href="/c/Clipperton Island">Clipperton Island</a></li>
+          <li><a href="/c/Cocos Is.">Cocos Is.</a></li>
+          <li><a href="/c/Colombia">Colombia</a></li>
+          <li><a href="/c/Comoros">Comoros</a></li>
+          <li><a href="/c/Congo">Congo</a></li>
+          <li><a href="/c/Congo, DRC">Congo, DRC</a></li>
+          <li><a href="/c/Cook Is.">Cook Is.</a></li>
+          <li><a href="/c/Costa Rica">Costa Rica</a></li>
+          <li><a href="/c/Cote d'Ivoire">Cote d'Ivoire</a></li>
+          <li><a href="/c/Croatia">Croatia</a></li>
+          <li><a href="/c/Cuba">Cuba</a></li>
+          <li><a href="/c/Curaao">Curaao</a></li>
+          <li><a href="/c/Cyprus">Cyprus</a></li>
+          <li><a href="/c/Czech Republic">Czech Republic</a></li>
+          <li><a href="/c/Denmark">Denmark</a></li>
+          <li><a href="/c/Djibouti">Djibouti</a></li>
+          <li><a href="/c/Dominica">Dominica</a></li>
+          <li><a href="/c/Dominican Republic">Dominican Republic</a></li>
+          <li><a href="/c/Ecuador">Ecuador</a></li>
+          <li><a href="/c/Egypt">Egypt</a></li>
+          <li><a href="/c/El Salvador">El Salvador</a></li>
+          <li><a href="/c/Equatorial Guinea">Equatorial Guinea</a></li>
+          <li><a href="/c/Eritrea">Eritrea</a></li>
+          <li><a href="/c/Estonia">Estonia</a></li>
+          <li><a href="/c/Ethiopia">Ethiopia</a></li>
+          <li><a href="/c/Falkland Islands">Falkland Islands</a></li>
+          <li><a href="/c/Faroe Is.">Faroe Is.</a></li>
+          <li><a href="/c/Fiji">Fiji</a></li>
+          <li><a href="/c/Finland">Finland</a></li>
+          <li><a href="/c/France">France</a></li>
+          <li><a href="/c/French Guiana">French Guiana</a></li>
+          <li><a href="/c/French Polynesia">French Polynesia</a></li>
+          <li><a href="/c/French Southern & Antarctic Lands">French Southern & Antarctic Lands</a></li>
+          <li><a href="/c/Gabon">Gabon</a></li>
+          <li><a href="/c/The Gambia">The Gambia</a></li>
+          <li><a href="/c/Georgia">Georgia</a></li>
+          <li><a href="/c/Germany">Germany</a></li>
+          <li><a href="/c/Ghana">Ghana</a></li>
+          <li><a href="/c/Gibraltar">Gibraltar</a></li>
+          <li><a href="/c/Greece">Greece</a></li>
+          <li><a href="/c/Greenland">Greenland</a></li>
+          <li><a href="/c/Grenada">Grenada</a></li>
+          <li><a href="/c/Guadeloupe-Martinique">Guadeloupe-Martinique</a></li>
+          <li><a href="/c/Guatemala">Guatemala</a></li>
+          <li><a href="/c/Guernsey">Guernsey</a></li>
+          <li><a href="/c/Guinea">Guinea</a></li>
+          <li><a href="/c/Guinea-Bissau">Guinea-Bissau</a></li>
+          <li><a href="/c/Guyana">Guyana</a></li>
+          <li><a href="/c/Haiti">Haiti</a></li>
+          <li><a href="/c/Heard I. & McDonald Is.">Heard I. & McDonald Is.</a></li>
+          <li><a href="/c/Honduras">Honduras</a></li>
+          <li><a href="/c/Hungary">Hungary</a></li>
+          <li><a href="/c/Iceland">Iceland</a></li>
+          <li><a href="/c/India">India</a></li>
+          <li><a href="/c/Indonesia">Indonesia</a></li>
+          <li><a href="/c/Iran">Iran</a></li>
+          <li><a href="/c/Iraq">Iraq</a></li>
+          <li><a href="/c/Ireland">Ireland</a></li>
+          <li><a href="/c/Israel">Israel</a></li>
+          <li><a href="/c/Italy">Italy</a></li>
+          <li><a href="/c/Jamaica">Jamaica</a></li>
+          <li><a href="/c/Jan Mayen">Jan Mayen</a></li>
+          <li><a href="/c/Japan">Japan</a></li>
+          <li><a href="/c/Jersey">Jersey</a></li>
+          <li><a href="/c/Jordan">Jordan</a></li>
+          <li><a href="/c/Kazakhstan">Kazakhstan</a></li>
+          <li><a href="/c/Kenya">Kenya</a></li>
+          <li><a href="/c/Kiribati">Kiribati</a></li>
+          <li><a href="/c/North Korea">North Korea</a></li>
+          <li><a href="/c/South Korea">South Korea</a></li>
+          <li><a href="/c/Kuwait">Kuwait</a></li>
+          <li><a href="/c/Kyrgyzstan">Kyrgyzstan</a></li>
+          <li><a href="/c/Laos">Laos</a></li>
+          <li><a href="/c/Latvia">Latvia</a></li>
+          <li><a href="/c/Lebanon">Lebanon</a></li>
+          <li><a href="/c/Liberia">Liberia</a></li>
+          <li><a href="/c/Libya">Libya</a></li>
+          <li><a href="/c/Liechtenstein">Liechtenstein</a></li>
+          <li><a href="/c/Lithuania">Lithuania</a></li>
+          <li><a href="/c/Luxembourg">Luxembourg</a></li>
+          <li><a href="/c/Macedonia">Macedonia</a></li>
+          <li><a href="/c/Madagascar">Madagascar</a></li>
+          <li><a href="/c/Malawi">Malawi</a></li>
+          <li><a href="/c/Malaysia">Malaysia</a></li>
+          <li><a href="/c/Maldives">Maldives</a></li>
+          <li><a href="/c/Mali">Mali</a></li>
+          <li><a href="/c/Malta">Malta</a></li>
+          <li><a href="/c/Marshall Is.">Marshall Is.</a></li>
+          <li><a href="/c/Mauritania">Mauritania</a></li>
+          <li><a href="/c/Mauritius">Mauritius</a></li>
+          <li><a href="/c/Mayotte">Mayotte</a></li>
+          <li><a href="/c/Mexico">Mexico</a></li>
+          <li><a href="/c/Micronesia">Micronesia</a></li>
+          <li><a href="/c/Moldova">Moldova</a></li>
+          <li><a href="/c/Monaco">Monaco</a></li>
+          <li><a href="/c/Mongolia">Mongolia</a></li>
+          <li><a href="/c/Montenegro">Montenegro</a></li>
+          <li><a href="/c/Montserrat">Montserrat</a></li>
+          <li><a href="/c/Morocco">Morocco</a></li>
+          <li><a href="/c/Mozambique">Mozambique</a></li>
+          <li><a href="/c/Myanmar">Myanmar</a></li>
+          <li><a href="/c/Namibia">Namibia</a></li>
+          <li><a href="/c/Nauru">Nauru</a></li>
+          <li><a href="/c/Nepal">Nepal</a></li>
+          <li><a href="/c/Netherlands">Netherlands</a></li>
+          <li><a href="/c/Netherlands Antilles">Netherlands Antilles</a></li>
+          <li><a href="/c/New Caledonia">New Caledonia</a></li>
+          <li><a href="/c/New Zealand">New Zealand</a></li>
+          <li><a href="/c/Nicaragua">Nicaragua</a></li>
+          <li><a href="/c/Niger">Niger</a></li>
+          <li><a href="/c/Nigeria">Nigeria</a></li>
+          <li><a href="/c/Niue">Niue</a></li>
+          <li><a href="/c/Norfolk I.">Norfolk I.</a></li>
+          <li><a href="/c/Northern Marinana Islands-Guam">Northern Marinana Islands-Guam</a></li>
+          <li><a href="/c/Norway">Norway</a></li>
+          <li><a href="/c/Oman">Oman</a></li>
+          <li><a href="/c/Pakistan">Pakistan</a></li>
+          <li><a href="/c/Palau">Palau</a></li>
+          <li><a href="/c/Panama">Panama</a></li>
+          <li><a href="/c/Papua New Guinea">Papua New Guinea</a></li>
+          <li><a href="/c/Paracel Islands">Paracel Islands</a></li>
+          <li><a href="/c/Paraguay">Paraguay</a></li>
+          <li><a href="/c/Peru">Peru</a></li>
+          <li><a href="/c/Philippines">Philippines</a></li>
+          <li><a href="/c/Pitcairn Is.">Pitcairn Is.</a></li>
+          <li><a href="/c/Poland">Poland</a></li>
+          <li><a href="/c/Portugal">Portugal</a></li>
+          <li><a href="/c/Puerto Rico">Puerto Rico</a></li>
+          <li><a href="/c/Qatar">Qatar</a></li>
+          <li><a href="/c/Reunion">Reunion</a></li>
+          <li><a href="/c/Romania">Romania</a></li>
+          <li><a href="/c/Russia">Russia</a></li>
+          <li><a href="/c/Rwanda">Rwanda</a></li>
+          <li><a href="/c/Saint Helena, Ascension en Tristan da Cunha">Saint Helena, Ascension en Tristan da Cunha</a>
+          </li>
+          <li><a href="/c/Saint Martin">Saint Martin</a></li>
+          <li><a href="/c/Saint Vincent and the Grenadines">Saint Vincent and the Grenadines</a></li>
+          <li><a href="/c/Samoa">Samoa</a></li>
+          <li><a href="/c/San Marino">San Marino</a></li>
+          <li><a href="/c/Sao Tome & Principe">Sao Tome & Principe</a></li>
+          <li><a href="/c/Saudi Arabia">Saudi Arabia</a></li>
+          <li><a href="/c/Senegal">Senegal</a></li>
+          <li><a href="/c/Serbia">Serbia</a></li>
+          <li><a href="/c/Seychelles">Seychelles</a></li>
+          <li><a href="/c/Sierra Leone">Sierra Leone</a></li>
+          <li><a href="/c/Singapore">Singapore</a></li>
+          <li><a href="/c/Sint Maarten">Sint Maarten</a></li>
+          <li><a href="/c/Slovakia">Slovakia</a></li>
+          <li><a href="/c/Slovenia">Slovenia</a></li>
+          <li><a href="/c/Solomon Is.">Solomon Is.</a></li>
+          <li><a href="/c/Somalia">Somalia</a></li>
+          <li><a href="/c/South Africa">South Africa</a></li>
+          <li><a href="/c/South Georgia & the South Sandwich Is.">South Georgia & the South Sandwich Is.</a></li>
+          <li><a href="/c/Spain">Spain</a></li>
+          <li><a href="/c/Spratly Islands">Spratly Islands</a></li>
+          <li><a href="/c/Sri Lanka">Sri Lanka</a></li>
+          <li><a href="/c/St. Kitts & Nevis">St. Kitts & Nevis</a></li>
+          <li><a href="/c/St. Lucia">St. Lucia</a></li>
+          <li><a href="/c/St. Pierre & Miquelon">St. Pierre & Miquelon</a></li>
+          <li><a href="/c/Sudan">Sudan</a></li>
+          <li><a href="/c/Suriname">Suriname</a></li>
+          <li><a href="/c/Sweden">Sweden</a></li>
+          <li><a href="/c/Switzerland">Switzerland</a></li>
+          <li><a href="/c/Syria">Syria</a></li>
+          <li><a href="/c/Taiwan">Taiwan</a></li>
+          <li><a href="/c/Tajikistan">Tajikistan</a></li>
+          <li><a href="/c/Tanzania">Tanzania</a></li>
+          <li><a href="/c/Thailand">Thailand</a></li>
+          <li><a href="/c/Timor-Leste">Timor-Leste</a></li>
+          <li><a href="/c/Togo">Togo</a></li>
+          <li><a href="/c/Tokelau">Tokelau</a></li>
+          <li><a href="/c/Tonga">Tonga</a></li>
+          <li><a href="/c/Trinidad & Tobago">Trinidad & Tobago</a></li>
+          <li><a href="/c/Tunisia">Tunisia</a></li>
+          <li><a href="/c/Turkey">Turkey</a></li>
+          <li><a href="/c/Turkmenistan">Turkmenistan</a></li>
+          <li><a href="/c/Turks & Caicos Is.">Turks & Caicos Is.</a></li>
+          <li><a href="/c/Tuvalu">Tuvalu</a></li>
+          <li><a href="/c/Uganda">Uganda</a></li>
+          <li><a href="/c/Ukraine">Ukraine</a></li>
+          <li><a href="/c/United Arab Emirates">United Arab Emirates</a></li>
+          <li><a href="/c/United Kingdom">United Kingdom</a></li>
+          <li><a href="/c/United States">United States</a></li>
+          <li><a href="/c/United States Minor Outlying Islands">United States Minor Outlying Islands</a></li>
+          <li><a href="/c/Uruguay">Uruguay</a></li>
+          <li><a href="/c/Uzbekistan">Uzbekistan</a></li>
+          <li><a href="/c/Vanuatu">Vanuatu</a></li>
+          <li><a href="/c/Venezuela">Venezuela</a></li>
+          <li><a href="/c/Vietnam">Vietnam</a></li>
+          <li><a href="/c/Virgin Islands, British">Virgin Islands, British</a></li>
+          <li><a href="/c/Wallis & Futuna">Wallis & Futuna</a></li>
+          <li><a href="/c/Western Sahara">Western Sahara</a></li>
+          <li><a href="/c/Yemen">Yemen</a></li>
+          <li><a href="/c/Zambia">Zambia</a></li>
+          <li><a href="/c/Zimbabwe">Zimbabwe</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

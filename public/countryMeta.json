@@ -1,0 +1,1867 @@
+[
+  {
+    "Country": "United States",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Spratly Islands",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": []
+  },
+  {
+    "Country": "Hungary",
+    "GlutenFree": "Gluténmentes",
+    "Coeliac": "Cöliákia",
+    "SpokenLanguages": [
+      "Hungarian"
+    ]
+  },
+  {
+    "Country": "Tajikistan",
+    "GlutenFree": "Бе глютен",
+    "Coeliac": "Бемории целиакия",
+    "SpokenLanguages": [
+      "Russian"
+    ]
+  },
+  {
+    "Country": "Aruba",
+    "GlutenFree": "Glutenvrij",
+    "Coeliac": "Coeliakie",
+    "SpokenLanguages": []
+  },
+  {
+    "Country": "Afghanistan",
+    "GlutenFree": "بدون گلوتن",
+    "Coeliac": "بیماری سلیاک",
+    "SpokenLanguages": [
+      "Persian"
+    ]
+  },
+  {
+    "Country": "Angola",
+    "GlutenFree": "Sem glúten",
+    "Coeliac": "Doença celíaca",
+    "SpokenLanguages": [
+      "Portuguese"
+    ]
+  },
+  {
+    "Country": "Anguilla",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Albania",
+    "GlutenFree": "Pa gluten",
+    "Coeliac": "Sëmundja celiake",
+    "SpokenLanguages": [
+      "Albanian"
+    ]
+  },
+  {
+    "Country": "Andorra",
+    "GlutenFree": "Sense gluten",
+    "Coeliac": "Malaltia celíaca",
+    "SpokenLanguages": [
+      "Catalan"
+    ]
+  },
+  {
+    "Country": "Netherlands Antilles",
+    "GlutenFree": "Glutenvrij",
+    "Coeliac": "Coeliakie",
+    "SpokenLanguages": [
+      "Dutch"
+    ]
+  },
+  {
+    "Country": "United Arab Emirates",
+    "GlutenFree": "خالٍ من الغلوتين",
+    "Coeliac": "مرض السيلياك",
+    "SpokenLanguages": [
+      "Arabic"
+    ]
+  },
+  {
+    "Country": "Argentina",
+    "GlutenFree": "Sin gluten",
+    "Coeliac": "Enfermedad celíaca",
+    "SpokenLanguages": [
+      "Spanish"
+    ]
+  },
+  {
+    "Country": "Armenia",
+    "GlutenFree": "Անգլուտեն",
+    "Coeliac": "Ցելիակիա",
+    "SpokenLanguages": []
+  },
+  {
+    "Country": "American Samoa",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Antarctica",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": []
+  },
+  {
+    "Country": "French Southern & Antarctic Lands",
+    "GlutenFree": "Sans gluten",
+    "Coeliac": "Maladie cœliaque",
+    "SpokenLanguages": [
+      "French"
+    ]
+  },
+  {
+    "Country": "Antigua & Barbuda",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Australia",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Austria",
+    "GlutenFree": "Glutenfrei",
+    "Coeliac": "Zöliakie",
+    "SpokenLanguages": [
+      "German"
+    ]
+  },
+  {
+    "Country": "Azerbaijan",
+    "GlutenFree": "Qlütensiz",
+    "Coeliac": "Çölyak xəstəliyi",
+    "SpokenLanguages": []
+  },
+  {
+    "Country": "Burundi",
+    "GlutenFree": "Sans gluten",
+    "Coeliac": "Maladie cœliaque",
+    "SpokenLanguages": []
+  },
+  {
+    "Country": "Belgium",
+    "GlutenFree": "Sans gluten / Glutenvrij",
+    "Coeliac": "Maladie cœliaque / Coeliakie",
+    "SpokenLanguages": [
+      "Dutch"
+    ]
+  },
+  {
+    "Country": "Benin",
+    "GlutenFree": "Sans gluten",
+    "Coeliac": "Maladie cœliaque",
+    "SpokenLanguages": [
+      "French"
+    ]
+  },
+  {
+    "Country": "Bonaire, Sint-Eustasius, Saba",
+    "GlutenFree": "Glutenvrij",
+    "Coeliac": "Coeliakie",
+    "SpokenLanguages": [
+      "Dutch"
+    ]
+  },
+  {
+    "Country": "Burkina Faso",
+    "GlutenFree": "Sans gluten",
+    "Coeliac": "Maladie cœliaque",
+    "SpokenLanguages": [
+      "French"
+    ]
+  },
+  {
+    "Country": "Bangladesh",
+    "GlutenFree": "গ্লুটেন মুক্ত",
+    "Coeliac": "সিলিয়াক রোগ",
+    "SpokenLanguages": [
+      "Bangla"
+    ]
+  },
+  {
+    "Country": "Bulgaria",
+    "GlutenFree": "Без глутен",
+    "Coeliac": "Цьолиакия",
+    "SpokenLanguages": [
+      "Bulgarian"
+    ]
+  },
+  {
+    "Country": "Bahrain",
+    "GlutenFree": "خالٍ من الغلوتين",
+    "Coeliac": "مرض السيلياك",
+    "SpokenLanguages": [
+      "Arabic"
+    ]
+  },
+  {
+    "Country": "The Bahamas",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Bosnia & Herzegovina",
+    "GlutenFree": "Bez glutena",
+    "Coeliac": "Celijakija",
+    "SpokenLanguages": [
+      "Bosnian"
+    ]
+  },
+  {
+    "Country": "Belarus",
+    "GlutenFree": "Без глютена",
+    "Coeliac": "Целіакія",
+    "SpokenLanguages": [
+      "Russian"
+    ]
+  },
+  {
+    "Country": "Belize",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Bermuda",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Bolivia",
+    "GlutenFree": "Sin gluten",
+    "Coeliac": "Enfermedad celíaca",
+    "SpokenLanguages": [
+      "Spanish"
+    ]
+  },
+  {
+    "Country": "Bonaire, Saint Eustatius and Saba",
+    "GlutenFree": "Glutenvrij",
+    "Coeliac": "Coeliakie",
+    "SpokenLanguages": [
+      "Dutch"
+    ]
+  },
+  {
+    "Country": "Brazil",
+    "GlutenFree": "Sem glúten",
+    "Coeliac": "Doença celíaca",
+    "SpokenLanguages": [
+      "Portuguese"
+    ]
+  },
+  {
+    "Country": "Barbados",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Brunei",
+    "GlutenFree": "Bebas Gluten",
+    "Coeliac": "Penderita",
+    "SpokenLanguages": [
+      "Malay"
+    ]
+  },
+  {
+    "Country": "Bhutan",
+    "GlutenFree": "གློག་མེད། ()",
+    "Coeliac": "གློག་མེད་མི་རིགས། (Coeliac)",
+    "SpokenLanguages": []
+  },
+  {
+    "Country": "Bouvet I.",
+    "GlutenFree": "Glutenfri",
+    "Coeliac": "Cøliaki",
+    "SpokenLanguages": [
+      "Norwegian"
+    ]
+  },
+  {
+    "Country": "Botswana",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Central African Republic",
+    "GlutenFree": "Sans Gluten",
+    "Coeliac": "Cœliaque",
+    "SpokenLanguages": [
+      "French"
+    ]
+  },
+  {
+    "Country": "Canada",
+    "GlutenFree": " / Sans Gluten",
+    "Coeliac": " / Cœliaque",
+    "SpokenLanguages": [
+      "English",
+	  "French"
+    ]
+  },
+  {
+    "Country": "Cocos Is.",
+    "GlutenFree": "Bebas Gluten",
+    "Coeliac": "Penderita",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Switzerland",
+    "GlutenFree": "Glutenfrei / Sans gluten / Senza glutine",
+    "Coeliac": "Zöliakie / Cœliaque / hia",
+    "SpokenLanguages": [
+      "German"
+    ]
+  },
+  {
+    "Country": "Chile",
+    "GlutenFree": "Sin Gluten",
+    "Coeliac": "Celíaco",
+    "SpokenLanguages": [
+      "Spanish"
+    ]
+  },
+  {
+    "Country": "China",
+    "GlutenFree": "无麸质",
+    "Coeliac": "乳糜泻",
+    "SpokenLanguages": [
+      "Mandarin",
+	  "Chinese-simplified"
+    ]
+  },
+  {
+    "Country": "Cote d'Ivoire",
+    "GlutenFree": "Sans gluten",
+    "Coeliac": "Cœliaque",
+    "SpokenLanguages": [
+      "French"
+    ]
+  },
+  {
+    "Country": "Cameroon",
+    "GlutenFree": "Sans gluten",
+    "Coeliac": "Cœliaque",
+    "SpokenLanguages": [
+      "French"
+    ]
+  },
+  {
+    "Country": "Congo, DRC",
+    "GlutenFree": "Sans gluten",
+    "Coeliac": "Cœliaque",
+    "SpokenLanguages": [
+      "Swahili"
+    ]
+  },
+  {
+    "Country": "Congo",
+    "GlutenFree": "Sans gluten",
+    "Coeliac": "Cœliaque",
+    "SpokenLanguages": [
+      "French"
+    ]
+  },
+  {
+    "Country": "Cook Is.",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Colombia",
+    "GlutenFree": "Sin gluten",
+    "Coeliac": "Celíaco",
+    "SpokenLanguages": [
+      "Spanish"
+    ]
+  },
+  {
+    "Country": "Comoros",
+    "GlutenFree": "Sans gluten",
+    "Coeliac": "Cœliaque",
+    "SpokenLanguages": [
+	"French",
+      "Arabic"
+    ]
+  },
+  {
+    "Country": "Clipperton Island",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "French"
+    ]
+  },
+  {
+    "Country": "Cape Verde",
+    "GlutenFree": "Sem glúten",
+    "Coeliac": "Celíaco",
+    "SpokenLanguages": [
+      "Portuguese"
+    ]
+  },
+  {
+    "Country": "Costa Rica",
+    "GlutenFree": "Sin gluten",
+    "Coeliac": "Celíaco",
+    "SpokenLanguages": [
+      "Spanish"
+    ]
+  },
+  {
+    "Country": "Cuba",
+    "GlutenFree": "Sin gluten",
+    "Coeliac": "Celíaco",
+    "SpokenLanguages": [
+      "Spanish"
+    ]
+  },
+  {
+    "Country": "Curaao",
+    "GlutenFree": "Glutenvrij",
+    "Coeliac": "Coeliakie",
+    "SpokenLanguages": [
+      "Dutch"
+    ]
+  },
+  {
+    "Country": "Christmas I.",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Cayman Is.",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Cyprus",
+    "GlutenFree": "Χωρίς γλουτένη",
+    "Coeliac": "Κοιλιοκάκη",
+    "SpokenLanguages": [
+      "Greek"
+    ]
+  },
+  {
+    "Country": "Czech Republic",
+    "GlutenFree": "Bezlepkový",
+    "Coeliac": "Celiak",
+    "SpokenLanguages": [
+      "Czech"
+    ]
+  },
+  {
+    "Country": "Germany",
+    "GlutenFree": "Glutenfrei",
+    "Coeliac": "Zöliakie",
+    "SpokenLanguages": [
+      "German"
+    ]
+  },
+  {
+    "Country": "Djibouti",
+    "GlutenFree": "Sans gluten",
+    "Coeliac": "Cœliaque",
+    "SpokenLanguages": [
+      "Arabic"
+    ]
+  },
+  {
+    "Country": "Dominica",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Denmark",
+    "GlutenFree": "Glutenfri",
+    "Coeliac": "Cøliaki",
+    "SpokenLanguages": [
+      "Danish"
+    ]
+  },
+  {
+    "Country": "Dominican Republic",
+    "GlutenFree": "Sin gluten",
+    "Coeliac": "Celíaco",
+    "SpokenLanguages": [
+      "Spanish"
+    ]
+  },
+  {
+    "Country": "Algeria",
+    "GlutenFree": "خالي من الغلوتين",
+    "Coeliac": "مرض السيلياك",
+    "SpokenLanguages": [
+      "Arabic"
+    ]
+  },
+  {
+    "Country": "Ecuador",
+    "GlutenFree": "Sin gluten",
+    "Coeliac": "Celíaco",
+    "SpokenLanguages": [
+      "Spanish"
+    ]
+  },
+  {
+    "Country": "Egypt",
+    "GlutenFree": "خالي من الغلوتين",
+    "Coeliac": "داء الزلاقي",
+    "SpokenLanguages": [
+      "Arabic"
+    ]
+  },
+  {
+    "Country": "Eritrea",
+    "GlutenFree": "ግሉቴን ነፃ",
+    "Coeliac": "ሴሊያክ በሽታ",
+    "SpokenLanguages": []
+  },
+  {
+    "Country": "Western Sahara",
+    "GlutenFree": "خالي من الغلوتين",
+    "Coeliac": "داء الزلاقي",
+    "SpokenLanguages": [
+      "Arabic"
+    ]
+  },
+  {
+    "Country": "Spain",
+    "GlutenFree": "Sin gluten",
+    "Coeliac": "Celíaco",
+    "SpokenLanguages": [
+      "Spanish"
+    ]
+  },
+  {
+    "Country": "Estonia",
+    "GlutenFree": "Gluteenivaba",
+    "Coeliac": "Tsöliaakia",
+    "SpokenLanguages": [
+      "Estonian"
+    ]
+  },
+  {
+    "Country": "Ethiopia",
+    "GlutenFree": "ግሉቴን ነፃ",
+    "Coeliac": "ሴሊያክ በሽታ",
+    "SpokenLanguages": [
+      "Amharic"
+    ]
+  },
+  {
+    "Country": "Finland",
+    "GlutenFree": "Gluteeniton",
+    "Coeliac": "Keliakia",
+    "SpokenLanguages": [
+      "Finnish"
+    ]
+  },
+  {
+    "Country": "Fiji",
+    "GlutenFree": "Vakalailai ni gluten",
+    "Coeliac": "Mate ni ",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Falkland Islands",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "France",
+    "GlutenFree": "Sans gluten",
+    "Coeliac": "Cœliaque",
+    "SpokenLanguages": [
+      "French"
+    ]
+  },
+  {
+    "Country": "Faroe Is.",
+    "GlutenFree": "Glutensfrítt",
+    "Coeliac": "Cøliaki",
+    "SpokenLanguages": []
+  },
+  {
+    "Country": "Micronesia",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Gabon",
+    "GlutenFree": "Sans gluten",
+    "Coeliac": "Cœliaque",
+    "SpokenLanguages": [
+      "French"
+    ]
+  },
+  {
+    "Country": "United Kingdom",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Georgia",
+    "GlutenFree": "გლუტენის გარეშე",
+    "Coeliac": "ცელიაკია",
+    "SpokenLanguages": [
+      "Georgia"
+    ]
+  },
+  {
+    "Country": "Guernsey",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Ghana",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Gibraltar",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Guinea",
+    "GlutenFree": "Sans gluten",
+    "Coeliac": "Cœliaque",
+    "SpokenLanguages": [
+      "French"
+    ]
+  },
+  {
+    "Country": "The Gambia",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Guinea-Bissau",
+    "GlutenFree": "Sem glúten",
+    "Coeliac": "Celíaco",
+    "SpokenLanguages": [
+      "Portuguese"
+    ]
+  },
+  {
+    "Country": "Equatorial Guinea",
+    "GlutenFree": "Sin gluten",
+    "Coeliac": "Celíaco",
+    "SpokenLanguages": [
+      "Spanish"
+    ]
+  },
+  {
+    "Country": "Guadeloupe-Martinique",
+    "GlutenFree": "Sans gluten",
+    "Coeliac": "Cœliaque",
+    "SpokenLanguages": [
+      "French"
+    ]
+  },
+  {
+    "Country": "Greece",
+    "GlutenFree": "Χωρίς γλουτένη",
+    "Coeliac": "Κοιλιοκάκη",
+    "SpokenLanguages": [
+      "Greek"
+    ]
+  },
+  {
+    "Country": "Grenada",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Greenland",
+    "GlutenFree": "Glutenfrí",
+    "Coeliac": "Cøliaki",
+    "SpokenLanguages": [
+      "Danish"
+    ]
+  },
+  {
+    "Country": "Guatemala",
+    "GlutenFree": "Sin gluten",
+    "Coeliac": "Celíaco",
+    "SpokenLanguages": [
+      "Spanish"
+    ]
+  },
+  {
+    "Country": "French Guiana",
+    "GlutenFree": "Sans gluten",
+    "Coeliac": "Cœliaque",
+    "SpokenLanguages": [
+      "French"
+    ]
+  },
+  {
+    "Country": "Guyana",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Heard I. & McDonald Is.",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": []
+  },
+  {
+    "Country": "Honduras",
+    "GlutenFree": "Sin gluten",
+    "Coeliac": "Celíaco",
+    "SpokenLanguages": [
+      "Spanish"
+    ]
+  },
+  {
+    "Country": "Croatia",
+    "GlutenFree": "Bez glutena",
+    "Coeliac": "Celijakija",
+    "SpokenLanguages": [
+      "Croatian"
+    ]
+  },
+  {
+    "Country": "Haiti",
+    "GlutenFree": "San gluten",
+    "Coeliac": "Seliyak",
+    "SpokenLanguages": [
+      "French"
+    ]
+  },
+  {
+    "Country": "Indonesia",
+    "GlutenFree": "Bebas gluten",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "Indonesian"
+    ]
+  },
+  {
+    "Country": "India",
+    "GlutenFree": "ग्लूटेन मुक्त",
+    "Coeliac": "सेलिएक रोग",
+    "SpokenLanguages": [
+      "Hindi"
+    ]
+  },
+  {
+    "Country": "British Indian Ocean Territory",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Ireland",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Iran",
+    "GlutenFree": "بدون گلوتن",
+    "Coeliac": "بیماری سلیاک",
+    "SpokenLanguages": [
+      "Persian"
+    ]
+  },
+  {
+    "Country": "Iraq",
+    "GlutenFree": "خالٍ من الغلوتين",
+    "Coeliac": "داء الزلاقي",
+    "SpokenLanguages": [
+      "Arabic"
+    ]
+  },
+  {
+    "Country": "Iceland",
+    "GlutenFree": "Glútenlaus",
+    "Coeliac": "Sykursýki",
+    "SpokenLanguages": [
+      "Icelandic"
+    ]
+  },
+  {
+    "Country": "Israel",
+    "GlutenFree": "ללא גלוטן",
+    "Coeliac": "צליאק",
+    "SpokenLanguages": [
+      "Hebrew"
+    ]
+  },
+  {
+    "Country": "Italy",
+    "GlutenFree": "Senza glutine",
+    "Coeliac": "Celiaco",
+    "SpokenLanguages": [
+      "Italian"
+    ]
+  },
+  {
+    "Country": "Jamaica",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Jersey",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Jordan",
+    "GlutenFree": "خالٍ من الغلوتين",
+    "Coeliac": "داء الزلاقي",
+    "SpokenLanguages": [
+      "Arabic"
+    ]
+  },
+  {
+    "Country": "Japan",
+    "GlutenFree": "グルテンフリー",
+    "Coeliac": "セリアック",
+    "SpokenLanguages": [
+      "Japanese"
+    ]
+  },
+  {
+    "Country": "Kazakhstan",
+    "GlutenFree": "Без глютена",
+    "Coeliac": "Целиакия",
+    "SpokenLanguages": []
+  },
+  {
+    "Country": "Kenya",
+    "GlutenFree": "Bila Gluten",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "Swahili"
+    ]
+  },
+  {
+    "Country": "Kyrgyzstan",
+    "GlutenFree": "Глютенсиз",
+    "Coeliac": "Целиакиа",
+    "SpokenLanguages": [
+      "Russian"
+    ]
+  },
+  {
+    "Country": "Cambodia",
+    "GlutenFree": "គ្មានក្លុយតែន",
+    "Coeliac": "ជម្ងឺស៊ីលីអាក់",
+    "SpokenLanguages": [
+      "Khmer"
+    ]
+  },
+  {
+    "Country": "Kiribati",
+    "GlutenFree": "Gluten n te iai",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "St. Kitts & Nevis",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "South Korea",
+    "GlutenFree": "글루텐 프리",
+    "Coeliac": "셀리악병",
+    "SpokenLanguages": [
+      "Korean"
+    ]
+  },
+  {
+    "Country": "Kuwait",
+    "GlutenFree": "خالٍ من الغلوتين",
+    "Coeliac": "مرض السيلياك",
+    "SpokenLanguages": [
+      "Arabic"
+    ]
+  },
+  {
+    "Country": "Laos",
+    "GlutenFree": "ບໍ່ມີກລູເຕນ",
+    "Coeliac": "ພາຍໃນເປັນເຈັບເຊວຢາ",
+    "SpokenLanguages": []
+  },
+  {
+    "Country": "Lebanon",
+    "GlutenFree": "خالٍ من الغلوتين",
+    "Coeliac": "مرض السيلياك",
+    "SpokenLanguages": [
+      "Arabic"
+    ]
+  },
+  {
+    "Country": "Liberia",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Libya",
+    "GlutenFree": "خالٍ من الغلوتين",
+    "Coeliac": "مرض السيلياك",
+    "SpokenLanguages": [
+      "Arabic"
+    ]
+  },
+  {
+    "Country": "St. Lucia",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Liechtenstein",
+    "GlutenFree": "Glutenfrei",
+    "Coeliac": "Zöliakie",
+    "SpokenLanguages": [
+      "German"
+    ]
+  },
+  {
+    "Country": "Sri Lanka",
+    "GlutenFree": "ග්ලූටන් රහිත (Gluten Rahitha)",
+    "Coeliac": "සෙලියක් රෝගියා ( Rogiya)",
+    "SpokenLanguages": [
+      "Sinhalese"
+    ]
+  },
+  {
+    "Country": "Lithuania",
+    "GlutenFree": "Be glitimo",
+    "Coeliac": "Celiakija",
+    "SpokenLanguages": [
+      "Lithuanian"
+    ]
+  },
+  {
+    "Country": "Luxembourg",
+    "GlutenFree": "Glutenfräi",
+    "Coeliac": "Zöliakie",
+    "SpokenLanguages": [
+      "German"
+    ]
+  },
+  {
+    "Country": "Latvia",
+    "GlutenFree": "Bez glutēna",
+    "Coeliac": "Celiakija",
+    "SpokenLanguages": [
+      "Latvian"
+    ]
+  },
+  {
+    "Country": "Saint Martin",
+    "GlutenFree": "Sans gluten",
+    "Coeliac": "Maladie cœliaque",
+    "SpokenLanguages": [
+      "French"
+    ]
+  },
+  {
+    "Country": "Morocco",
+    "GlutenFree": "خالٍ من الغلوتين",
+    "Coeliac": "مرض السيلياك",
+    "SpokenLanguages": [
+      "Arabic"
+    ]
+  },
+  {
+    "Country": "Monaco",
+    "GlutenFree": "Sans gluten",
+    "Coeliac": "Maladie cœliaque",
+    "SpokenLanguages": [
+      "French"
+    ]
+  },
+  {
+    "Country": "Moldova",
+    "GlutenFree": "Fără gluten",
+    "Coeliac": "Boala ă",
+    "SpokenLanguages": [
+      "Romanian"
+    ]
+  },
+  {
+    "Country": "Madagascar",
+    "GlutenFree": "Tsy misy gluten",
+    "Coeliac": "Cœliaque",
+    "SpokenLanguages": []
+  },
+  {
+    "Country": "Maldives",
+    "GlutenFree": "ގްލޫޓެން ރަހިތް (Gluten Rahith)",
+    "Coeliac": "ސިލިއަކް ރޮގިޔާ ( Rogiya)",
+    "SpokenLanguages": []
+  },
+  {
+    "Country": "Mexico",
+    "GlutenFree": "Sin gluten",
+    "Coeliac": "Celíaco",
+    "SpokenLanguages": [
+      "Spanish"
+    ]
+  },
+  {
+    "Country": "Marshall Is.",
+    "GlutenFree": "Gluten eo ejelok",
+    "Coeliac": "",
+    "SpokenLanguages": []
+  },
+  {
+    "Country": "Macedonia",
+    "GlutenFree": "Без глутен",
+    "Coeliac": "Целијак",
+    "SpokenLanguages": []
+  },
+  {
+    "Country": "Mali",
+    "GlutenFree": "Sans gluten",
+    "Coeliac": "Maladie cœliaque",
+    "SpokenLanguages": [
+      "French"
+    ]
+  },
+  {
+    "Country": "Malta",
+    "GlutenFree": "Bla glutina",
+    "Coeliac": "Celiaka",
+    "SpokenLanguages": [
+      "Maltese"
+    ]
+  },
+  {
+    "Country": "Myanmar",
+    "GlutenFree": "ဂလူတင်မပါ (Gluten Ma Par)",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "Burmese"
+    ]
+  },
+  {
+    "Country": "Montenegro",
+    "GlutenFree": "Bez glutena",
+    "Coeliac": "Celiakija",
+    "SpokenLanguages": [
+      "Serbian"
+    ]
+  },
+  {
+    "Country": "Mongolia",
+    "GlutenFree": "Глютенгүй",
+    "Coeliac": "Целиаки",
+    "SpokenLanguages": [
+      "Mongolian"
+    ]
+  },
+  {
+    "Country": "Northern Marinana Islands-Guam",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Mozambique",
+    "GlutenFree": "Sem glúten",
+    "Coeliac": "Celíaco",
+    "SpokenLanguages": [
+      "Portuguese"
+    ]
+  },
+  {
+    "Country": "Mauritania",
+    "GlutenFree": "خالٍ من الغلوتين",
+    "Coeliac": "مرض السيلياك",
+    "SpokenLanguages": [
+      "Arabic"
+    ]
+  },
+  {
+    "Country": "Montserrat",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Mauritius",
+    "GlutenFree": "San gluten",
+    "Coeliac": "Cœliaque",
+    "SpokenLanguages": [
+      "French"
+    ]
+  },
+  {
+    "Country": "Malawi",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": []
+  },
+  {
+    "Country": "Malaysia",
+    "GlutenFree": "Bebas gluten",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "Malay"
+    ]
+  },
+  {
+    "Country": "Mayotte",
+    "GlutenFree": "Sans gluten",
+    "Coeliac": "Maladie cœliaque",
+    "SpokenLanguages": [
+      "French"
+    ]
+  },
+  {
+    "Country": "Namibia",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "New Caledonia",
+    "GlutenFree": "Sans gluten",
+    "Coeliac": "Maladie cœliaque",
+    "SpokenLanguages": [
+      "French"
+    ]
+  },
+  {
+    "Country": "Niger",
+    "GlutenFree": "Sans gluten",
+    "Coeliac": "Maladie cœliaque",
+    "SpokenLanguages": [
+      "French"
+    ]
+  },
+  {
+    "Country": "Norfolk I.",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Nigeria",
+    "GlutenFree": "Babu gluten",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Nicaragua",
+    "GlutenFree": "Sin gluten",
+    "Coeliac": "Celíaco",
+    "SpokenLanguages": [
+      "Spanish"
+    ]
+  },
+  {
+    "Country": "Niue",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Netherlands",
+    "GlutenFree": "Glutenvrij",
+    "Coeliac": "Coeliakie",
+    "SpokenLanguages": [
+      "Dutch"
+    ]
+  },
+  {
+    "Country": "Norway",
+    "GlutenFree": "Glutenfri",
+    "Coeliac": "Cøliaki",
+    "SpokenLanguages": [
+      "Norwegian"
+    ]
+  },
+  {
+    "Country": "Nepal",
+    "GlutenFree": "ग्लुटेन रहित (Gluten Rahit)",
+    "Coeliac": "सेलिएक रोगी ( Rogi)",
+    "SpokenLanguages": ["Nepali"]
+  },
+  {
+    "Country": "Nauru",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": []
+  },
+  {
+    "Country": "New Zealand",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Oman",
+    "GlutenFree": "خالٍ من الغلوتين",
+    "Coeliac": "مرض السيلياك",
+    "SpokenLanguages": [
+      "Arabic"
+    ]
+  },
+  {
+    "Country": "Pakistan",
+    "GlutenFree": "گلوٹن فری ()",
+    "Coeliac": "سیلیک بیماری ( Bimari)",
+    "SpokenLanguages": [
+      "Urdu"
+    ]
+  },
+  {
+    "Country": "Panama",
+    "GlutenFree": "Sin gluten",
+    "Coeliac": "Celíaco",
+    "SpokenLanguages": [
+      "Spanish"
+    ]
+  },
+  {
+    "Country": "Pitcairn Is.",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Peru",
+    "GlutenFree": "Sin gluten",
+    "Coeliac": "Celíaco",
+    "SpokenLanguages": [
+      "Spanish"
+    ]
+  },
+  {
+    "Country": "Philippines",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "Tagalog"
+    ]
+  },
+  {
+    "Country": "Palau",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": []
+  },
+  {
+    "Country": "Papua New Guinea",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Poland",
+    "GlutenFree": "Bez glutenu",
+    "Coeliac": "Celiakia",
+    "SpokenLanguages": [
+      "Polish"
+    ]
+  },
+  {
+    "Country": "Puerto Rico",
+    "GlutenFree": "Sin gluten",
+    "Coeliac": "Celíaco",
+    "SpokenLanguages": [
+      "Spanish"
+    ]
+  },
+  {
+    "Country": "North Korea",
+    "GlutenFree": "글루텐 프리",
+    "Coeliac": "셀리악병",
+    "SpokenLanguages": [
+      "Korean"
+    ]
+  },
+  {
+    "Country": "Portugal",
+    "GlutenFree": "Sem glúten",
+    "Coeliac": "Celíaco",
+    "SpokenLanguages": [
+      "Portuguese"
+    ]
+  },
+  {
+    "Country": "Paraguay",
+    "GlutenFree": "Sin gluten",
+    "Coeliac": "Celíaco",
+    "SpokenLanguages": [
+      "Spanish"
+    ]
+  },
+  {
+    "Country": "French Polynesia",
+    "GlutenFree": "Sans gluten",
+    "Coeliac": "Cœliaque",
+    "SpokenLanguages": [
+      "French"
+    ]
+  },
+  {
+    "Country": "Qatar",
+    "GlutenFree": "خالٍ من الغلوتين",
+    "Coeliac": "داء الزلاقي",
+    "SpokenLanguages": [
+      "Arabic"
+    ]
+  },
+  {
+    "Country": "Reunion",
+    "GlutenFree": "Sans gluten",
+    "Coeliac": "Cœliaque",
+    "SpokenLanguages": [
+      "French"
+    ]
+  },
+  {
+    "Country": "Romania",
+    "GlutenFree": "Fără gluten",
+    "Coeliac": "Celiacă",
+    "SpokenLanguages": [
+      "Romanian"
+    ]
+  },
+  {
+    "Country": "Russia",
+    "GlutenFree": "Без глютена",
+    "Coeliac": "Целиакия",
+    "SpokenLanguages": [
+      "Russian"
+    ]
+  },
+  {
+    "Country": "Rwanda",
+    "GlutenFree": "Nta gluten",
+    "Coeliac": "",
+    "SpokenLanguages": []
+  },
+  {
+    "Country": "Saudi Arabia",
+    "GlutenFree": "خالٍ من الغلوتين",
+    "Coeliac": "داء الزلاقي",
+    "SpokenLanguages": [
+      "Arabic"
+    ]
+  },
+  {
+    "Country": "Sudan",
+    "GlutenFree": "خالٍ من الغلوتين",
+    "Coeliac": "داء الزلاقي",
+    "SpokenLanguages": [
+      "Arabic"
+    ]
+  },
+  {
+    "Country": "Senegal",
+    "GlutenFree": "Sans gluten",
+    "Coeliac": "Cœliaque",
+    "SpokenLanguages": [
+      "French"
+    ]
+  },
+  {
+    "Country": "Singapore",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "South Georgia & the South Sandwich Is.",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": []
+  },
+  {
+    "Country": "Saint Helena, Ascension en Tristan da Cunha",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Jan Mayen",
+    "GlutenFree": "Glutenfri",
+    "Coeliac": "Cøliaki",
+    "SpokenLanguages": [
+      "Norwegian"
+    ]
+  },
+  {
+    "Country": "Solomon Is.",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Sierra Leone",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "El Salvador",
+    "GlutenFree": "Sin gluten",
+    "Coeliac": "Celíaco",
+    "SpokenLanguages": [
+      "Spanish"
+    ]
+  },
+  {
+    "Country": "San Marino",
+    "GlutenFree": "Senza glutine",
+    "Coeliac": "celiaco",
+    "SpokenLanguages": [
+      "Italian"
+    ]
+  },
+  {
+    "Country": "Somalia",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": []
+  },
+  {
+    "Country": "St. Pierre & Miquelon",
+    "GlutenFree": "Sans gluten",
+    "Coeliac": "Cœliaque",
+    "SpokenLanguages": [
+      "French"
+    ]
+  },
+  {
+    "Country": "Serbia",
+    "GlutenFree": "Без глутена",
+    "Coeliac": "Целијакија",
+    "SpokenLanguages": [
+      "Serbian"
+    ]
+  },
+  {
+    "Country": "Sao Tome & Principe",
+    "GlutenFree": "Sem glúten",
+    "Coeliac": "Celíaco",
+    "SpokenLanguages": [
+      "Portuguese"
+    ]
+  },
+  {
+    "Country": "Suriname",
+    "GlutenFree": "Glutenvrij",
+    "Coeliac": "Coeliakie",
+    "SpokenLanguages": [
+      "Dutch"
+    ]
+  },
+  {
+    "Country": "Slovakia",
+    "GlutenFree": "Bez lepku",
+    "Coeliac": "Celiatik",
+    "SpokenLanguages": [
+      "Slovak"
+    ]
+  },
+  {
+    "Country": "Slovenia",
+    "GlutenFree": "Brez glutena",
+    "Coeliac": "Celiakija",
+    "SpokenLanguages": [
+      "Slovenian"
+    ]
+  },
+  {
+    "Country": "Sweden",
+    "GlutenFree": "Glutenfri",
+    "Coeliac": "Celiaki",
+    "SpokenLanguages": [
+      "Swedish"
+    ]
+  },
+  {
+    "Country": "Sint Maarten",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Seychelles",
+    "GlutenFree": "Sans gluten",
+    "Coeliac": "Cœliaque",
+    "SpokenLanguages": [
+      "French"
+    ]
+  },
+  {
+    "Country": "Syria",
+    "GlutenFree": "خالٍ من الغلوتين",
+    "Coeliac": "داء الزلاقي",
+    "SpokenLanguages": [
+      "Arabic"
+    ]
+  },
+  {
+    "Country": "Turks & Caicos Is.",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Chad",
+    "GlutenFree": "Sans gluten",
+    "Coeliac": "Cœliaque",
+    "SpokenLanguages": [
+      "Arabic"
+    ]
+  },
+  {
+    "Country": "Togo",
+    "GlutenFree": "Sans gluten",
+    "Coeliac": "Cœliaque",
+    "SpokenLanguages": [
+      "French"
+    ]
+  },
+  {
+    "Country": "Thailand",
+    "GlutenFree": "ปลอดกลูเตน",
+    "Coeliac": "โรคเซลิแอค",
+    "SpokenLanguages": [
+      "Thai"
+    ]
+  },
+  {
+    "Country": "Tokelau",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": []
+  },
+  {
+    "Country": "Turkmenistan",
+    "GlutenFree": "Глютенсиз",
+    "Coeliac": "Целиакия",
+    "SpokenLanguages": []
+  },
+  {
+    "Country": "Timor-Leste",
+    "GlutenFree": "Sem Glúten",
+    "Coeliac": "Doença Celíaca",
+    "SpokenLanguages": [
+      "Portuguese"
+    ]
+  },
+  {
+    "Country": "Tonga",
+    "GlutenFree": "ʻIkai ha gluten",
+    "Coeliac": "Maʻi Koʻeliaki",
+    "SpokenLanguages": []
+  },
+  {
+    "Country": "Trinidad & Tobago",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Tunisia",
+    "GlutenFree": "خالي من الغلوتين",
+    "Coeliac": "مرض السيلياك",
+    "SpokenLanguages": [
+      "Arabic"
+    ]
+  },
+  {
+    "Country": "Turkey",
+    "GlutenFree": "Glutensiz",
+    "Coeliac": "Çölyak",
+    "SpokenLanguages": [
+      "Turkish"
+    ]
+  },
+  {
+    "Country": "Tuvalu",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": []
+  },
+  {
+    "Country": "Taiwan",
+    "GlutenFree": "無麩質",
+    "Coeliac": "乳糜瀉",
+    "SpokenLanguages": [
+      "Mandarin"
+    ]
+  },
+  {
+    "Country": "Tanzania",
+    "GlutenFree": "Bila Gluten",
+    "Coeliac": "Kilio cha Coeliac",
+    "SpokenLanguages": [
+      "Swahili"
+    ]
+  },
+  {
+    "Country": "Uganda",
+    "GlutenFree": "Buliya ya Gluten",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Ukraine",
+    "GlutenFree": "Без глютену",
+    "Coeliac": "Целіакія",
+    "SpokenLanguages": [
+      "Ukrainian"
+    ]
+  },
+  {
+    "Country": "United States Minor Outlying Islands",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Uruguay",
+    "GlutenFree": "Sin Gluten",
+    "Coeliac": "Celíaco",
+    "SpokenLanguages": [
+      "Spanish"
+    ]
+  },
+  {
+    "Country": "Uzbekistan",
+    "GlutenFree": "Glutensiz",
+    "Coeliac": "Seliakiya",
+    "SpokenLanguages": [
+      "Uzbek"
+    ]
+  },
+  {
+    "Country": "Saint Vincent and the Grenadines",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Venezuela",
+    "GlutenFree": "Sin Gluten",
+    "Coeliac": "Celíaco",
+    "SpokenLanguages": [
+      "Spanish"
+    ]
+  },
+  {
+    "Country": "Virgin Islands, British",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": [
+      "English"
+    ]
+  },
+  {
+    "Country": "Vietnam",
+    "GlutenFree": "Không chứa gluten",
+    "Coeliac": "Bệnh celiac",
+    "SpokenLanguages": ["Vietnamese"]
+  },
+  {
+    "Country": "Vanuatu",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": []
+  },
+  {
+    "Country": "Wallis & Futuna",
+    "GlutenFree": "Sans gluten",
+    "Coeliac": "Maladie cœliaque",
+    "SpokenLanguages": []
+  },
+  {
+    "Country": "Samoa",
+    "GlutenFree": "E leai se gluten",
+    "Coeliac": "Maʻi Coeliac",
+    "SpokenLanguages": []
+  },
+  {
+    "Country": "Yemen",
+    "GlutenFree": "خالٍ من الغلوتين",
+    "Coeliac": "مرض السيلياك",
+    "SpokenLanguages": ["Arabic"]
+  },
+  {
+    "Country": "South Africa",
+    "GlutenFree": "Glutenvry",
+    "Coeliac": "Seliakie",
+    "SpokenLanguages": []
+  },
+  {
+    "Country": "Zambia",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": []
+  },
+  {
+    "Country": "Zimbabwe",
+    "GlutenFree": "",
+    "Coeliac": "",
+    "SpokenLanguages": []
+  },
+  {
+    "Country": "Chile",
+    "GlutenFree": "Sin Gluten",
+    "Coeliac": "Celíaco",
+    "SpokenLanguages": []
+  },
+  {
+    "Country": "Paracel Islands",
+    "GlutenFree": "無麩質",
+    "Coeliac": "乳糜瀉",
+    "SpokenLanguages": []
+  }
+]

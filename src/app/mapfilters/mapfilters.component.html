@@ -1,30 +1,67 @@
 <div>
-    <p>Map Filters</p>
-    <label style="color: #00FF00;"><input [(ngModel)]="showHotels" type="checkbox" />
-        Hotels</label>
-    <label style="color: #0000FF;"><input [(ngModel)]="showStores" type="checkbox" />
-        Stores</label>
-    <label style="color: #00FFFF;"><input [(ngModel)]="showOthers" type="checkbox" />
-        Others
-    </label>
-    <label style="color: #7F7F7F;"><input [(ngModel)]="showGMPins" type="checkbox" />
-        Google
-    </label>
-    <label style="color: #7F0000;word-wrap:break-word"><input [(ngModel)]="showChains" type="checkbox" />
-        Chains
-    </label>
-    <button (click)="modalService.open('modal-1')">Restaurant filters</button>
-
+    <button (click)="showMapFilters()">Map Filters</button>
+    <button (click)="showRestaurantList()">Type Filters</button>
+    <button (click)="showPinListView()">List</button>
+    <button (click)="showGroupListView()">Groups</button>
 
     <jw-modal id="modal-1">
-        <h1>Slect restaurant type -</h1>
-        <button (click)="selectNone()">Select None</button>
-        <button (click)="selectAll()">Select All</button>
-        <button (click)="selectComplete()">Close</button>
-        <div *ngFor="let item of restaurants; let i=index; ">
-            <label><input [(ngModel)]="item.Show" type="checkbox" />
-                {{item.Name}}
-            </label>
+        <div class="modal-header">
+            <div class="left-group">
+                <h1>Types</h1>
+                <button (click)="selectNone()">None</button>
+                <button (click)="selectAll()">All</button>
+            </div>
+            <button (click)="selectCompleteRestaurantTypes()">Close</button>
+        </div>
+        <div class="modal-content">
+            <div class="grid-container">
+                <div *ngFor="let item of restaurants; let i=index; ">
+                    <label><input [(ngModel)]="item.Show" type="checkbox" />
+                        {{item.Name}}
+                    </label>
+                </div>
+            </div>
         </div>
     </jw-modal>
+
+    <jw-modal id="modal-mapFilters">
+        <div class="modal-header" style="min-width: 200px">
+            <h1>Map Filters</h1>
+            <button (click)="selectComplete()">Close</button>
+        </div>
+        <div class="modal-content">
+            <label style="color: #00FF00;"><input [(ngModel)]="showHotels" type="checkbox" />
+                Hotels</label>
+            <p></p>
+            <label style="color: #0000FF;"><input [(ngModel)]="showStores" type="checkbox" />
+                Stores</label>
+            <p></p>
+            <label style="color: #00FFFF;"><input [(ngModel)]="showOthers" type="checkbox" />
+                Others
+            </label>
+            <p></p>
+            <label style="color: #7F7F7F;"><input [(ngModel)]="showGMPins" type="checkbox" />
+                Google
+            </label>
+            <p></p>
+            <label style="color: #7F0000;word-wrap:break-word"><input [(ngModel)]="showChains" type="checkbox" />
+                Low Confidence Pins
+            </label>
+            <p></p>
+            <label><input [(ngModel)]="showOpenNow" type="checkbox" />
+                Open Now (experimental!)
+            </label>
+            <p></p>
+            <label style="color: #7F0000;word-wrap:break-word"><input [(ngModel)]="showTemporarilyClosed"
+                    type="checkbox" />
+                Temporarily Closed
+            </label>
+            <p></p>
+            <select [(ngModel)]="selectedMap" (change)="onMapChange()">
+                <option value="Stadia">Stadia Map</option>
+                <option value="Open">Open Map</option>
+            </select>
+        </div>
+    </jw-modal>
+
 </div>

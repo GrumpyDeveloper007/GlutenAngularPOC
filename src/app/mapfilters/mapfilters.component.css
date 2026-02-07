@@ -94,8 +94,78 @@ span {
     }
 }
 
+.modal-header {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.modal-header .left-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.modal-header h1 {
+    margin: 0;
+    font-size: 1.2em;
+    flex-shrink: 0;
+}
+
+.modal-header .button-group {
+    display: flex;
+    gap: 8px;
+    margin-left: auto;
+}
+
+.modal-header button {
+    margin: 4px;
+}
+
+.modal-content {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 2fr;
+    gap: 12px;
+    overflow-y: auto;
+    flex: 1;
+    padding: 0px;
+    max-height: calc(90vh - 50px);
+}
+
 label,
 input {
     display: inline-block;
     vertical-align: middle;
+}
+
+/* Add styles for the dropdown */
+select {
+    margin: 4px;
+    padding: 6px 12px;
+    border: 1px solid #4CAF50;
+    border-radius: 4px;
+    font-size: 0.8em;
+    cursor: pointer;
+    background-color: white;
+}
+
+select:focus {
+    outline: none;
+    border-color: #45a049;
+    box-shadow: 0 0 3px rgba(74, 175, 80, 0.3);
+}
+
+.restaurantType {
+    max-width: 200px;
 }

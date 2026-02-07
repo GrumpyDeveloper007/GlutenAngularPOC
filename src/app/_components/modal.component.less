@@ -14,19 +14,28 @@ jw-modal {
 
         /* semi-transparent black background exposed by padding */
         background-color: rgba(0, 0, 0, .75);
-        padding: 40px;
+        padding: 10px 10px 10px 10px;
 
         /* enables scrolling for tall modals */
         overflow: auto;
     }
 
     .jw-modal-body {
-        padding: 20px;
+        padding: 0px 10px 0px 10px;
         background: #fff;
+        width: fit-content;
     }
 }
 
 body.jw-modal-open {
     /* body overflow is hidden to hide main scrollbar when modal window is open */
     overflow: hidden;
+}
+
+@media (min-width: 768px) {
+    jw-modal {
+        .jw-modal {
+            padding: 10px 40px 10px 40px;
+        }
+    }
 }
