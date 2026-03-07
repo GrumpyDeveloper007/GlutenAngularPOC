@@ -46,6 +46,7 @@ export class AppComponent {
 
   countryChanged(country: string) {
     this.country = country;
+    this.siteApiService.setSelectedCountry(country);
   }
 
   ngOnInit() {

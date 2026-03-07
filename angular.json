@@ -23,6 +23,7 @@
             "assets": [
               "src/privacypolicy.html",
               "src/countries.html",
+              "src/GlutenFreeRestaurants.html",
               "src/staticwebapp.config.json",
               {
                 "glob": "**/*",
