@@ -1,20 +1,4 @@
 <div class="App">
-  <app-navbar [selectedCountry]="country"></app-navbar>
-  <div class="window">
-    <div class="master">
-      <app-map class="page" [showHotels]="showOptions.ShowHotels" [showStores]="showOptions.ShowStores"
-        [showOthers]="showOptions.ShowOthers" [showGMPins]="showOptions.ShowGMPins"
-        [showChains]="showOptions.ShowChainPins" [showOpenNow]="showOptions.ShowOpenNow"
-        [showTemporarilyClosed]="showOptions.ShowTemporarilyClosed" [selectedMap]="showOptions.SelectedMap"
-        [updateRestaurants]="restaurants" (selectedTopicGroupChange)="selectedTopicGroup=$event"
-        (selectedCountryChange)="countryChanged($event)"></app-map>
-    </div>
-
-    <div class="detail">
-      <app-mapfilters [showHotels]="showOptions.ShowHotels" [showStores]="showOptions.ShowStores"
-        (optionsChange)="showOptions=$event" (restaurantChange)="restaurants=$event" [selectedCountry]="country"
-        (listViewOpenChange)="showListView()" (groupViewOpenChange)="showGroupsView()"></app-mapfilters>
-      <app-sidebar [selectedTopicGroup]="selectedTopicGroup" [selectedCountry]="country"></app-sidebar>
-    </div>
-  </div>
+  <app-navbar [selectedContext]="context"></app-navbar>
+  <router-outlet></router-outlet>
 </div>

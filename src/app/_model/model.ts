@@ -153,6 +153,11 @@ export interface PinExtraDTO {
     po: PinOpeningTimesDTO[];
 }
 
+export interface CityDTO {
+    name: string;
+    topics: TopicGroup[];
+}
+
 export enum IsOpen {
     Yes,
     No,

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { TopicGroup, GMapsPin, IpAddressData, PinSummary, PinTopicDetailDTO, GroupData, PinHighlight, PinExtraDTO } from "../_model/model";
+import { TopicGroup, GMapsPin, IpAddressData, PinSummary, PinTopicDetailDTO, GroupData, PinHighlight, PinExtraDTO, CityDTO } from "../_model/model";
 import { catchError } from 'rxjs';
 import { Observable, of } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -56,7 +56,6 @@ export class GlutenApiService {
 
     // Dev
     baseUrl = environment.apiUrl;
-    //baseUrl = "https://thedevshire.azurewebsites.net";
     // Prod
     //baseUrl = "https://thegfshire.azurewebsites.net";
     // Local
@@ -69,6 +68,12 @@ export class GlutenApiService {
     getPins(country: string): Observable<TopicGroup[]> {
         return this.http.get<TopicGroup[]>(this.baseUrl + "/api/Pin?country=" + encodeURIComponent(country), this.httpOptions)
             .pipe(catchError(this.handleErrorServerLog<TopicGroup[]>(`getPin id=${country}`)));
+    }
+
+    // Returns top interesting pins for a city
+    getCity(cityName: string): Observable<CityDTO> {
+        return this.http.get<CityDTO>(this.baseUrl + "/api/city?city=" + encodeURIComponent(cityName), this.httpOptions)
+            .pipe(catchError(this.handleErrorServerLog<CityDTO>(`getCity id=${cityName}`)));
     }
 
     // Returns interesting pins

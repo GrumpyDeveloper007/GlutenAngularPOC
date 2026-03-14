@@ -1,8 +1,10 @@
 import { Routes } from '@angular/router';
-import { AppComponent } from './app.component';
+import { CityComponent } from './city/city.component';
+import { MapViewComponent } from './mapView/mapView.component';
 
 export const routes: Routes = [
-    { path: '', component: AppComponent },
-    { path: 'places/:id', component: AppComponent },
-    { path: 'c/:country', component: AppComponent }
+    { path: '', component: MapViewComponent },
+    { path: 'places/:id', component: MapViewComponent },
+    { path: 'c/:country', component: MapViewComponent },
+    { path: 'city/:cityName', component: CityComponent }
 ];

@@ -1,0 +1,60 @@
+<div class="App">
+  <div class="city-container">
+    <div class="city-header">
+      <h1>Top {{restaurants.length}} Gluten-Free Restaurants in {{ cityName }}</h1>
+      <p class="city-subtitle">Discover the best gluten-free dining options in {{ cityName }}</p>
+    </div>
+
+    <div *ngIf="isLoading" class="loading">
+      <p>Loading restaurants...</p>
+    </div>
+
+    <div *ngIf="!isLoading && restaurants.length === 0" class="no-results">
+      <p>No restaurants found for {{ cityName }}.</p>
+    </div>
+
+    <div class="restaurants-list" *ngIf="restaurants.length > 0">
+      <div class="restaurant-card" *ngFor="let restaurant of restaurants">
+        <div class="restaurant-header">
+          <h2>
+            {{ restaurant.label }}
+            <span class="tc" *ngIf="restaurant.isTC">(TC)</span>
+          </h2>
+          <div class="restaurant-meta">
+            <span class="restaurant-type">{{ restaurant.restaurantType }}</span>
+
+            <span class="reaction-count">
+              <img src="star.png" alt="star" class="star-icon" />
+              ({{ restaurant.rc }})</span>
+          </div>
+        </div>
+
+        <div class="restaurant-description">
+          {{ restaurant.description }}
+        </div>
+
+        <div class="restaurant-links">
+          <a *ngIf="restaurant.mapsLink" [href]="restaurant.mapsLink" target="_blank" class="link-button">
+            <img src="GoogleMapsIcon.png" alt="Google Maps" class="link-icon" />
+            Google Maps
+          </a>
+          <a *ngIf="restaurant.fb" [href]="restaurant.fb" target="_blank" class="link-button">
+            <img src="FBHomepage.png" alt="Facebook" class="link-icon" />
+            Facebook
+          </a>
+        </div>
+
+        <div class="topics-section" *ngIf="restaurant.topics && restaurant.topics.length > 0">
+          <p class="topics-title"><b>Facebook Topics:</b></p>
+          <div class="topics-list">
+            <a *ngFor="let topic of restaurant.topics" [href]="buildFbUrl(topic)" target="_blank" class="topic-link">
+              <img src="Groups\{{topic.gId}}.jpg" alt="FB" />
+              <span class="topic-text">{{dateOnly(topic.postCreated)}}{{topic.shortTitle ? ' - ' + topic.shortTitle :
+                ''}}</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

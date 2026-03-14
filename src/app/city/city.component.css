@@ -1,0 +1,301 @@
+.App {
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f4f4f4;
+}
+
+.city-container {
+  flex: 1;
+  padding: 15px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.city-header {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.city-header h1 {
+  font-size: 1.8em;
+  margin: 10px 0;
+  color: #333;
+}
+
+.city-subtitle {
+  font-size: 1em;
+  color: #666;
+  margin: 5px 0;
+}
+
+.loading {
+  padding: 40px 20px;
+  text-align: center;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.loading p {
+  color: #4CAF50;
+  font-size: 1.1em;
+}
+
+.no-results {
+  padding: 40px 20px;
+  text-align: center;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.restaurants-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.restaurant-card {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.restaurant-header {
+  margin-bottom: 15px;
+  border-bottom: 2px solid #4CAF50;
+  padding-bottom: 10px;
+}
+
+.restaurant-header h2 {
+  font-size: 1.5em;
+  margin: 0 0 8px 0;
+  color: #4CAF50;
+}
+
+.tc {
+  color: red;
+  font-size: 0.5em;
+  margin-left: 5px;
+}
+
+.restaurant-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  font-size: 0.9em;
+  color: #555;
+}
+
+.restaurant-type {
+  font-weight: bold;
+  color: #333;
+}
+
+.price {
+  color: #666;
+}
+
+.stars {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.star-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.reaction-count {
+  color: #666;
+}
+
+.restaurant-description {
+  margin: 15px 0;
+  line-height: 1.6;
+  color: #333;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.restaurant-links {
+  display: flex;
+  gap: 15px;
+  margin: 15px 0;
+  flex-wrap: wrap;
+}
+
+.link-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background-color: #4CAF50;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 0.9em;
+  transition: background-color 0.3s ease;
+}
+
+.link-button:hover {
+  background-color: #45a049;
+  text-decoration: none;
+}
+
+.link-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.topics-section {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #e9ecef;
+}
+
+.topics-title {
+  margin: 0 0 10px 0;
+  font-size: 0.95em;
+  color: #333;
+}
+
+.topics-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.topic-link {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 6px;
+  text-decoration: none;
+  color: #333;
+  transition: background-color 0.2s ease;
+  font-size: 0.9em;
+  gap: 8px;
+}
+
+.topic-link:hover {
+  background-color: rgba(76, 175, 80, 0.1);
+  text-decoration: none;
+}
+
+.topic-text {
+  color: #333;
+}
+
+/* Desktop styles */
+@media (min-width: 1024px) {
+  .city-container {
+    padding: 30px;
+  }
+
+  .city-header h1 {
+    font-size: 2.5em;
+  }
+
+  .city-subtitle {
+    font-size: 1.2em;
+  }
+
+  .restaurant-card {
+    padding: 30px;
+  }
+
+  .restaurant-header h2 {
+    font-size: 1.8em;
+  }
+
+  .restaurant-meta {
+    font-size: 1em;
+  }
+
+  .restaurant-description {
+    font-size: 1.05em;
+  }
+
+  .link-button {
+    font-size: 1em;
+    padding: 10px 20px;
+  }
+
+  .topics-title {
+    font-size: 1em;
+  }
+
+  .topic-link {
+    font-size: 0.95em;
+    padding: 10px 15px;
+  }
+}
+
+/* Mobile styles */
+@media (max-width: 1023px) {
+  .city-container {
+    padding: 10px;
+  }
+
+  .city-header h1 {
+    font-size: 1.5em;
+  }
+
+  .city-subtitle {
+    font-size: 0.9em;
+  }
+
+  .restaurant-card {
+    padding: 15px;
+  }
+
+  .restaurant-header h2 {
+    font-size: 1.3em;
+  }
+
+  .restaurant-meta {
+    font-size: 0.85em;
+  }
+
+  .restaurant-description {
+    font-size: 0.95em;
+  }
+
+  .link-button {
+    font-size: 0.85em;
+    padding: 6px 12px;
+  }
+
+  .topics-title {
+    font-size: 0.9em;
+  }
+
+  .topic-link {
+    font-size: 0.85em;
+    padding: 6px 10px;
+  }
+}
+
+.topic-link img {
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  flex-shrink: 0;
+}
+
+.topic-link span {
+  flex: 1;
+  line-height: 1.4;
+  min-width: 0;
+}

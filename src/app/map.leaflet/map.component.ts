@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy, EventEmitter, Output, Input } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NgIf, NgClass, NgFor } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
@@ -59,7 +60,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   lastMarker: L.Marker | null = null;
   lastIcon: L.Icon | L.DivIcon | null = null;
   mapBounds: L.LatLngBounds = new L.LatLngBounds([46.879966, -121.726909], [46.879966, -121.726909]);
-  loaded = true;
+  showBigLoadingSpinner = true;
   loadingData = false;
   firstShown = true;
   pinDetailsLoading = false;
@@ -81,7 +82,8 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     public groupService: GroupService,
     private diagService: DiagnosticService,
     private siteApiService: SiteApiService,
-    private gaService: AnalyticsService) { }
+    private gaService: AnalyticsService,
+    private router: Router) { }
 
   @Input() set showHotels(value: boolean) {
     this._showHotels = value;
@@ -411,6 +413,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
       // Refresh country names to ensure we have the latest 
       let countryNames = this.getCountriesInViewWithCentreCountryFirst(false);
       this.showMapPins(countryNames);
+      this.showBigLoadingSpinner = false;
     });
 
     if (!waitForDataLoad) {
@@ -477,7 +480,6 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     var pinTopics = this.getPinsInCountries(countryNames);
     var gmPins = this.getGMPinsInCountries(countryNames);
     const liveMode = true; // this makes it easier to see generic pins
-    this.loaded = false;
     var map: L.Map;
     if ((this.map === undefined)) return;
     var map = this.map
