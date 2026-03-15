@@ -31,6 +31,12 @@
   margin: 5px 0;
 }
 
+.link-to-map {
+  font-size: 1em;
+  color: #4CAF50;
+  margin: 5px 0;
+}
+
 .loading {
   padding: 40px 20px;
   text-align: center;

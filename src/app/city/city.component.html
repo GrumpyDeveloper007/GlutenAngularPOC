@@ -3,6 +3,9 @@
     <div class="city-header">
       <h1>Top {{restaurants.length}} Gluten-Free Restaurants in {{ cityName }}</h1>
       <p class="city-subtitle">Discover the best gluten-free dining options in {{ cityName }}</p>
+      <a href="/">
+        <p class="link-to-map">More gluten-free dining options</p>
+      </a>
     </div>
 
     <div *ngIf="isLoading" class="loading">
