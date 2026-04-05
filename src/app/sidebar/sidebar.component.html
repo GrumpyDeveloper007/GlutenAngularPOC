@@ -1,45 +1,188 @@
 <div *ngIf="selectedTopicGroup">
-    <!-- TODO: This sint the always the correct pin, lets see if I can make the AI smart enough to split topic info -->
-    <!-- <h2>{{selectedTopic.UrlsV2[0].Pin?.Label}}</h2> -->
-    <h2><img *ngIf="!selectedTopicGroup.isGF" class="xgfimage" src="GFQ.png" alt="" />
-        <img *ngIf="selectedTopicGroup.isGF" class="xgfimage" src="GFT.png" alt="" />
-        {{selectedTopicGroup.label}}
+    <h2>
+        {{selectedTopicGroup.label}}<span class="tc" *ngIf="selectedTopicGroup.isTC">(TC)</span>
     </h2>
-    <p>{{selectedTopicGroup.restaurantType}}</p>
-    <p>{{selectedTopicGroup.stars}}</p>
-    <p>{{selectedTopicGroup.price}}</p>
-    <a *ngIf="selectedTopicGroup.mapsLink" [href]="selectedTopicGroup.mapsLink" target="_blank">Google Maps</a>
-    <p *ngIf="selectedTopicGroup.description" md-highlight-text="summary()"
-        [innerHtml]="summary() | highlight: selectedTopicGroup.label">
-    </p>
-    <div *ngFor="let item of selectedTopicGroup.topics; let i=index; " class="fb-container">
-        <a *ngIf="!!item.shortTitle && item.shortTitle.length>0" [href]="item.facebookUrl" target="_blank"
-            class="smallText fb-link">
-            <img src="FB.png" alt="Facebook" />
-            <div>
-                <div>{{item.shortTitle}}</div>
-                <div>{{dateOnly(item.postCreated)}}</div>
-            </div>
-        </a>
-        <a *ngIf="!item.shortTitle" [href]="item.facebookUrl" target="_blank" class="smallText">
-            <img src="FB.png" alt="Facebook" />Facebook</a>
+    <p>{{selectedTopicGroup.restaurantType}} {{removeStars(selectedTopicGroup)}}<img src="star.png"
+            alt="" />{{selectedTopicGroup.price}}({{selectedTopicGroup.rc}})</p>
+    <div class="spinner-container" *ngIf="!hasSummary()">
+        <mat-spinner [diameter]="30"></mat-spinner>
+        <p></p>
+        <p></p>
+        <p></p>
+        <p></p>
+        <p></p>
+
     </div>
-    <p>{{selectedTopicGroup.placeName}}</p>
-
-
-    <!-- It would be nice if this works, but its blocked by FB-->
-    <!--    <iframe [src]="facebookLink" style="margin: 0px; padding: 0px; border: none;">
-        </iframe>-->
+    <div *ngIf="hasSummary()">
+        <div style="display: flex; gap: 25px; align-items: center; justify-content: center;">
+            <a *ngIf="selectedTopicGroup.mapsLink" [href]="selectedTopicGroup.mapsLink"
+                (click)="mapLinkClick(selectedTopicGroup.mapsLink)" target="_blank"><img src="GoogleMapsIcon.png"
+                    alt="Google Maps" /></a>
+            <a (click)="askChatGPTClick(selectedTopicGroup.label)" target="_blank"
+                href="https://chat.openai.com/?prompt=Can+you+provide+1+paragraph+containing+a+gluten-free+information+summary+for+{{encodeURI(selectedTopicGroup.label)}}+at+lat+{{selectedTopicGroup.geoLatitude}}+and+lon+{{selectedTopicGroup.geoLongitude}}">
+                <img src="ChatGptIcon.png" alt="Ask ChatGPT" />
+            </a>
+            <a *ngIf="selectedTopicGroup.fb" [href]="selectedTopicGroup.fb"
+                (click)="homePageClick(selectedTopicGroup.fb)" target="_blank"><img src="FBHomepage.png"
+                    alt="Home Page" /></a>
+        </div>
+        <p><b>Conversations related to this pin (click) -</b></p>
+        <div *ngFor="let item of selectedTopicGroup.topics; let i=index; " class="fb-container">
+            <div *ngIf="item.selected" class="grid-container">
+                <a [href]="buildFbUrl(item)" (click)="linkClick(buildFbUrl(item))" target="_blank"
+                    class="smallText fb-link">
+                    <img src="Groups\{{item.gId}}.jpg" alt="FB" (error)="onImgError($event)" />
+                    <div>
+                        <div>{{item.shortTitle}}</div>
+                        <div>{{dateOnly(item.postCreated)}}</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <p *ngIf="hasSummary()" md-highlight-text="summary()" [innerHtml]="summary() | highlight: selectedTopicGroup.label">
+    </p>
 </div>
 <div *ngIf="!selectedTopicGroup">
-    <h2>Welcome</h2>
-    <p>Join my facebook group for more tips and info.</p>
-    <a href="https://www.facebook.com/groups/769136475365475">FB group for the App</a>
+    <p>Welcome, please join my facebook group for more tips and info here-> <a (click)="usefulClick('769136475365475')"
+            href="https://www.facebook.com/groups/769136475365475">FB
+            group for the App</a></p>
 
-    <p>Please scroll the map and select a pin. Once selected a summary will be shown here.</p>
-    <p>There will also be links to google maps and Facebook groups.</p>
-    <p>Some groups are private so please join the group and share useful information for others.</p>
-    <p>Remember this information may not be 100% accurate and up to date, always confirm the details with restaurant
-        staff.</p>
-    <a href="https://www.celiactravel.com/cards/">Gluten Free Restaurant Cards for Celiacs / Coeliacs</a>
+    <p>If you like this app click+like - <a (click)="usefulClick('dalesgfpage')"
+            href="https://www.facebook.com/profile.php?id=61586693782742">My FB page</a></p>
+    <br>
+
+    <p>Remember this information may not be 100% accurate and up to date, <strong>always confirm the details with
+            the restaurant staff.</strong></p>
+    <p>If you find this information useful, please post your own reviews in your favorite Gluten Free/Coeliac Facebook
+        group</p>
+</div>
+<div *ngIf="!selectedTopicGroup && _country=='Germany'">
+    <h4>Useful links -
+        <p></p>
+        <a (click)="usefulClick('zoeliakie-austausch')" target="_blank"
+            href="https://www.zoeliakie-austausch.de/">Zöliakie Austausch - die Community für alle die
+            sicher glutenfrei
+            Leben.</a>
+    </h4>
+</div>
+<div *ngIf="!selectedTopicGroup && _country=='Singapore'">
+    <h4>Useful links -
+        <p></p>
+        <a (click)="usefulClick('Resources Singapore')" target=" _blank"
+            href="https://internationalglutenfree.com/">Gluten-Free Resources for Singapore</a>
+    </h4>
+</div>
+<div *ngIf="!selectedTopicGroup && _country=='Slovakia'">
+    <h4>Useful links -
+        <p></p>
+        <a (click)="usefulClick('celiakia')" target=" _blank" href="https://www.celiakia.sk/kde-sa-najete">celiakia</a>
+    </h4>
+</div>
+<div *ngIf="!selectedTopicGroup && _country=='Italy'">
+    <h4>Useful links -
+        <p></p>
+        <a (click)="usefulClick('Associazlone Italiana Celiachia')" target=" _blank"
+            href="https://www.celiachia.it/">Associazlone Italiana Celiachia</a>
+    </h4>
+</div>
+<div *ngIf="!selectedTopicGroup && _country=='Canada'">
+    <h4>Useful links -
+        <p></p>
+        <a (click)="usefulClick('The Celiac Scene')" target=" _blank"
+            href="https://theceliacscene.com/location/canada/british-columbia/port-alberni/">The Celiac
+            Scene - Port Alberni</a>
+    </h4>
+</div>
+<div *ngIf="!selectedTopicGroup && _country=='United States48'">
+    <h4>Useful links -
+        <p></p>
+        <a (click)="usefulClick('Ophelia')" target=" _blank"
+            href="https://maps.app.goo.gl/nkzbyM5YgaNeRCZYA?g_st=ac">Ophelia GF Map
+        </a>
+    </h4>
+</div>
+<div *ngIf="!selectedTopicGroup && _country=='Japan'">
+    <h4>Useful links (maps created by others) -
+        <p></p>
+        <div>
+            <a (click)="usefulClick('Ainu')" target=" _blank" href="https://maps.app.goo.gl/rox6H8VQcajZNXXn7?g_st=i">GF
+                Map · Ainu C.G.
+            </a>
+        </div>
+        <br>
+        <div>
+            <a (click)="usefulClick('Fabrizio')" target=" _blank"
+                href="https://maps.app.goo.gl/dSG2mwQ7gRnF1Lcw6?g_st=i">GF Map · Fabrizio Cioni
+            </a>
+        </div>
+        <br>
+        <div>
+            <a (click)="usefulClick('Cynthia')" target=" _blank"
+                href="https://maps.app.goo.gl/t5uvKyG3bzMbGf1w9?g_st=i">GF Map · Cynthia DeLuca
+            </a>
+        </div>
+        <br>
+        <div>
+            <a (click)="usefulClick('Anna')" target=" _blank" href="https://maps.app.goo.gl/oaSTwyDqDYuxUamJ9?g_st=i">GF
+                Map · Anna
+            </a>
+        </div>
+        <br>
+        <div>
+            <a (click)="usefulClick('Spenser')" target=" _blank"
+                href="https://www.google.com/maps/d/viewer?ll=34.70711950815463%2C135.50298605033615&z=12&mid=1iwutbbadlGniNmCDVuBz_2E5BVlyb5s">GF
+                Map · Spenser
+            </a>
+        </div>
+    </h4>
+</div>
+<div *ngIf="!selectedTopicGroup && _country=='Australia'">
+    <h4>Useful links -
+        <p></p>
+        <a (click)="usefulClick('Ben Cossalter Map')" target=" _blank"
+            href="https://www.google.com/maps/d/viewer?mid=1xthyNFNzpPdH6ENCkm1TH7rcP3Isz482&usp=sharing">GF Map · Ben
+            Cossalter
+        </a>
+        <div>
+            <br>
+            <p></p>
+            <a (click)="usefulClick('GluteGuard')" href="https://amzn.to/4s7zRAD">Tablets to help with
+                cross-contamination, GluteGuard</a>
+        </div>
+    </h4>
+</div>
+
+<div *ngIf="!selectedTopicGroup && _country=='United Kingdom'">
+    <h4>Useful links -
+        <p></p>
+        <a (click)="usefulClick('Bristol coeliac guide')" target=" _blank"
+            href="https://docs.google.com/spreadsheets/d/15BMwSKpssYdTRg39QZo9x8q1Xe7S9gQcDuN6OIMSL84/edit?usp=sharing">Spreadsheet
+            · Jen's Bristol coeliac guide
+        </a>
+        <div>
+            <br>
+            <p></p>
+            <a (click)="usefulClick('coeliacslikebeer')" target=" _blank"
+                href="https://coeliacslikebeer.co.uk/">Coeliacs
+                like beer
+            </a>
+        </div>
+
+    </h4>
+</div>
+
+<div *ngIf="!selectedTopicGroup && _selectedCountryMeta && _selectedCountryMeta.SpokenLanguages.length>0">
+    <h4>Coeliac Gluten Free Restaurant Card -</h4>
+    <div *ngFor="let item of _selectedCountryMeta.SpokenLanguages; let i=index; ">
+        <a (click)="usefulClick(item)" target=" _blank" href="https://www.celiactravel.com/cards/{{item}}/">{{item}}</a>
+    </div>
+</div>
+<div *ngIf="!selectedTopicGroup" style="text-align: left;margin: 10px;font-size: smaller;">
+    <br>
+    <div>Dales Gluten Free Map - {{_country}} - {{_selectedCountryMeta?.GlutenFree}} /
+        {{_selectedCountryMeta?.Coeliac}}</div>
+    <a href="privacypolicy.html">Privacy Policy</a>
+    - <a href="countries.html">Select Country</a>
+
 </div>
