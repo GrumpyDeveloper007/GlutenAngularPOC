@@ -19,6 +19,13 @@
       "allowedRoles": [
         "anonymous"
       ]
+    },
+    {
+      "route": "/city/*",
+      "rewrite": "/index.html",
+      "allowedRoles": [
+        "anonymous"
+      ]
     }
   ]
 }

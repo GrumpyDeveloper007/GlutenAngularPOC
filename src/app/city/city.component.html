@@ -48,7 +48,6 @@
         </div>
 
         <div class="topics-section" *ngIf="restaurant.topics && restaurant.topics.length > 0">
-          <p class="topics-title"><b>Facebook Topics:</b></p>
           <div class="topics-list">
             <a *ngFor="let topic of restaurant.topics" [href]="buildFbUrl(topic)" target="_blank" class="topic-link">
               <img src="Groups\{{topic.gId}}.jpg" alt="FB" />

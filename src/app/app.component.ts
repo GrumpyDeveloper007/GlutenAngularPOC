@@ -34,8 +34,10 @@ export class AppComponent {
       let isCityRoute = event.url.startsWith('/city/');
       if (isCityRoute) {
         const pathParts = event.url.split('/');
-        this.title = 'FB Gluten free Map - ' + pathParts[pathParts.length - 1];
-        this.context = pathParts[pathParts.length - 1];
+        let context = pathParts[pathParts.length - 1];
+        context = context.replaceAll('%20', ' ');
+        this.title = 'FB Gluten free Map - ' + context;
+        this.context = context;
       }
     });
   }
