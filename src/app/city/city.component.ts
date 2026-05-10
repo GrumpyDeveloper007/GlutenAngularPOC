@@ -55,6 +55,9 @@ export class CityComponent implements OnInit {
   }
 
   buildFbUrl(item: any): string {
+    if (item.gId == 'TEST') {
+      return '';
+    }
     return `https://www.facebook.com/groups/${item.gId}/permalink/${item.lId}`;
   }
 

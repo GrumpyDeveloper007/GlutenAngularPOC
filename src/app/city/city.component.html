@@ -49,11 +49,17 @@
 
         <div class="topics-section" *ngIf="restaurant.topics && restaurant.topics.length > 0">
           <div class="topics-list">
-            <a *ngFor="let topic of restaurant.topics" [href]="buildFbUrl(topic)" target="_blank" class="topic-link">
-              <img src="Groups\{{topic.gId}}.jpg" alt="FB" />
-              <span class="topic-text">{{dateOnly(topic.postCreated)}}{{topic.shortTitle ? ' - ' + topic.shortTitle :
-                ''}}</span>
-            </a>
+            <div *ngFor="let topic of restaurant.topics">
+              <a *ngIf="topic.gId!='TEST'" target="_blank" [href]="buildFbUrl(topic)" class="topic-link">
+                <img src="Groups\{{topic.gId}}.jpg" alt="FB" />
+                <span class="topic-text">{{dateOnly(topic.postCreated)}}{{topic.shortTitle ? ' - ' + topic.shortTitle :
+                  ''}}</span>
+              </a>
+              <a *ngIf="topic.gId=='TEST'" target="_blank" class="topic-link">
+                <span class="topic-text">{{dateOnly(topic.postCreated)}}{{topic.shortTitle ? ' - ' + topic.shortTitle :
+                  ''}}</span>
+              </a>
+            </div>
           </div>
         </div>
       </div>

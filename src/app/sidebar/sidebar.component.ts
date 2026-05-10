@@ -69,6 +69,9 @@ export class SidebarComponent {
 
 
   buildFbUrl(item: Topic) {
+    if (item.gId == 'TEST') {
+      return '';
+    }
     return `https://www.facebook.com/groups/${item.gId}/permalink/${item.lId}`;
   }
   hasSummary() {

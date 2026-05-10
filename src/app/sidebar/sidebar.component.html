@@ -28,10 +28,18 @@
         </div>
         <p><b>Conversations related to this pin (click) -</b></p>
         <div *ngFor="let item of selectedTopicGroup.topics; let i=index; " class="fb-container">
-            <div *ngIf="item.selected" class="grid-container">
+            <div *ngIf="item.selected  && item.gId!='TEST'" class="grid-container">
                 <a [href]="buildFbUrl(item)" (click)="linkClick(buildFbUrl(item))" target="_blank"
                     class="smallText fb-link">
                     <img src="Groups\{{item.gId}}.jpg" alt="FB" (error)="onImgError($event)" />
+                    <div>
+                        <div>{{item.shortTitle}}</div>
+                        <div>{{dateOnly(item.postCreated)}}</div>
+                    </div>
+                </a>
+            </div>
+            <div *ngIf="item.selected  && item.gId=='TEST'" class="grid-container">
+                <a class="smallText fb-link">
                     <div>
                         <div>{{item.shortTitle}}</div>
                         <div>{{dateOnly(item.postCreated)}}</div>
