@@ -3,14 +3,14 @@
   width: 100%;
 }
 
-.downloadFile {
+.homeButton {
   font-size: 1.5em;
   display: block;
   position: absolute;
-  z-index: 1000;
+  z-index: 9999;
   padding: 0px 10px;
-  left: 0;
-  bottom: 0;
+  right: 0;
+  bottom: 10px;
 }
 
 .pincount {
@@ -18,8 +18,9 @@
   display: block;
   position: absolute;
   z-index: 1000;
-  padding: 0px 10px;
-  right: 0;
+  padding: 30px 10px;
+  left: 0;
+  bottom: 0;
 }
 
 .smallloading {
@@ -75,13 +76,45 @@ jw-modal {
   background: white;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   z-index: 1000;
-  padding: 20px;
+  padding: 10px;
+
   border-radius: 8px;
   border: 1px solid #ccc;
+
 }
 
 jw-modal.active {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100% - 40px);
+  /* Account for modal padding */
+}
+
+.modal-header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+.modal-content {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header h1 {
+  margin: 0;
+  /* Override the default margin */
+}
+
+.modal-header button {
+  margin-left: auto;
+  /* Push button to the right */
 }
 
 jw-modal h1 {
@@ -91,7 +124,7 @@ jw-modal h1 {
 }
 
 jw-modal div {
-  margin: 5px 0;
+  margin: 0px 0;
 }
 
 /* Checkbox and Labels */
@@ -129,8 +162,22 @@ span {
   font-size: 0.8em;
 }
 
+.groupimg {
+  width: 30px;
+  height: 30px;
+  margin: 2px;
+}
+
 /* Desktop styles */
 @media (min-width: 1024px) {
+  .pincount {
+    right: 0;
+    top: 0;
+    left: unset;
+    bottom: unset;
+    padding: 0px 10px;
+  }
+
   button {
     margin: 8px;
     padding: 8px 16px;
@@ -148,5 +195,258 @@ span {
 
   jw-modal label {
     font-size: 1em;
+  }
+}
+
+/* Add these grid styles */
+.grid-container {
+  display: grid;
+  grid-template-columns: minmax(150px, 1fr) 5fr;
+  gap: 0px;
+  overflow-y: auto;
+  flex: 1;
+  padding: 0px;
+  max-height: calc(90vh - 50px);
+}
+
+.group-grid-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  overflow-y: scroll;
+  flex: 1;
+  padding: 8px;
+  max-height: calc(90vh - 50px);
+}
+
+/* Improved group item styling */
+.group-grid-container .grid-description {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.group-grid-container .grid-description:hover {
+  background: #e9ecef;
+  border-color: #4CAF50;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+/* Enhanced checkbox styling */
+.group-grid-container input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  cursor: pointer;
+  accent-color: #4CAF50;
+  border: 2px solid #4CAF50;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.group-grid-container input[type="checkbox"]:checked {
+  background-color: #4CAF50;
+  border-color: #4CAF50;
+}
+
+.group-grid-container input[type="checkbox"]:focus {
+  outline: 2px solid #4CAF50;
+  outline-offset: 2px;
+}
+
+/* Improved group image styling */
+.group-grid-container .groupimg {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  object-fit: cover;
+  border: 2px solid #e9ecef;
+  transition: border-color 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.group-grid-container .grid-description:hover .groupimg {
+  border-color: #4CAF50;
+  box-shadow: 0 2px 6px rgba(76, 175, 80, 0.2);
+}
+
+/* Enhanced group link styling */
+.group-grid-container .smallText {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  font-size: 0.95em;
+  line-height: 1.4;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  transition: color 0.2s ease;
+}
+
+.group-grid-container .smallText:hover {
+  color: #4CAF50;
+}
+
+/* Group name styling */
+.group-grid-container .group-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Group count styling */
+.group-grid-container .smallText::after {
+  content: attr(data-count);
+  background: #4CAF50;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8em;
+  font-weight: 600;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+/* Responsive improvements for groups modal */
+@media (max-width: 768px) {
+  .group-grid-container {
+    gap: 8px;
+    padding: 6px;
+  }
+
+  .search-input {
+    width: 100px;
+  }
+
+  .grid-container {
+    grid-template-columns: minmax(80px, 1fr) 5fr;
+  }
+
+  .group-grid-container .group-name {
+    max-width: 120px;
+  }
+
+  .group-grid-container .grid-description {
+    padding: 12px;
+    gap: 8px;
+  }
+
+  .group-grid-container .groupimg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .group-grid-container .smallText {
+    font-size: 0.9em;
+  }
+
+  #modal-groups .modal-header {
+    padding: 12px 15px;
+  }
+
+  #modal-groups .modal-header h1 {
+    font-size: 1.1em;
+  }
+}
+
+/* Loading state improvements */
+#modal-groups .modal-header mat-spinner {
+  margin: 0 10px;
+}
+
+
+/* Empty state styling */
+.group-grid-container:empty::after {
+  content: "No groups found in this area";
+  display: block;
+  text-align: center;
+  padding: 40px 20px;
+  color: #666;
+  font-style: italic;
+  background: #f8f9fa;
+  border-radius: 8px;
+  margin: 20px;
+}
+
+
+.grid-label {
+  font-weight: bold;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  /* Stack items vertically */
+  gap: 8px;
+}
+
+.label-content {
+  display: flex;
+  /* New container for image and text */
+  align-items: center;
+  gap: 8px;
+}
+
+.grid-image {
+  flex-shrink: 0;
+}
+
+.grid-label-text {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.locate-button {
+  align-self: flex-start;
+  /* Align button to the left */
+  padding: 4px 8px;
+  font-size: 0.8em;
+  margin: 0;
+}
+
+.grid-description {
+  padding: 5px;
+  white-space: pre-wrap;
+  /* Preserves line breaks */
+  word-break: break-word;
+}
+
+.search-input {
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin: 0 10px;
+  min-width: 20px;
+  font-size: 0.9em;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 3px rgba(74, 175, 80, 0.3);
+}
+
+.flash {
+  animation: flash-bg 1s infinite;
+}
+
+@keyframes flash-bg {
+
+  0%,
+  100% {
+    background-color: red;
+  }
+
+  50% {
+    background-color: yellow;
   }
 }
