@@ -89,7 +89,7 @@ export var restaurantTypes: string[] = [
     'Family restaurant',
     'Fast food restaurant',
     'Fine dining restaurant',
-    'Fish & chips restaurant',
+    'Fish & chips',
     'Fish restaurant',
     'Food court',
     'French restaurant',

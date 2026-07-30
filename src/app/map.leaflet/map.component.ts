@@ -141,7 +141,10 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.restaurants.forEach(restaurant => {
       if (restaurant.Show === true) {
-        if (restaurantType.toLowerCase() === restaurant.Name.toLowerCase()) {
+        if (restaurantType.toLowerCase().includes(restaurant.Name.toLowerCase())) {
+          result = true;
+        }
+        if (restaurantType.toLowerCase().includes(restaurant.Name.toLowerCase().replace('&', 'and'))) {
           result = true;
         }
       }
@@ -398,6 +401,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
         if ((this.map === undefined)) return;
         this.map.invalidateSize();
         // Get pin ID from URL
+        /*TODO: Disable for now.
         const path = window.location.pathname;
         const pathParts = path.split('/');
         //console.log("path", path.split('/'));
@@ -407,7 +411,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
           if (Number.isInteger(Number(pinId))) {
             this.loadPinDetails(Number.parseInt(pinId));
           }
-        }
+        }*/
       }
 
       // Refresh country names to ensure we have the latest 
