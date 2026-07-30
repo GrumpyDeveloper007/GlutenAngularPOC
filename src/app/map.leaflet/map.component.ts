@@ -231,10 +231,12 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
             this.userMovedMap = 2;
             this.selectedTopicGroup = pin;
             this.selectedTopicGroupChange.emit(this.selectedTopicGroup);
+            /* TODO: Fix fly to first click
             if (this.firstShown) {
               this.firstShown = false;
               this.map?.flyTo({ lat: pin.geoLatitude, lng: pin.geoLongitude }, 12, { animate: false });
             }
+              */
           }
         }
       });
@@ -250,6 +252,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     this.groupService.selectTopicsForCurrentlySelectedGroups(this.selectedTopicGroup)
     // Check that the full pin details has been loaded
     if (pin.description != undefined && pin.description?.length > 0) return;
+    if ('topics' in pin && pin.topics.length > 0) return;
     this.loadPinDetails(pin.pinId);
   }
 
@@ -658,6 +661,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
 
           this.pinListLoading = false;
           let countryPinList = this.pinCache[countryName];
+          //console.log("loadDetailsForAllPinsInCountry", countryName, data.length, countryPinList?.length);
           if (countryPinList == undefined) return;
 
           const pinMap = new Map(countryPinList.map(pin => [pin.pinId, pin]));
