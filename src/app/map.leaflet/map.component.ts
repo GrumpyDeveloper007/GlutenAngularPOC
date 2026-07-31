@@ -517,7 +517,8 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
         if (pin == undefined) return;
         this.totalPins++;
         if (!this.groupService.isGroupSelected(pin)) return;
-        if (this.selectedPins >= this.MaxPinsOnScreen && !(pin.pinId == this.selectedTopicGroup?.pinId)) return;
+        const selectedPinHighlight = this.pinHightlight.find(u => u.pinId === pin.pinId);
+        if (this.selectedPins >= this.MaxPinsOnScreen && !(pin.pinId == this.selectedTopicGroup?.pinId) && !selectedPinHighlight) return;
         if (!this._showChains && !!pin.isC) return;
         if (!this._showTemporarilyClosed && !!pin.isTC) return;
         if (!this.pinService.isInBoundsLeaflet(pin.geoLatitude, pin.geoLongitude, bounds)) return;
@@ -534,8 +535,6 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
         const marker = new L.Marker([pin.geoLatitude, pin.geoLongitude], {
           title: pin.pinId.toString()  // Store identifier for lookup
         })
-
-        const selectedPinHighlight = this.pinHightlight.find(u => u.pinId === pin.pinId);
 
         let effectClass = '';
         if (pin.isC) effectClass = 'pinLowlight';
