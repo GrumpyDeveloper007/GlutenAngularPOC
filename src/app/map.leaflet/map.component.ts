@@ -592,7 +592,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
 
           var color = "#7f7f7f";
           const marker = new L.Marker([parseFloat(pin.geoLatitude), parseFloat(pin.geoLongitude)])
-          var icon = this.pinService.getMarkerIcon(color, pin.restaurantType, pin.label, '');
+          var icon = this.pinService.getMarkerIcon(color, pin.restaurantType, pin.label, 'pinLowlightGoogle');
 
           if (pin.pinId == this.selectedTopicGroup?.pinId) {
             selectedIcon = this.pinService.getMarkerIcon(color, pin.restaurantType, pin.label, 'pinHighlight');

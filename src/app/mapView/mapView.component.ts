@@ -17,7 +17,7 @@ import { SiteApiService, GlutenApiService, GroupService, PinSelectionService } f
 })
 export class MapViewComponent {
   selectedTopicGroup: TopicGroup | null = null;
-  showOptions: FilterOptions = new FilterOptions(true, true, true, false, false, true, false, "", false);
+  showOptions: FilterOptions = new FilterOptions(true, true, true, true, false, true, false, "", false);
   restaurants: Restaurant[] = [];
   country: string | undefined;
 

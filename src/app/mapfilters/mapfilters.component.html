@@ -15,6 +15,13 @@
         </div>
         <div class="modal-content">
             <div class="grid-container">
+                <label style="color: #00FF00;"><input [(ngModel)]="showHotels" type="checkbox" />
+                    Hotels</label>
+                <label style="color: #0000FF;"><input [(ngModel)]="showStores" type="checkbox" />
+                    Stores</label>
+                <label style="color: #00FFFF;"><input [(ngModel)]="showOthers" type="checkbox" />
+                    Others
+                </label>
                 <div *ngFor="let item of restaurants; let i=index; ">
                     <label><input [(ngModel)]="item.Show" type="checkbox" />
                         {{item.Name}}
@@ -30,20 +37,6 @@
             <button (click)="selectComplete()">Close</button>
         </div>
         <div class="modal-content">
-            <label style="color: #00FF00;"><input [(ngModel)]="showHotels" type="checkbox" />
-                Hotels</label>
-            <p></p>
-            <label style="color: #0000FF;"><input [(ngModel)]="showStores" type="checkbox" />
-                Stores</label>
-            <p></p>
-            <label style="color: #00FFFF;"><input [(ngModel)]="showOthers" type="checkbox" />
-                Others
-            </label>
-            <p></p>
-            <label style="color: #7F7F7F;"><input [(ngModel)]="showGMPins" type="checkbox" />
-                Google
-            </label>
-            <p></p>
             <label style="color: #7F0000;word-wrap:break-word"><input [(ngModel)]="showChains" type="checkbox" />
                 Low Confidence Pins
             </label>

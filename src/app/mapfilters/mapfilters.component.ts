@@ -27,7 +27,7 @@ export class MapfiltersComponent {
   @Output() listViewOpenChange = new EventEmitter<number>();
   @Output() groupViewOpenChange = new EventEmitter<number>();
   @Output() mapChange = new EventEmitter<string>();
-  private options: FilterOptions = new FilterOptions(true, true, true, false, false, true, false, "Open", false);
+  private options: FilterOptions = new FilterOptions(true, true, true, true, false, true, false, "Open", false);
   restaurants: Restaurant[] = [];
   country: string | undefined;
 
@@ -146,12 +146,18 @@ export class MapfiltersComponent {
     this.restaurants.forEach(restaurant => {
       restaurant.Show = false;
     });
+    this.showHotels = false;
+    this.showStores = false;
+    this.showOthers = false;
   }
 
   selectAll(): void {
     this.restaurants.forEach(restaurant => {
       restaurant.Show = true;
     });
+    this.showHotels = true;
+    this.showStores = true;
+    this.showOthers = true;
   }
 
   selectCompleteRestaurantTypes(): void {
