@@ -1,16 +1,70 @@
+.map-shell {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
 .map {
   flex: 1;
   width: 100%;
 }
 
-.homeButton {
-  font-size: 1.5em;
-  display: block;
+.my-location-button {
   position: absolute;
-  z-index: 9999;
-  padding: 0px 10px;
-  right: 0;
-  bottom: 10px;
+  z-index: 1000;
+  left: 10px;
+  top: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  margin: 0;
+  padding: 4px;
+  background: #fff;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  box-shadow: none;
+}
+
+.my-location-button:hover {
+  background: #f4f4f4;
+}
+
+.my-location-button svg {
+  width: 22px;
+  height: 22px;
+  fill: #333;
+  display: block;
+}
+
+.my-location-button:disabled {
+  opacity: 0.9;
+  cursor: wait;
+}
+
+.my-location-button mat-spinner {
+  --mdc-circular-progress-active-indicator-color: #1b5e20;
+}
+
+.location-status {
+  position: absolute;
+  z-index: 1000;
+  left: 10px;
+  top: 122px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 4px;
+  padding: 6px 10px;
+  font-size: 0.8em;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+.location-status.error {
+  background: #ffe6e6;
+  color: #7f0000;
 }
 
 .pincount {

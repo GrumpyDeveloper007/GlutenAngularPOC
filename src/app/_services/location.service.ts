@@ -1,56 +1,63 @@
-import { Injectable, Output } from '@angular/core';
+import { Injectable, NgZone, Output } from '@angular/core';
 import * as L from 'leaflet';
 
 @Injectable({
     providedIn: 'root',
 })
 export class LocationService {
-    constructor() { }
+    constructor(private ngZone: NgZone) { }
 
     @Output() locationLayer: L.LayerGroup = new L.LayerGroup();
     private watchId: number | null = null;
 
 
-    getUserLocation(): Promise<{ latitude: number; longitude: number }> {
+    getUserLocation(highAccuracy = false): Promise<{ latitude: number; longitude: number }> {
         return new Promise((resolve, reject) => {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
+            if (!navigator.geolocation) {
+                reject(new Error('Geolocation is not supported by this browser.'));
+                return;
+            }
+
+            const options: PositionOptions = highAccuracy
+                ? { enableHighAccuracy: true, timeout: 25000, maximumAge: 0 }
+                : { enableHighAccuracy: false, timeout: 10000, maximumAge: 60000 };
+
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    this.ngZone.run(() => {
                         resolve({
                             latitude: position.coords.latitude,
                             longitude: position.coords.longitude,
                         });
-                    },
-                    (error) => {
+                    });
+                },
+                (error) => {
+                    this.ngZone.run(() => {
                         reject(error);
-                    }
-                );
-            } else {
-                reject(new Error('Geolocation is not supported by this browser.'));
-            }
+                    });
+                },
+                options
+            );
         });
     }
 
 
-    setMapToUserLocation(): Promise<{ latitude: number; longitude: number }> {
-        return new Promise((resolve, reject) => {
-            this.getUserLocation()
-                .then((loc) => {
-                    var location = loc;
-                    this.locationLayer.clearLayers();
-                    L.circle([location.latitude, location.longitude], {
-                        radius: 10,
-                        color: 'blue',
-                        fillColor: '#30f',
-                        fillOpacity: 0.8
-                    }).addTo(this.locationLayer);
-                    resolve(loc);
-                }
-                )
-                .catch((err) => {
-                    console.debug(err);
-                });
-        });
+    setMapToUserLocation(highAccuracy = false): Promise<{ latitude: number; longitude: number }> {
+        return this.getUserLocation(highAccuracy)
+            .then((loc) => {
+                this.showLocationMarker(loc.latitude, loc.longitude);
+                return loc;
+            });
+    }
+
+    showLocationMarker(latitude: number, longitude: number): void {
+        this.locationLayer.clearLayers();
+        L.circle([latitude, longitude], {
+            radius: 10,
+            color: 'blue',
+            fillColor: '#30f',
+            fillOpacity: 0.8
+        }).addTo(this.locationLayer);
     }
 
     // Start watching location updates
@@ -68,14 +75,7 @@ export class LocationService {
 
             this.watchId = navigator.geolocation.watchPosition(
                 (position) => {
-                    this.locationLayer.clearLayers();
-                    L.circle([position.coords.latitude, position.coords.longitude], {
-                        radius: 10,
-                        color: 'blue',
-                        fillColor: '#30f',
-                        fillOpacity: 0.8
-                    }).addTo(this.locationLayer);
-
+                    this.showLocationMarker(position.coords.latitude, position.coords.longitude);
                 },
                 (error) => {
                     console.error('Location watching error:', error);

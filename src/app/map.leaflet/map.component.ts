@@ -62,6 +62,10 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
   mapBounds: L.LatLngBounds = new L.LatLngBounds([46.879966, -121.726909], [46.879966, -121.726909]);
   showBigLoadingSpinner = true;
   loadingData = false;
+  locatingLocation = false;
+  locationStatus = '';
+  locationStatusError = false;
+  private locationStatusTimeout: ReturnType<typeof setTimeout> | null = null;
   firstShown = true;
   pinDetailsLoading = false;
   pinListLoading = false;
@@ -256,8 +260,8 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
     this.loadPinDetails(pin.pinId);
   }
 
-  SetMapToUserLocation(alwaysFly: boolean) {
-    this.locationService.setMapToUserLocation()
+  SetMapToUserLocation(alwaysFly: boolean, highAccuracy = false) {
+    return this.locationService.setMapToUserLocation(highAccuracy)
       .then((location) => {
         if ((this.userMovedMap < 2 || alwaysFly)) {
           if ((this.map === undefined)) return;
@@ -266,9 +270,59 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
+  showMyLocation(): void {
+    if (this.locatingLocation) return;
+
+    this.locatingLocation = true;
+    this.locationStatusError = false;
+    this.locationStatus = 'Waiting for GPS…';
+    this.clearLocationStatusTimeout();
+    this.gaService.trackEvent("Show location", this.centreCountry ?? "", "Map");
+
+    this.SetMapToUserLocation(true, true)
+      .then(() => {
+        this.setLocationStatus('Showing your location', false);
+      })
+      .catch((error) => {
+        this.setLocationStatus(this.locationErrorMessage(error), true);
+      })
+      .finally(() => {
+        this.locatingLocation = false;
+      });
+  }
+
+  private locationErrorMessage(error: unknown): string {
+    if (error && typeof error === 'object' && 'code' in error) {
+      const code = (error as GeolocationPositionError).code;
+      if (code === 1) return 'Location permission denied';
+      if (code === 2) return 'Location unavailable';
+      if (code === 3) return 'Timed out waiting for GPS';
+    }
+    if (error instanceof Error && error.message) return error.message;
+    return 'Could not get your location';
+  }
+
+  private setLocationStatus(message: string, isError: boolean): void {
+    this.locationStatus = message;
+    this.locationStatusError = isError;
+    this.clearLocationStatusTimeout();
+    this.locationStatusTimeout = setTimeout(() => {
+      this.locationStatus = '';
+      this.locationStatusError = false;
+    }, 5000);
+  }
+
+  private clearLocationStatusTimeout(): void {
+    if (this.locationStatusTimeout) {
+      clearTimeout(this.locationStatusTimeout);
+      this.locationStatusTimeout = null;
+    }
+  }
+
   ngOnInit() {
   }
   ngOnDestroy() {
+    this.clearLocationStatusTimeout();
   }
   async ngAfterViewInit() {
     restaurantTypes.forEach(restaurant => {
@@ -304,7 +358,7 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
       catch { }
-      this.SetMapToUserLocation(false);
+      this.SetMapToUserLocation(false).catch(() => undefined);
       this.locationService.startLocationWatching();
     }
 
