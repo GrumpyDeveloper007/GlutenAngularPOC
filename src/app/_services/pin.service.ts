@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import { MarkerOptions } from 'maplibre-gl';
 import { TopicGroup } from '../_model/model';
 import { Others } from "../_model/staticData";
-import * as maplibre from 'maplibre-gl';
 import L from "leaflet";
 
 
@@ -540,11 +538,6 @@ export class PinService {
         return true;
     }
 
-    createPopup(label: string): maplibre.Popup {
-        return new maplibre.Popup({ offset: 25 })
-            .setHTML(`<h3>${label}</h3>`);
-    }
-
     getColor(pin: TopicGroup): string {
         var color = "#FF0000";
         if (this.isHotel(pin.restaurantType)) color = "#00FF00";
@@ -554,28 +547,19 @@ export class PinService {
     }
 
 
-    getMarkerOptions(color: string, restaurantType: string, restaurantName: string): MarkerOptions {
-        var el = document.createElement('div');
-        el.style.width = '36px';
-        el.style.height = '48px';
-        el.style.backgroundSize = 'contain';
-        el.style.backgroundRepeat = 'no-repeat';
-        el.style.backgroundPosition = 'center center';
-
-        var markerOptions: MarkerOptions = ({ color: color });
-
+    getUrl(restaurantType: string, restaurantName: string) {
+        if (restaurantType == null) return null;
         var url = this.getUrlForType(restaurantType);
         if (url != null) {
-            el.style.backgroundImage = `url(${url})`;
-            markerOptions.element = el;
+            if (url == "Restaurant.png") {
+                var url2 = this.getUrlForGeneric(restaurantName);
+                if (url2 != null) return url2;
+            }
         }
 
-        var url = this.getUrlForChain(restaurantName);
-        if (url != null) {
-            el.style.backgroundImage = `url(${url})`;
-            markerOptions.element = el;
-        }
-        return markerOptions;
+        var url2 = this.getUrlForChain(restaurantName);
+        if (url2 != null) url = url2;
+        return url;
     }
 
     getUrlForType(restaurantType: string): string | null {
@@ -603,12 +587,13 @@ export class PinService {
         return null;
     }
 
-
-
-    getUrlForChain(restaurantName: string): string | null {
-
-        if (restaurantName.toLowerCase().includes("starbucks")) {
-            return `Starbucks.png`;
+    getUrlForGeneric(restaurantName: string): string | null {
+        //
+        if (restaurantName.toLowerCase().includes("dumplings")) {
+            return `Dumpling.png`;
+        }
+        if (restaurantName.toLowerCase().includes("bar and grill")) {
+            return `BBQ.png`;
         }
         if (restaurantName.toLowerCase().includes("cafe")) {
             return `Cafe.png`;
@@ -619,6 +604,33 @@ export class PinService {
         //
         if (restaurantName.toLowerCase().includes("sushi")) {
             return `Sushi.png`;
+        }
+        if (restaurantName.toLowerCase().includes('indian')) {
+            return `Indian.png`;
+        }
+        if (restaurantName.includes("Chinese")) {
+            return `Chinese.png`;
+        }
+        if (restaurantName.includes("Pizza")) {
+            return `Pizza.png`;
+        }
+        if (restaurantName.includes("Vegan")
+            || restaurantName.toLowerCase().includes("vegetarian")
+        ) {
+            return `Vegan.png`;
+        }
+        if (restaurantName.toLowerCase().includes('chicken')) {
+            return `Chicken.png`;
+        }
+
+        return null;
+    }
+
+
+    getUrlForChain(restaurantName: string): string | null {
+
+        if (restaurantName.toLowerCase().includes("starbucks")) {
+            return `Starbucks.png`;
         }
 
 
@@ -634,23 +646,6 @@ export class PinService {
         }
         if (restaurantName.toLowerCase().startsWith("lawson")) {
             return `Lawson.png`;
-        }
-
-        if (restaurantName.toLowerCase().includes('indian')) {
-            return `Indian.png`;
-        }
-        if (restaurantName.includes("Chinese")) {
-            return `Chinese.png`;
-        }
-
-
-        if (restaurantName.includes("Pizza")) {
-            return `Pizza.png`;
-        }
-        if (restaurantName.includes("Vegan")
-            || restaurantName.toLowerCase().includes("vegetarian")
-        ) {
-            return `Vegan.png`;
         }
 
         if (restaurantName.includes("Grill'd")
@@ -688,7 +683,8 @@ export class PinService {
         if (restaurantName.startsWith("ALDI")) {
             return `ALDI.png`;
         }
-        if (restaurantName.toLowerCase().includes("iga")) {
+        if (restaurantName.toLowerCase().includes("iga")
+            && !restaurantName.toLowerCase().includes("hotel")) {
             return `IGA.png`;
         }
         if (restaurantName.toLowerCase().includes("7-eleven")) {
@@ -700,14 +696,11 @@ export class PinService {
         if (restaurantName.toLowerCase().includes("rsl")) {
             return `RSL.png`;
         }
-        if (restaurantName.toLowerCase().includes('chicken')) {
-            return `Chicken.png`;
-        }
 
         return null;
     }
 
-    getMarkerIcon(color: string, restaurantType: string | null, restaurantName: string | null): L.Icon {
+    getMarkerIcon(color: string, restaurantType: string | null, restaurantName: string | null, className: string): L.Icon {
         var genericUrl = "/Empty.png";
         if (color == "#FF0000") {
             genericUrl = "Red.png";
@@ -731,10 +724,12 @@ export class PinService {
             iconAnchor: [15, 40],
         });
 
-        if (restaurantType != null) {
-            var url = this.getUrlForType(restaurantType);
+        if (restaurantType != null && restaurantName != null) {
+            var url = this.getUrl(restaurantType, restaurantName);
+
             if (url != null) {
                 customIcon = L.icon({
+                    className: className,
                     iconUrl: url,
                     iconSize: [36, 48],
                     iconAnchor: [18, 48],
@@ -742,16 +737,6 @@ export class PinService {
             }
         }
 
-        if (restaurantName != null) {
-            var url = this.getUrlForChain(restaurantName);
-            if (url != null) {
-                customIcon = L.icon({
-                    iconUrl: url,
-                    iconSize: [36, 48],
-                    iconAnchor: [18, 48],
-                });
-            }
-        }
         return customIcon;
     }
 
