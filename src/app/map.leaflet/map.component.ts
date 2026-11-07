@@ -332,6 +332,11 @@ export class MapLeafletComponent implements OnInit, AfterViewInit, OnDestroy {
       this.pinHightlight = data ?? [];
     });
 
+    await firstValueFrom(forkJoin([
+      this.mapDataService.loadCountries(),
+      this.mapDataService.loadStates(),
+    ]));
+
     let location = undefined;
     let defaultZoom = 8;
 
