@@ -59,7 +59,7 @@
     </div>
 </jw-modal>
 
-<jw-modal id="modal-groups">
+<jw-modal id="modal-groups" #groupsModal>
     <div class="modal-header">
         <h1>Groups (in country)</h1>
         <mat-spinner [diameter]="30" *ngIf="pinListLoading"></mat-spinner>
@@ -76,7 +76,8 @@
                     <a [href]="generateFBUrl(item.groupId)" (click)="groupClick(item.groupId)" target="_blank"
                         class="smallText"
                         [attr.data-count]="'(' + (item.localPins === -1 ? '?' : item.localPins) + '/' + item.totalPins + ')'">
-                        <img class="groupimg" src="Groups\{{item.groupId}}.jpg" alt="FB" (error)="onImgError($event)" />
+                        <img *ngIf="groupsModal.isOpen" class="groupimg" src="Groups\{{item.groupId}}.jpg" alt="FB"
+                            (error)="onImgError($event)" />
                         <span class="group-name">{{item.name}}</span>
                     </a>
                 </div>
