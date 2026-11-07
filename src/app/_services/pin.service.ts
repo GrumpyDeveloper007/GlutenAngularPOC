@@ -522,14 +522,6 @@ export class PinService {
         return restaurantType == null || Others.includes(restaurantType);
     }
 
-    isInBounds(geoLatitude: number, geoLongitude: number, bounds: maplibregl.LngLatBounds): boolean {
-        return bounds.contains([geoLongitude, geoLatitude]);
-        //        if (pin.geoLatitude > bounds._ne.lat) return;
-        //     if (pin.geoLatitude < bounds._sw.lat) return;
-        //     if (pin.geoLongitude > bounds._ne.lng) return;
-        //     if (pin.geoLongitude < bounds._sw.lng) return;
-    }
-
     isInBoundsLeaflet(geoLatitude: number, geoLongitude: number, bounds: L.LatLngBounds): boolean {
         if (geoLatitude > bounds.getNorthEast().lat) return false;
         if (geoLatitude < bounds.getSouthWest().lat) return false;

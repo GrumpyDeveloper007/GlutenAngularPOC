@@ -10,8 +10,6 @@ import { Restaurant } from "../_model/restaurant";
 import { restaurantTypes } from "../_model/staticData";
 import { ModalService, GlutenApiService, LocationService, SiteApiService, MapDataService, PinService, DiagnosticService, AnalyticsService, GroupService, PinSelectionService } from '../_services';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import "leaflet.locatecontrol"; // Import plugin
-import "leaflet.locatecontrol/dist/L.Control.Locate.min.css"; // Import styles
 import * as L from 'leaflet';
 import { ModalComponent } from '../_components';
 

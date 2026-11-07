@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import * as maplibre from 'maplibre-gl';
-import * as turf from "@turf/turf";
-import { MultiPolygon, Polygon, Position } from 'geojson';
+import { bboxPolygon } from '@turf/bbox-polygon';
+import { booleanIntersects } from '@turf/boolean-intersects';
+import { centroid } from '@turf/centroid';
+import { point } from '@turf/helpers';
+import { MultiPolygon, Polygon } from 'geojson';
 import * as L from 'leaflet';
 
 import countriesGeoJSON2 from '../staticdata/World-EEZ.geo.json';
@@ -37,7 +39,7 @@ export class MapDataService {
         const countryFeature = countriesGeoJSON2.features.find(feature => feature.properties.Country === country);
         if (countryFeature) {
             const polygon = countryFeature.geometry as MultiPolygon;
-            const centre = turf.centroid(polygon);
+            const centre = centroid(polygon);
             const coords = centre.geometry.coordinates; // [lng, lat]
             const latlng = new L.LatLng(coords[1], coords[0]);
             return latlng;
@@ -45,14 +47,14 @@ export class MapDataService {
         return null;
     }
 
-    getCountriesInView(bounds: maplibre.LngLatBounds | any): string[] {
+    getCountriesInView(bounds: L.LatLngBounds): string[] {
         const southwest = bounds.getSouthWest();
         const northeast = bounds.getNorthEast();
 
         // Load or fetch your GeoJSON data (e.g., countriesGeoJSON)
         const countriesInView = countriesGeoJSON2.features.filter(feature => {
-            return turf.booleanIntersects(feature.geometry as MultiPolygon,
-                turf.bboxPolygon([southwest.lng, southwest.lat, northeast.lng, northeast.lat]));
+            return booleanIntersects(feature.geometry as MultiPolygon,
+                bboxPolygon([southwest.lng, southwest.lat, northeast.lng, northeast.lat]));
         });
 
         // Trigger api calls
@@ -63,20 +65,20 @@ export class MapDataService {
 
         // Load or fetch your GeoJSON data (e.g., countriesGeoJSON)
         const countriesInView = countriesGeoJSON2.features.filter(feature => {
-            return turf.booleanIntersects(feature.geometry as MultiPolygon, turf.point([bounds.lng, bounds.lat]));
+            return booleanIntersects(feature.geometry as MultiPolygon, point([bounds.lng, bounds.lat]));
         });
 
         // Trigger api calls
         return countriesInView.map(feature => feature.properties.Country);
     }
 
-    getStatesInView(bounds: maplibre.LngLatBounds | any): string[] {
+    getStatesInView(bounds: L.LatLngBounds): string[] {
         const southwest = bounds.getSouthWest();
         const northeast = bounds.getNorthEast();
 
         const statesInView = statesGeoJSON2.features.filter(feature => {
-            return turf.booleanIntersects(feature.geometry as Polygon,
-                turf.bboxPolygon([southwest.lng, southwest.lat, northeast.lng, northeast.lat]));
+            return booleanIntersects(feature.geometry as Polygon,
+                bboxPolygon([southwest.lng, southwest.lat, northeast.lng, northeast.lat]));
         });
 
         // Trigger api calls
@@ -86,7 +88,7 @@ export class MapDataService {
 
         // Load or fetch your GeoJSON data (e.g., countriesGeoJSON)
         const statesInView = statesGeoJSON2.features.filter(feature => {
-            return turf.booleanIntersects(feature.geometry as Polygon, turf.point([bounds.lng, bounds.lat]));
+            return booleanIntersects(feature.geometry as Polygon, point([bounds.lng, bounds.lat]));
         });
 
         // Trigger api calls
