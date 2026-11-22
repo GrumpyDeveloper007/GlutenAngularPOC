@@ -75,7 +75,7 @@
     </div>
 </div>
 
-<h4>Useful links -</h4>
+<h4 *ngIf="!selectedTopicGroup">Useful links -</h4>
 <div *ngIf="!selectedTopicGroup && _country=='Germany'">
 
     <p></p>

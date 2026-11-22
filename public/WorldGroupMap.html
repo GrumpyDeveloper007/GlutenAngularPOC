@@ -218,14 +218,14 @@
 
         const visibilityIcon = document.createElement('span');
         visibilityIcon.setAttribute('aria-hidden', 'true');
-        if (group.PublicGroup === true) {
+        if (group.publicGroup === true) {
           visibilityIcon.textContent = '🌐';
           visibilityIcon.title = 'Public group';
-        } else if (group.PublicGroup === false) {
+        } else if (group.publicGroup === false) {
           visibilityIcon.textContent = '🔒';
           visibilityIcon.title = 'Private group';
         }
-        labelElement.append(visibilityIcon, document.createTextNode(`${label} (${group.TotalPins})`));
+        labelElement.append(visibilityIcon, document.createTextNode(`${label} (${group.totalPins})`));
 
         const latitude = (south + north) / 2;
         const longitude = (west + east) / 2;
